@@ -1,0 +1,31 @@
+package com.safa.cabezon_backend.Servicios;
+
+import com.safa.cabezon_backend.Dto.ImagenDTO;
+import com.safa.cabezon_backend.Modelos.Imagen;
+import com.safa.cabezon_backend.Repositorios.IImagenRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+public class ImagenService {
+
+    @Autowired
+    private IImagenRepository imagenRepository;
+
+    public List<Imagen> BuscarImagenes() {return imagenRepository.findAll();}
+
+    public Imagen BuscarImagenPorId(Integer id) {return imagenRepository.findById(id).orElse(null);}
+
+    public void EliminarImagenPorId(Integer id) {imagenRepository.deleteById(id);}
+
+    public void  CrearImagen(ImagenDTO imagenDTO){
+        Imagen nuevaImagen = new Imagen();
+        nuevaImagen.setNombre(imagenDTO.getNombre());
+        nuevaImagen.setUrl(imagenDTO.getUrl());
+        imagenRepository.save(nuevaImagen);
+    }
+}

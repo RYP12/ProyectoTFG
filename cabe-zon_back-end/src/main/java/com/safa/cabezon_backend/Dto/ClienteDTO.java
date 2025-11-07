@@ -4,7 +4,7 @@ import com.safa.cabezon_backend.Modelos.Rol;
 import lombok.Data;
 
 @Data
-public class ClientePostDTO {
+public class ClienteDTO {
     private String nombre;
     private String apellidos;
     private String correo;

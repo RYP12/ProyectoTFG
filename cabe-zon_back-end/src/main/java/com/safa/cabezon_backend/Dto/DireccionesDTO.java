@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class DireccionesPostDTO {
+public class DireccionesDTO {
     private String calle;
     private Integer numero;
     private String piso;
@@ -17,11 +17,4 @@ public class DireccionesPostDTO {
     private String municipio;
     private Integer idCliente;
 
-    public static class ResenyaClientePostDTO {
-        private String texto;
-        private Integer valoracion;
-        private Date fecha;
-        private Integer idProducto;
-        private Integer idCliente;
-    }
 }

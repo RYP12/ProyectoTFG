@@ -1,10 +1,10 @@
 package com.safa.cabezon_backend.Dto;
 
-import com.safa.cabezon_backend.modelos.NivelEnum;
+import com.safa.cabezon_backend.Modelos.NivelEnum;
 import lombok.Data;
 
 @Data
-public class NivelPostDTO {
+public class NivelDTO {
     private NivelEnum nivel;
     private Integer descuento;
 }

@@ -41,7 +41,7 @@ public class Producto{
     @Column(name = "valoracion",nullable = false)
     private Double valoracion;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "imagen")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "producto")
     private Set<Imagen> imagenes = new HashSet<>(0);
 
     @ManyToMany(cascade = CascadeType.ALL)

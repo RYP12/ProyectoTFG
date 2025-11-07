@@ -1,6 +1,6 @@
 package com.safa.cabezon_backend.Servicios;
 
-import com.safa.cabezon_backend.Dto.ClientePostDTO;
+import com.safa.cabezon_backend.Dto.ClienteDTO;
 import com.safa.cabezon_backend.Modelos.Cliente;
 import com.safa.cabezon_backend.Repositorios.IClienteRepository;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class ClienteServicie {
 
     public Cliente BuscarClientePorId(Integer id){return clienteRepository.findById(id).orElse(null);}
 
-    public void CrearCliente(ClientePostDTO clienteDto){
+    public void CrearCliente(ClienteDTO clienteDto){
         Cliente nuevoCliente = new Cliente();
         nuevoCliente.setNombre(clienteDto.getNombre());
         nuevoCliente.setApellidos(clienteDto.getApellidos());
@@ -29,9 +28,9 @@ public class ClienteServicie {
         clienteRepository.save(nuevoCliente);
     }
 
-    public void EliminarCliente(Integer id){ clienteRepository.deleteById(id);}
+    public void EliminarClientePorId(Integer id){ clienteRepository.deleteById(id);}
 
-    public void EditarCliente(Integer id, ClientePostDTO clienteDto){
+    public void EditarClientePorId(Integer id, ClienteDTO clienteDto){
         Cliente cliente = clienteRepository.findById(id).orElse(null);
         cliente.setNombre(clienteDto.getNombre());
         cliente.setApellidos(clienteDto.getApellidos());

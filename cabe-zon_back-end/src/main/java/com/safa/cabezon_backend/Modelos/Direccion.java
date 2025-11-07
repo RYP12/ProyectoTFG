@@ -12,7 +12,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "direccion", catalog = "cabezon", schema = "cabezon")
-public class Direcciones {
+public class Direccion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

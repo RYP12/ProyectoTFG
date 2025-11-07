@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class ResenyaClientePostDto {
+public class ResenyaClienteDTO {
     private String texto;
     private Integer valoracion;
     private Date fecha;

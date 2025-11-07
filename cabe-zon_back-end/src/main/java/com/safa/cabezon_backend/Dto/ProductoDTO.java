@@ -1,13 +1,13 @@
 package com.safa.cabezon_backend.Dto;
 
-import com.safa.cabezon_backend.modelos.Coleccion;
-import com.safa.cabezon_backend.modelos.Imagen;
+import com.safa.cabezon_backend.Modelos.Coleccion;
+import com.safa.cabezon_backend.Modelos.Imagen;
 import lombok.Data;
 
 import java.util.Set;
 
 @Data
-public class ProductoPostDTO {
+public class ProductoDTO {
     private String nombre;
     private String descripcion;
     private Double precio;
