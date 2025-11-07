@@ -31,7 +31,7 @@ public class Coleccion {
     @JoinTable(name = "coleccion_producto",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_producto",nullable = false)})
-    private Set<Producto> productosSet = new HashSet<>(0);
+    private Set<Producto> productosColeccionSet = new HashSet<>(0);
 
 
 }
