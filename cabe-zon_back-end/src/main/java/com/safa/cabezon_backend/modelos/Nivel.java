@@ -20,7 +20,7 @@ public class Nivel {
     private Integer id;
 
     @Column(name = "nivel")
-    private Integer nivel;
+    private NivelEnum nivel;
 
     @Column(name = "descuento")
     private Integer descuento;

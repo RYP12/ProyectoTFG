@@ -25,7 +25,7 @@ public class Coleccion {
     private String nombre;
 
     @Column(name = "numero_de_productos",length = 100,nullable = false)
-    private String numeroDeProductos;
+    private Integer numeroDeProductos;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "coleccion_producto",catalog = "cabezon",schema = "cabezon",
