@@ -1,0 +1,60 @@
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 30px;
+  padding: 8px 20px;
+  margin: 15px;
+  box-shadow: 3px 3px 0px black;
+}
+
+.left, .center, .right {
+  display: flex;
+  align-items: center;
+}
+
+.left img {
+  height: 25px;
+  margin-right: 8px;
+}
+
+.center div {
+  margin: 0 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.right {
+  gap: 10px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 3px 8px;
+}
+
+.search input {
+  border: none;
+  outline: none;
+  font-family: 'League Spartan', sans-serif;
+}
+
+.client{
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 3px 8px;
+  font-weight: 700;
+}
+
+.icon {
+  height: 18px;
+  margin-left: 5px;
+  cursor: pointer;
+}
