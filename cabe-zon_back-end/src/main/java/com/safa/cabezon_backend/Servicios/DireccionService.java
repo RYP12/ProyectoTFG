@@ -1,9 +1,8 @@
 package com.safa.cabezon_backend.Servicios;
 
-import com.safa.cabezon_backend.Dto.ClienteDTO;
-import com.safa.cabezon_backend.Dto.DireccionesDTO;
+import com.safa.cabezon_backend.Dto.DireccionDTO;
 import com.safa.cabezon_backend.Modelos.Direccion;
-import com.safa.cabezon_backend.Repositorios.IDireccionesRepository;
+import com.safa.cabezon_backend.Repositorios.IDireccionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import java.util.List;
 public class DireccionService {
 
     @Autowired
-    private IDireccionesRepository direccionRepository;
+    private IDireccionRepository direccionRepository;
 
     public List<Direccion> BuscarDirecciones() { return direccionRepository.findAll();}
 
@@ -23,7 +22,7 @@ public class DireccionService {
 
     public void EliminarDireccionPorId(Integer id){ direccionRepository.deleteById(id);}
 
-    public void CrearDireccion(DireccionesDTO direccionDto){
+    public void CrearDireccion(DireccionDTO direccionDto){
         Direccion nuevaDireccion = new Direccion();
         nuevaDireccion.setCalle(direccionDto.getCalle());
         nuevaDireccion.setNumero(direccionDto.getNumero());
@@ -37,7 +36,7 @@ public class DireccionService {
 
     }
 
-    public void EditarDireccionPorId(Integer id, DireccionesDTO direccionDto){
+    public void EditarDireccionPorId(Integer id, DireccionDTO direccionDto){
         Direccion nuevaDireccion = direccionRepository.findById(id).orElse(null);
         nuevaDireccion.setCalle(direccionDto.getCalle());
         nuevaDireccion.setNumero(direccionDto.getNumero());

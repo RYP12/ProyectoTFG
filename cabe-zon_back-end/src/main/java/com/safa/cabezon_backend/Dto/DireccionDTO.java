@@ -2,10 +2,8 @@ package com.safa.cabezon_backend.Dto;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class DireccionesDTO {
+public class DireccionDTO {
     private String calle;
     private Integer numero;
     private String piso;
@@ -16,5 +14,4 @@ public class DireccionesDTO {
     private String provincia;
     private String municipio;
     private Integer idCliente;
-
 }
