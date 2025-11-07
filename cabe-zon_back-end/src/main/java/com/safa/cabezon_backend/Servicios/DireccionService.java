@@ -16,6 +16,9 @@ public class DireccionService {
     @Autowired
     private IDireccionRepository direccionRepository;
 
+    @Autowired
+    private ClienteServicie clienteServicie;
+
     public List<Direccion> BuscarDirecciones() { return direccionRepository.findAll();}
 
     public Direccion BuscarDireccionPorId(Integer id){ return direccionRepository.findById(id).orElse(null);}
@@ -33,6 +36,8 @@ public class DireccionService {
         nuevaDireccion.setPais(direccionDto.getPais());
         nuevaDireccion.setProvincia(direccionDto.getProvincia());
         nuevaDireccion.setMunicipio(direccionDto.getMunicipio());
+        nuevaDireccion.setCliente(clienteServicie.BuscarClientePorId(direccionDto.getIdCliente()));
+        direccionRepository.save(nuevaDireccion);
 
     }
 
@@ -47,5 +52,8 @@ public class DireccionService {
         nuevaDireccion.setPais(direccionDto.getPais());
         nuevaDireccion.setProvincia(direccionDto.getProvincia());
         nuevaDireccion.setMunicipio(direccionDto.getMunicipio());
+        nuevaDireccion.setCliente(clienteServicie.BuscarClientePorId(direccionDto.getIdCliente()));
+        direccionRepository.save(nuevaDireccion);
+
     }
 }

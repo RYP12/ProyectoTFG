@@ -15,6 +15,6 @@ public class ProductoDTO {
     private Integer stock;
     private Boolean exclusivo;
     private Double valoracion;
-    private Set<Imagen> imagenes;
-    private Set<Coleccion> coleccionesSet;
+    private Set<Integer> imagenes;
+    private Set<Integer> coleccionesSet;
 }

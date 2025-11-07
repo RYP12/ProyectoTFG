@@ -16,6 +16,9 @@ public class ImagenService {
     @Autowired
     private IImagenRepository imagenRepository;
 
+    @Autowired
+    private ProductoService productoService;
+
     public List<Imagen> BuscarImagenes() {return imagenRepository.findAll();}
 
     public Imagen BuscarImagenPorId(Integer id) {return imagenRepository.findById(id).orElse(null);}
@@ -26,6 +29,15 @@ public class ImagenService {
         Imagen nuevaImagen = new Imagen();
         nuevaImagen.setNombre(imagenDTO.getNombre());
         nuevaImagen.setUrl(imagenDTO.getUrl());
+        nuevaImagen.setProducto(productoService.BuscarProductoPorId(imagenDTO.getIdProducto()));
+        imagenRepository.save(nuevaImagen);
+    }
+
+    public void EditarImagenPorId(Integer id, ImagenDTO imagenDTO){
+        Imagen nuevaImagen = imagenRepository.findById(id).orElse(null);
+        nuevaImagen.setNombre(imagenDTO.getNombre());
+        nuevaImagen.setUrl(imagenDTO.getUrl());
+        nuevaImagen.setProducto(productoService.BuscarProductoPorId(imagenDTO.getIdProducto()));
         imagenRepository.save(nuevaImagen);
     }
 }
