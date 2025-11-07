@@ -3,6 +3,9 @@ package com.safa.cabezon_backend.modelos;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,10 +40,22 @@ public class Cliente {
     @Column(name = "rol")
     private Rol rol;
 
+    @Column(name = "cabecoins")
+    private Integer cabecoins;
+
     @ManyToOne
     @JoinColumn(name = "id_nivel")
     private Nivel nivel;
 
-    @Column(name = "cabecoins")
-    private Integer cabecoins;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "gustos",catalog = "cabezon",schema = "cabezon",
+            joinColumns = {@JoinColumn(name = "id_cliente",nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "id_producto",nullable = false)})
+    private Set<Producto> ListaDeseosSet = new HashSet<>(0);
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "intereses",catalog = "cabezon",schema = "cabezon",
+            joinColumns = {@JoinColumn(name = "id_cliente",nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)})
+    private Set<Coleccion> InteresesSet = new HashSet<>(0);
 }
