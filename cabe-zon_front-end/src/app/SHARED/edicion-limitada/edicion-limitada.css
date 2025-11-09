@@ -20,14 +20,14 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: #20D2C3;
+  background-color: #D1D800;
   border-radius: 20px;
   box-shadow: 3px 3px 0px black;
   font-family: "League Spartan", sans-serif;
 }
 
 .card {
-  background-color: #C6FFFF;
+  background-color: rgb(255, 255, 204);
   border-radius: 15px;
   padding: 1rem;
   text-align: center;
@@ -91,7 +91,7 @@
 }
 
 .card button {
-  background-color: #2EC4B6;
+  background-color: #E0AC00;
   color: white;
   border: none;
   width: 100%;
@@ -107,7 +107,7 @@
   bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #0080f8;
+  background-color: #E0AC00;
   color: white;
   box-shadow: 3px 3px 0px black;
   font-family: "League Spartan", sans-serif;
