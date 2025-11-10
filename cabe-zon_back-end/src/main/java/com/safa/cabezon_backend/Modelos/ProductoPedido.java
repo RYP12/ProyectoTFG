@@ -17,8 +17,8 @@ public class ProductoPedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "precio_total",length = 50,nullable = false)
-    private Double precioTotal;
+    @Column(name = "subtotal",length = 50,nullable = false)
+    private Double subtotal;
 
     @Column(name = "cantidad",length = 5,nullable = false)
     private Integer cantidad;

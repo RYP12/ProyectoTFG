@@ -33,6 +33,9 @@ public class Pedido {
     @Column(name = "fecha")
     private Date fecha;
 
+    @Column(name = "precio_total")
+    private Double precioTotal;
+
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
