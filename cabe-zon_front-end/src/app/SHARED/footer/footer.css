@@ -71,6 +71,11 @@ footer {
   padding: 5%;
 }
 
+#footerAbajo img {
+  width: 100%;
+}
+
+
 #linksFooter {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -87,8 +92,13 @@ footer {
   padding: 0;
 
 }
+#linksFooter li {
+  width: 100%;
+}
 
 #linksFooter li a {
+  width: 100%;
+  font-size: 100%;
   text-decoration: none;
   color: black;
 }
