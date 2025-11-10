@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Propietario } from "./BUNDLES/OwnerBundle/pages/owner/propietario";
 import { OwnerControl } from "./BUNDLES/OwnerBundle/pages/owner-control/owner-control";
 
 @Component({
