@@ -3,7 +3,7 @@ package com.safa.cabezon_backend.Dto;
 import lombok.Data;
 
 @Data
-public class ProductosPedidoDTO {
+public class ProductoPedidoDTO {
     private Double precioTotal;
     private Integer cantidad;
     private Integer idProducto;

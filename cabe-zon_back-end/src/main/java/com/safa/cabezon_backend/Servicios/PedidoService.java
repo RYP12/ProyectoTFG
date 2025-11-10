@@ -18,7 +18,7 @@ public class PedidoService {
     private IPedidoRepository pedidoRepository;
 
     @Autowired
-    private ClienteServicie clienteService;
+    private ClienteService clienteService;
 
     public List<Pedido> BuscarPedidos() {return pedidoRepository.findAll();}
 

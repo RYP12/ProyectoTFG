@@ -4,14 +4,11 @@ import com.safa.cabezon_backend.Dto.ProductoDTO;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Modelos.Imagen;
 import com.safa.cabezon_backend.Modelos.Producto;
-import com.safa.cabezon_backend.Repositorios.IImagenRepository;
-import com.safa.cabezon_backend.Repositorios.IPedidoRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +24,7 @@ public class ProductoService {
     private ImagenService imagenService;
 
     @Autowired
-    private ColeccionServie coleccionService;
+    private ColeccionService coleccionService;
 
 
     public List<Producto> BuscarProductos() {return productoRepository.findAll();}

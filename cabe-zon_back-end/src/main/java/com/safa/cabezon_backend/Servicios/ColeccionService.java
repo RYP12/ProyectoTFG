@@ -6,7 +6,6 @@ import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IColeccionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -15,7 +14,7 @@ import java.util.Set;
 
 @Service
 @AllArgsConstructor
-public class ColeccionServie {
+public class ColeccionService {
 
     @Autowired
     private IColeccionRepository coleccionRepository;
