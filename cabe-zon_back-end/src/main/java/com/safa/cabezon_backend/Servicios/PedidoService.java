@@ -18,7 +18,7 @@ public class PedidoService {
     private IPedidoRepository pedidoRepository;
 
     @Autowired
-    private ClienteServicie clienteService;
+    private ClienteService clienteService;
 
     public List<Pedido> BuscarPedidos() {return pedidoRepository.findAll();}
 
@@ -30,6 +30,7 @@ public class PedidoService {
         pedido.setFechaEntrega(dto.getFechaEntrega());
         pedido.setEstado(dto.getEstado());
         pedido.setFecha(dto.getFecha());
+        pedido.setPrecioTotal(dto.getPrecio_total());
 
         Cliente cliente = clienteService.BuscarClientePorId(dto.getIdCliente());
         pedido.setCliente(cliente);
@@ -44,6 +45,7 @@ public class PedidoService {
             pedido.setFechaEntrega(dto.getFechaEntrega());
             pedido.setEstado(dto.getEstado());
             pedido.setFecha(dto.getFecha());
+            pedido.setPrecioTotal(dto.getPrecio_total());
 
             Cliente cliente = clienteService.BuscarClientePorId(dto.getIdCliente());
             pedido.setCliente(cliente);

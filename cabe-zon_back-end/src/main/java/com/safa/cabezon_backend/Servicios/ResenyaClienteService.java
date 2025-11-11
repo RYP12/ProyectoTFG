@@ -22,7 +22,7 @@ public class ResenyaClienteService {
     private ProductoService productoService;
 
     @Autowired
-    private ClienteServicie clienteServicie;
+    private ClienteService clienteService;
 
     public List<ResenyaCliente> BuscarResenyaCliente() {
         return resenyaClienteRepository.findAll();
@@ -41,7 +41,7 @@ public class ResenyaClienteService {
         Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
         resenyaCliente.setProducto(producto);
 
-        Cliente cliente = clienteServicie.BuscarClientePorId(dto.getIdCliente());
+        Cliente cliente = clienteService.BuscarClientePorId(dto.getIdCliente());
         resenyaCliente.setCliente(cliente);
 
         resenyaClienteRepository.save(resenyaCliente);
@@ -57,7 +57,7 @@ public class ResenyaClienteService {
             Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
             resenyaCliente.setProducto(producto);
 
-            Cliente cliente = clienteServicie.BuscarClientePorId(dto.getIdCliente());
+            Cliente cliente = clienteService.BuscarClientePorId(dto.getIdCliente());
             resenyaCliente.setCliente(cliente);
 
             resenyaClienteRepository.save(resenyaCliente);

@@ -1,6 +1,6 @@
 package com.safa.cabezon_backend.Servicios;
 
-import com.safa.cabezon_backend.Dto.ProductosPedidoDTO;
+import com.safa.cabezon_backend.Dto.ProductoPedidoDTO;
 import com.safa.cabezon_backend.Modelos.Pedido;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Modelos.ProductoPedido;
@@ -32,9 +32,9 @@ public class ProductoPedidoService {
         return productoPedidoRepository.findById(id).orElse(null);
     }
 
-    public void CrearProductoPedido(ProductosPedidoDTO dto) {
+    public void CrearProductoPedido(ProductoPedidoDTO dto) {
         ProductoPedido productoPedido = new ProductoPedido();
-        productoPedido.setPrecioTotal(dto.getPrecioTotal());
+        productoPedido.setSubtotal(dto.getSubtotal());
         productoPedido.setCantidad(dto.getCantidad());
 
         Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
@@ -46,10 +46,10 @@ public class ProductoPedidoService {
         productoPedidoRepository.save(productoPedido);
     }
 
-    public void EditarProductoPedido(Integer id, ProductosPedidoDTO dto) {
+    public void EditarProductoPedido(Integer id, ProductoPedidoDTO dto) {
         ProductoPedido productoPedido = productoPedidoRepository.findById(id).orElse(null);
         if (productoPedido != null) {
-            productoPedido.setPrecioTotal(dto.getPrecioTotal());
+            productoPedido.setSubtotal(dto.getSubtotal());
             productoPedido.setCantidad(dto.getCantidad());
 
             Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
