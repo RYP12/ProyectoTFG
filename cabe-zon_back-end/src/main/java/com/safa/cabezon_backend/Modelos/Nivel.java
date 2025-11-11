@@ -20,6 +20,7 @@ public class Nivel {
     private Integer id;
 
     @Column(name = "nivel")
+    @Enumerated(EnumType.ORDINAL)
     private NivelEnum nivel;
 
     @Column(name = "descuento")

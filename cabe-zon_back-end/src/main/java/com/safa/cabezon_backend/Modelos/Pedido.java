@@ -28,6 +28,7 @@ public class Pedido {
     private Date fechaEntrega;
 
     @Column(name = "estado")
+    @Enumerated(EnumType.ORDINAL)
     private Estado estado;
 
     @Column(name = "fecha")

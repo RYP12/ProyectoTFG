@@ -4,6 +4,7 @@ import com.safa.cabezon_backend.Dto.ColeccionDTO;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IColeccionRepository;
+import com.safa.cabezon_backend.Repositorios.IProductoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ColeccionService {
     private IColeccionRepository coleccionRepository;
 
     @Autowired
-    private ProductoService productoService;
+    private IProductoRepository productoRepository;
 
     public List<Coleccion> BuscarColecciones() {return coleccionRepository.findAll();}
 
@@ -34,7 +35,7 @@ public class ColeccionService {
         coleccionNuevo.setNumeroDeProductos(coleccion.getNumeroDeProductos());
         Set<Producto> productosNuevo = new HashSet<>();
         for(Integer id:coleccion.getProductosSet()){
-            productosNuevo.add(productoService.BuscarProductoPorId(id));
+            productosNuevo.add(productoRepository.findById(id).orElse(null));
         }
         coleccionNuevo.setProductosColeccionSet(productosNuevo);
 
@@ -47,7 +48,7 @@ public class ColeccionService {
         coleccionActual.setNumeroDeProductos(coleccion.getNumeroDeProductos());
         Set<Producto> productosNuevo = new HashSet<>();
         for(Integer idProducto:coleccion.getProductosSet()){
-            productosNuevo.add(productoService.BuscarProductoPorId(idProducto));
+            productosNuevo.add(productoRepository.findById(idProducto).orElse(null));
         }
         coleccionActual.setProductosColeccionSet(productosNuevo);
         coleccionRepository.save(coleccionActual);

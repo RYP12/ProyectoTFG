@@ -27,8 +27,6 @@ public class ClienteService {
         Cliente nuevoCliente = new Cliente();
         nuevoCliente.setNombre(clienteDto.getNombre());
         nuevoCliente.setApellidos(clienteDto.getApellidos());
-        nuevoCliente.setCorreo(clienteDto.getCorreo());
-        nuevoCliente.setPasswordHash(passwordEncoder.encode(clienteDto.getPasswordHash()));
         clienteRepository.save(nuevoCliente);
     }
 
@@ -39,10 +37,7 @@ public class ClienteService {
         Cliente cliente = clienteRepository.findById(id).orElse(null);
         cliente.setNombre(clienteDto.getNombre());
         cliente.setApellidos(clienteDto.getApellidos());
-        cliente.setCorreo(clienteDto.getCorreo());
-        cliente.setPasswordHash(passwordEncoder.encode(clienteDto.getPasswordHash()));
         cliente.setFoto(clienteDto.getFoto());
-        cliente.setRol(clienteDto.getRol());
         clienteRepository.save(cliente);
     }
 }

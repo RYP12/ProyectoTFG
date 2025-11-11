@@ -3,6 +3,7 @@ package com.safa.cabezon_backend.Servicios;
 import com.safa.cabezon_backend.Dto.ImagenDTO;
 import com.safa.cabezon_backend.Modelos.Imagen;
 import com.safa.cabezon_backend.Repositorios.IImagenRepository;
+import com.safa.cabezon_backend.Repositorios.IProductoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class ImagenService {
     private IImagenRepository imagenRepository;
 
     @Autowired
-    private ProductoService productoService;
+    private IProductoRepository productoRepository;
 
     public List<Imagen> BuscarImagenes() {return imagenRepository.findAll();}
 
@@ -29,7 +30,7 @@ public class ImagenService {
         Imagen nuevaImagen = new Imagen();
         nuevaImagen.setNombre(imagenDTO.getNombre());
         nuevaImagen.setUrl(imagenDTO.getUrl());
-        nuevaImagen.setProducto(productoService.BuscarProductoPorId(imagenDTO.getIdProducto()));
+        nuevaImagen.setProducto(productoRepository.findById(imagenDTO.getIdProducto()).orElse(null));
         imagenRepository.save(nuevaImagen);
     }
 
@@ -37,7 +38,7 @@ public class ImagenService {
         Imagen nuevaImagen = imagenRepository.findById(id).orElse(null);
         nuevaImagen.setNombre(imagenDTO.getNombre());
         nuevaImagen.setUrl(imagenDTO.getUrl());
-        nuevaImagen.setProducto(productoService.BuscarProductoPorId(imagenDTO.getIdProducto()));
+        nuevaImagen.setProducto(productoRepository.findById(imagenDTO.getIdProducto()).orElse(null));
         imagenRepository.save(nuevaImagen);
     }
 }

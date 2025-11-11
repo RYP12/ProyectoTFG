@@ -28,17 +28,8 @@ public class Cliente {
     @Column(name = "apellidos")
     private String apellidos;
 
-    @Column(name = "correo")
-    private String correo;
-
-    @Column(name = "password_hash")
-    private String passwordHash;
-
     @Column(name = "foto")
     private String foto;
-
-    @Column(name = "rol")
-    private Rol rol;
 
     @Column(name = "cabecoins")
     private Integer cabecoins;

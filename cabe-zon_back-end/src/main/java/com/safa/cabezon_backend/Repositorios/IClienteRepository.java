@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface IClienteRepository extends JpaRepository<Cliente, Integer> {
-    Optional<Cliente> findByCorreo(String correo);
-}
+public interface IClienteRepository extends JpaRepository<Cliente, Integer> {}

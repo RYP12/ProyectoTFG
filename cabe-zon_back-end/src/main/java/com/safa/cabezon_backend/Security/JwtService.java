@@ -1,47 +1,65 @@
 package com.safa.cabezon_backend.Security;
 
+import com.safa.cabezon_backend.Modelos.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "mi_clave_super_secreta"; // ⚠️ reemplaza por una segura
+    @Value("${security.jwt.secret-key}")
+    private String secretKey;
 
-    // Generar token a partir de un correo
-    public String generateToken(String correo) {
-        return Jwts.builder()
-                .setSubject(correo)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+    public String generateToken(Usuario usuario) {
+        TokenDTO tokenDTO = TokenDTO
+                .builder()
+                .username(usuario.getUsername())
+                .rol(usuario.getRol().name())
+                .fecha_creacion(System.currentTimeMillis())
+                .fecha_expiracion(System.currentTimeMillis() * 1000 * 60 * 60)
+                .build();
+
+        return Jwts
+                .builder()
+                .claim("tokenDTO", tokenDTO)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // Validar token
-    public boolean validateToken(String token, String correo) {
-        String subject = extractCorreo(token);
-        return (subject.equals(correo) && !isTokenExpired(token));
+    public Claims extraerToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
 
-    // Extraer correo del token
-    public String extractCorreo(String token) {
-        return getClaims(token).getSubject();
+    public TokenDTO extraerTokenDTO(String token) {
+        Claims claims = extraerToken(token);
+        Map<String, Object> mapa = (LinkedHashMap<String, Object>) claims.get("tokenDTO");
+        return  TokenDTO.builder()
+                .username((String) mapa.get("username"))
+                .fecha_creacion((Long) mapa.get("fecha_creacion"))
+                .fecha_expiracion((Long) mapa.get("fecha_expiracion"))
+                .rol((String) mapa.get("rol"))
+                .build();
     }
 
-    // Verificar si el token expiró
-    private boolean isTokenExpired(String token) {
-        return getClaims(token).getExpiration().before(new Date());
+    public boolean validateToken(String token) {
+        return new Date(extraerTokenDTO(token).getFecha_expiracion()).before(new Date());
     }
 
-    private Claims getClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
+
+
 }
