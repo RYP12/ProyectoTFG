@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Faster+One&display=swap');
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -9,6 +12,7 @@
   box-shadow: 3px 3px 0px black;
   flex-wrap: wrap;
   gap: 10px;
+  font-family: 'League Spartan', sans-serif;
 }
 
 .left, .center, .right {
