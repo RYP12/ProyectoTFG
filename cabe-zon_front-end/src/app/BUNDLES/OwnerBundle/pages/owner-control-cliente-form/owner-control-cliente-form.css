@@ -1,0 +1,87 @@
+
+
+main {
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+
+  font-family: "League Spartan", sans-serif;
+}
+
+#seccionPrincipal {
+  display: grid;
+  grid-template-columns: 70% 25%;
+  gap: 5%;
+
+  margin: 5%;
+
+
+  width: 70%;
+
+}
+
+#datosDiv{
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+#datosDiv p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#seccionUsuario {
+  display: grid;
+  grid-template-rows: 0.1fr 1fr 1fr;
+
+  border-radius: 20px;
+  border: 1px solid black;
+
+
+  width: 100%;
+  box-shadow: 4px 4px black;
+
+
+}
+
+#seccionUsuario div{
+  padding: 5%;
+}
+
+
+#datosUsuario {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+
+
+
+}
+
+#nombreApellido {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+
+
+
+}
+
+#correoContra {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+
+
+}
+
+.categorias{
+  font-weight: bold;
+}
+
+#datosUsuario div {
+  border: 1px solid black;
+  border-radius: 20px;
+  margin: 5%;
+
+  box-shadow: 4px 4px black;
+
+}
