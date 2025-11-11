@@ -7,10 +7,10 @@
     #A0F3E6 80%,
     #f9f9f9
   );
-  padding: 40px 20px;
-  display: flex;
   justify-content: center;
   align-items: center;
+  display: flex;
+  padding: 40px 20px;
   min-height: 100vh;
   font-family: "League Spartan", sans-serif;
 }
@@ -97,6 +97,7 @@
   color: #FFC107;
   margin: 5px 0 15px 0;
   letter-spacing: 5px;
+  line-height: normal;
 }
 
 .stars .star {
@@ -104,6 +105,22 @@
   height: auto;
 }
 
+.chat{
+  margin: 0px 0px 0px 10px;
+  background-color: #ffffff;
+  padding: 5px 5px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0px black;
+  width: 2rem;
+  height: auto;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.chat:active{
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 black;
+}
 
 .price {
   font-size: 2.5rem;

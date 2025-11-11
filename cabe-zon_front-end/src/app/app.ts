@@ -5,12 +5,15 @@ import { OwnerControl } from "./BUNDLES/OwnerBundle/pages/owner-control/owner-co
 import {Catalogo} from './BUNDLES/CatalogoBundle/pages/catalogo/catalogo';
 import {Header} from './SHARED/header/header';
 import {Funko} from './BUNDLES/FunkoBundle/pages/funko/funko';
+import {EdicionLimitada} from './BUNDLES/EdicionLimitadaBundle/pages/edicion-limitada/edicion-limitada';
+import {AboutUs} from './BUNDLES/SobreNosotrosBundle/pages/about-us/about-us';
+import {StartedPage} from './BUNDLES/StarterBundle/pages/started/started-page';
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, OwnerControl, Footer, Catalogo, Header, Funko],
+  imports: [RouterOutlet, OwnerControl, Footer, Catalogo, Header, Funko, EdicionLimitada, AboutUs, StartedPage],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
