@@ -1,14 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { OwnerControl } from "./BUNDLES/OwnerBundle/pages/owner-control/owner-control";
+import { OwnerControlPedidoForm } from "./BUNDLES/OwnerBundle/forms/owner-control-pedido-form/owner-control-pedido-form";
 import { Footer } from './SHARED/footer/footer';
 
-// chino tonto
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, OwnerControl, Footer],
+  imports: [RouterOutlet, OwnerControlPedidoForm, Footer],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
