@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { OwnerControl } from "./BUNDLES/OwnerBundle/pages/owner-control/owner-control";
 import { Footer } from './SHARED/footer/footer';
 
+// chino tonto
+
 @Component({
   selector: 'app-root',
   standalone: true,
