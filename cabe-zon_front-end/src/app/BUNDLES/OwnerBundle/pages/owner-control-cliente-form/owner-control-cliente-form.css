@@ -85,3 +85,30 @@ main {
   box-shadow: 4px 4px black;
 
 }
+
+#seccionPedidos {
+  display: grid;
+  grid-template-rows: 0.2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
+
+  border: 1px solid black;
+  border-radius: 20px;
+  margin: 5%;
+
+}
+
+#seccionPedidos div{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  border: 1px solid black;
+  border-radius: 20px;
+
+  margin: 5%;
+  padding: 5%;
+
+}
+
+#seccionPedidos div img {
+  width: 100%;
+}
