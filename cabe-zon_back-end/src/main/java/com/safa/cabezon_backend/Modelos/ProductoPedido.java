@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,10 +25,12 @@ public class ProductoPedido {
     private Integer cantidad;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "id_producto")
     private Producto producto;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "id_pedido")
     private Pedido pedido;
 }

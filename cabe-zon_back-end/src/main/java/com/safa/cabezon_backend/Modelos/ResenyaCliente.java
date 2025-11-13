@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Modelos;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +37,7 @@ public class ResenyaCliente {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
+    @JsonIgnoreProperties({"listaDeseosSet", "interesesSet"})
     private Cliente cliente;
 
 

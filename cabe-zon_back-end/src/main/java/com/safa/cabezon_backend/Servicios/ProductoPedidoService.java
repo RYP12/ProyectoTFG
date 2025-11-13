@@ -34,7 +34,7 @@ public class ProductoPedidoService {
 
     public void CrearProductoPedido(ProductoPedidoDTO dto) {
         ProductoPedido productoPedido = new ProductoPedido();
-        productoPedido.setSubtotal(dto.getSubtotal());
+        productoPedido.setSubtotal(0.0);
         productoPedido.setCantidad(dto.getCantidad());
 
         Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
@@ -49,7 +49,7 @@ public class ProductoPedidoService {
     public void EditarProductoPedido(Integer id, ProductoPedidoDTO dto) {
         ProductoPedido productoPedido = productoPedidoRepository.findById(id).orElse(null);
         if (productoPedido != null) {
-            productoPedido.setSubtotal(dto.getSubtotal());
+            productoPedido.setSubtotal(0.0);
             productoPedido.setCantidad(dto.getCantidad());
 
             Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());

@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,7 +38,7 @@ public class ResenyaClienteService {
         ResenyaCliente resenyaCliente = new ResenyaCliente();
         resenyaCliente.setTexto(dto.getTexto());
         resenyaCliente.setValoracion(dto.getValoracion());
-        resenyaCliente.setFecha(dto.getFecha());
+        resenyaCliente.setFecha(Date.valueOf(LocalDate.now()));
 
         Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
         resenyaCliente.setProducto(producto);
@@ -52,7 +54,6 @@ public class ResenyaClienteService {
         if (resenyaCliente != null) {
             resenyaCliente.setTexto(dto.getTexto());
             resenyaCliente.setValoracion(dto.getValoracion());
-            resenyaCliente.setFecha(dto.getFecha());
 
             Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
             resenyaCliente.setProducto(producto);

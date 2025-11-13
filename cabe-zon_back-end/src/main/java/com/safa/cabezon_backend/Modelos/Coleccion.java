@@ -8,10 +8,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"productosColeccionSet"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 
 @Entity
 @Table(name = "coleccion",catalog = "cabezon",schema = "cabezon")

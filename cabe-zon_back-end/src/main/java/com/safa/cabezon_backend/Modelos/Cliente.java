@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +11,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@ToString(exclude = {"ListaDeseosSet", "InteresesSet"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 @Entity
 @Table(name = "cliente", catalog = "cabezon", schema = "cabezon")
@@ -37,16 +38,17 @@ public class Cliente {
     @ManyToOne
     @JoinColumn(name = "id_nivel")
     private Nivel nivel;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "gustos",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_cliente",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_producto",nullable = false)})
+    @JsonIgnore
     private Set<Producto> ListaDeseosSet = new HashSet<>(0);
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "intereses",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_cliente",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)})
+    @JsonIgnore
     private Set<Coleccion> InteresesSet = new HashSet<>(0);
 }
