@@ -1,0 +1,168 @@
+.main{
+  margin: 0;
+  font-family: "League Spartan", sans-serif;
+  background: linear-gradient(
+    to bottom,
+    white 0%,
+    #A0F3E6 20%,
+    #A0F3E6 50%,
+    #A0F3E6 80%,
+    #f9f9f9
+  );
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+.box-carrito {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.carrito {
+  width: 380px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 18px;
+  border: 2px solid black;
+  box-shadow: 6px 6px 0px black;
+}
+
+.title {
+  display: flex;
+  color: black;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.title h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.img-cerrar {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.products {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product {
+  background: #92E2C9;
+  border-radius: 14px;
+  padding: 10px;
+  border: 2px solid black;
+  box-shadow: 3px 3px 0px black;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.img-product {
+  width: 70px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.info {
+  flex: 1;
+}
+
+.product .title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.price {
+  margin: 3px 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cont {
+  background: #d9fff6;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 4px 8px;
+  box-shadow: 2px 2px 0px black;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+}
+
+.btn-cont {
+  background: transparent;
+  font-weight: 900;
+  border: none;
+  cursor: pointer;
+}
+
+.num {
+  font-weight: 800;
+}
+
+.btn-borrar {
+  background: #C50000;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-weight: 800;
+  border: none;
+  box-shadow: 3px 3px 0px black;
+  cursor: pointer;
+}
+
+.resume {
+  font-size: 16px;
+  margin-top: 20px;
+  gap: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.line {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  font-weight: 800;
+  margin: 5px 0;
+}
+
+.btns {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-verde {
+  background: #07a99a;
+  color: black;
+  border: none;
+  padding: 12px;
+  border-radius: 20px;
+  font-weight: 900;
+  box-shadow: 3px 3px 0px black;
+  cursor: pointer;
+}
+
+.btn-blanco {
+  border: none;
+  background: white;
+  padding: 10px;
+  border-radius: 20px;
+  font-weight: 1000;
+  box-shadow: 3px 3px 0px black;
+  cursor: pointer;
+}

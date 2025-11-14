@@ -1,0 +1,90 @@
+.main {
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(
+    to bottom,
+    white 0%,
+    #A0F3E6 20%,
+    #A0F3E6 50%,
+    #A0F3E6 80%,
+    #f9f9f9
+  );
+  padding:40px 20px;
+}
+
+.box{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+.tarjet{
+  width:420px;
+  border-radius:12px;
+  padding:28px 26px;
+  box-sizing:border-box;
+  background:white;
+  box-shadow:5px 5px 0px black;
+  text-align:center;
+  font-family: "League Spartan", sans-serif;
+}
+
+.img-confirmar{
+  width:180px;
+  height:auto;
+  display:block;
+  margin: 0 auto 18px auto;
+}
+
+.title{
+  margin:0 0 10px 0;
+  font-size:22px;
+  font-weight:200;
+}
+
+.message{
+  margin:0 0 22px 0;
+  font-size:1.4rem;
+  color: #16A68E;
+  line-height:1.5;
+  font-weight:700;
+  padding:0 18px;
+}
+
+.tarjet button{
+  color:#fff;
+  background:black;
+  align-items:center;
+  gap:10px;
+  border:none;
+  padding:10px 18px;
+  border-radius:18px;
+  font-weight:800;
+  box-shadow:5px 5px 0px #2ec4b6;
+  cursor:pointer;
+  transition: transform 0.3s ease;
+}
+
+.tarjet button:active{
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #2ec4b6;
+
+}
+
+@media (max-width:440px){
+  .tarjet{
+    width:92%;
+    padding:22px;
+  }
+  .img-confirmar{
+    width:150px;
+    margin-bottom:12px;
+  }
+  .message{
+    font-size:14px;
+    padding:0 8px;
+  }
+}

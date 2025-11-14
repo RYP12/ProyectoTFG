@@ -1,0 +1,66 @@
+<div class="main">
+  <div class="box-carrito">
+    <div class="carrito">
+
+      <div class="title">
+        <h2>CARRITO</h2>
+        <img class="img-cerrar" src="/ASSETS/IMAGES/LogoCerrar.png">
+      </div>
+
+      <div class="products">
+
+        <!--
+      @for (producto of carrito; track producto.id) {
+
+        <div class="product">
+          <img class="img-product" [src]="producto.imagen" [alt]="producto.nombre">
+
+          <div class="info">
+            <h3 class="title">{{ producto.nombre }}</h3>
+            <p class="price">€ {{ producto.precio }}</p>
+
+            <div class="cont">
+              <button class="btn-cont" (click)="restarCantidad(producto)">-</button>
+              <span class="num">{{ producto.cantidad }}</span>
+              <button class="btn-cont" (click)="sumarCantidad(producto)">+</button>
+            </div>
+          </div>
+
+          <button class="btn-borrar" (click)="eliminarDelCarrito(producto)">
+            ELIMINAR
+          </button>
+        </div>
+
+      }
+      -->
+
+        <div class="product">
+          <img class="img-product" src="/ASSETS/IMAGES/DekuCaja.png" alt="funko">
+          <div class="info">
+            <h3 class="title">Funko pop de Midoriya</h3>
+            <p class="price">€ 20</p>
+
+            <div class="cont">
+              <button class="btn-cont">-</button>
+              <span class="num">1</span>
+              <button class="btn-cont">+</button>
+            </div>
+          </div>
+          <button class="btn-borrar">ELIMINAR</button>
+        </div>
+
+      <div class="resume">
+        <p class="line"><span>SUBTOTAL :</span><strong> € 60</strong></p>
+        <p class="line"><span>ENVIO :</span><strong> € 3</strong></p>
+        <p class="line total"><span>TOTAL :</span><strong> € 63</strong></p>
+      </div>
+
+        <div class="btns">
+          <button class="btn-verde">SEGUIR COMPRANDO</button>
+          <button class="btn-blanco">TERMINAR PEDIDO</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
