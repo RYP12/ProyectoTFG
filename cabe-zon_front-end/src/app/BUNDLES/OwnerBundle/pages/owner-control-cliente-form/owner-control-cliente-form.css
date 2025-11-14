@@ -1,19 +1,33 @@
 
-
 main {
   justify-content: center;
   align-items: center;
   justify-items: center;
 
   font-family: "League Spartan", sans-serif;
+
+  margin-bottom: 5%;
+  padding: 5%;
+
+
+  background: radial-gradient(#f9f9f9, #92E2C9);
+
+}
+
+main h1 {
+  margin: 5%;
+  font-size: 50px;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  color: #f9f9f9;
+
 }
 
 #seccionPrincipal {
   display: grid;
-  grid-template-columns: 70% 25%;
+  grid-template-columns: 65% 30%;
   gap: 5%;
 
-  margin: 5%;
+
 
 
   width: 70%;
@@ -23,11 +37,46 @@ main {
 #datosDiv{
   display: grid;
   grid-template-columns: 20% 80%;
+
+  padding-top: 5%;
+
 }
-#datosDiv p {
+#datosDiv1 {
+  display:flex;
+  justify-items: right;
+  align-items: center;
+
+  justify-content: center;
+}
+#datosDiv2 {
   font-size: 20px;
   font-weight: bold;
 }
+
+#seccionFotoPerfil {
+  display: grid;
+  grid-template-rows: 20% 80%;
+
+}
+#tituloFotoPerfil {
+
+  align-items: end;
+  align-content: end;
+
+  font-size: large;
+  font-weight: bold;
+
+  padding-left: 5%;
+}
+#imgFotoPerfil  {
+
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+
+}
+
 
 #seccionUsuario {
   display: grid;
@@ -37,15 +86,14 @@ main {
   border: 1px solid black;
 
 
-  width: 100%;
   box-shadow: 4px 4px black;
 
+  background-color: #f9f9f9;
+
 
 }
 
-#seccionUsuario div{
-  padding: 5%;
-}
+
 
 
 #datosUsuario {
@@ -81,7 +129,85 @@ main {
   border: 1px solid black;
   border-radius: 20px;
   margin: 5%;
+  padding: 5%;
 
   box-shadow: 4px 4px black;
 
+}
+
+#seccionPedidos {
+  display: grid;
+  grid-template-rows: 10% 20% 20% 20%;
+
+
+  border: 1px solid black;
+  border-radius: 20px;
+
+  box-shadow: 4px 4px black;
+
+  background-color: #f9f9f9;
+
+  align-items: center;
+
+
+}
+
+#tituloPedidos {
+  text-align: center;
+  padding-top: 2%;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#seccionPedidos div{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10%;
+
+  background: #92E2C9;
+  border-radius: 20px;
+
+  margin: 5%;
+  padding: 5%;
+
+  align-items: center;
+}
+
+#seccionPedidos div img {
+  width: 100%;
+
+}
+
+#seccionBotones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  margin: 5%;
+
+  justify-items: center;
+  width: 80%;
+}
+.botones {
+  margin: 5%;
+  padding: 5%;
+
+
+  border: 1px solid black;
+  border-radius: 20px;
+  box-shadow: 4px 4px black;
+
+  width: 50%;
+}
+
+#editarButton {
+  background-color: #2EC4B6;
+  color: #f9f9f9;
+  font-weight: bold;
+}
+
+#eliminarButton {
+  background-color: #FF0000;
+  color: #f9f9f9;
+  font-weight: bold;
 }
