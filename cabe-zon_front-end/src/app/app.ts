@@ -6,12 +6,13 @@ import {
   OwnerControlProductoForm
 } from './BUNDLES/OwnerBundle/forms/owner-control-producto-form/owner-control-producto-form';
 import {OwnerControlPedidos} from './BUNDLES/OwnerBundle/forms/owner-control-pedidos/owner-control-pedidos';
+import {OwnerControlProductos} from './BUNDLES/OwnerBundle/forms/owner-control-productos/owner-control-productos';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, OwnerControlPedidoForm, Footer, OwnerControlProductoForm, OwnerControlPedidos],
+  imports: [RouterOutlet, OwnerControlPedidoForm, Footer, OwnerControlProductoForm, OwnerControlPedidos, OwnerControlProductos],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })

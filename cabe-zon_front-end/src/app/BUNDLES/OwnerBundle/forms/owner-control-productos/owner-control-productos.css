@@ -73,7 +73,7 @@
 
 #primeraParteForm {
   display: grid;
-  grid-template-columns: 0.25fr 0.25fr;
+  grid-template-columns: 0.25fr 0.25fr 0.25fr;
   gap: 5%;
   margin-bottom: 3%;
 }
@@ -135,5 +135,16 @@
   height: 50%;
   align-content: center;
   box-shadow: 3px 3px black;
+}
+
+#botonAnyadir {
+  background-color: #00DE16;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 20px;
+  height: 100%;
+  padding: 5%;
+  justify-self: end;
 }
 
