@@ -1,0 +1,150 @@
+#background {
+  background: linear-gradient(
+    to bottom,
+    white 0%,
+    #A0F3E6 20%,
+    #A0F3E6 80%,
+    #f9f9f9
+  );
+
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+#global {
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  width: 100%;
+  gap: 5%;
+
+  align-items: center;
+
+}
+
+#primeraParte {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  justify-items: center;
+  justify-self: end;
+
+  width: 50%;
+  padding: 5%;
+
+  border: solid 1px black;
+  border-radius: 20px;
+  box-shadow: 5px 5px black;
+
+  background-color: #f9f9f9;
+}
+
+#todoJunto {
+  background-color: #f9f9f9;
+
+  border: solid 1px black;
+  border-radius: 20px;
+  box-shadow: 5px 5px black;
+
+  padding: 5%;
+}
+
+#primeraParte button {
+  border-radius: 20px;
+  background-color: #f9f9f9;
+
+  margin-bottom: 5%;
+  width: 50%;
+
+  font-size: 20px;
+
+  font-weight: bold;
+}
+
+#primeraParte img {
+  width: 50%;
+}
+
+#segundaParte {
+  display: grid;
+  grid-template-rows: 0.1fr 0.1fr 0.1fr;
+
+  margin-right: 20%;
+}
+
+#primeraParteForm {
+  display: grid;
+  grid-template-columns: 0.25fr 0.25fr 0.25fr;
+  gap: 5%;
+  margin-bottom: 3%;
+}
+
+#botones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5%;
+}
+
+#botones button {
+  border: solid 1px black;
+  border-radius: 20px;
+  box-shadow: 2px 2px black;
+}
+
+#segundaParteForm {
+  display: grid;
+  grid-template-rows: 0.1fr 0.1fr;
+
+  background-color: #f9f9f9;
+  padding: 3%;
+
+  border: solid 1px black;
+  border-radius: 20px;
+  box-shadow: 5px 5px black;
+}
+
+#titulos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  justify-items: center;
+}
+
+#datosGlobal {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  justify-items: center;
+  margin-bottom: 1%;
+
+  border : 1px solid black;
+  border-radius: 20px;
+}
+
+#titulos p {
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  border: 1px solid black;
+  padding-left: 10%;
+  padding-right: 10%;
+  font-size: 20px;
+  height: 50%;
+  align-content: center;
+  box-shadow: 3px 3px black;
+}
+
+#botonAnyadir {
+  background-color: #00DE16;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 20px;
+  height: 100%;
+  padding: 5%;
+  justify-self: end;
+}
+
