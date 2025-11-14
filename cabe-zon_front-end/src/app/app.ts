@@ -1,17 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { OwnerControlPedidoForm } from "./BUNDLES/OwnerBundle/forms/owner-control-pedido-form/owner-control-pedido-form";
-import { Footer } from './SHARED/footer/footer';
+import {Footer} from './SHARED/footer/footer';
+import { OwnerControl } from "./BUNDLES/OwnerBundle/pages/owner-control/owner-control";
+
 
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, OwnerControlPedidoForm, Footer],
+  imports: [RouterOutlet, OwnerControl, Footer],
   templateUrl: './app.html',
-  styleUrls: ['./app.css'],
+  styleUrl: './app.css'
 })
-
 export class App {
   protected readonly title = signal('cabe-zon_front-end');
 }

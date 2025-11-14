@@ -1,0 +1,107 @@
+<div class="main">
+
+    <!--
+  @for (funko of funkos; track funko.id) {
+    <div class="product-card">
+      <div class="left">
+        <img [src]="funko.iconoFavorito" alt="favorito" class="heart">
+        <img [src]="funko.imagen" [alt]="funko.nombre" class="luffy">
+        <button class="add-card" (click)="agregarAlCarrito(funko)">AÑADIR AL CARRITO</button>
+      </div>
+
+      <div class="right">
+        <h1>{{ funko.nombre }}</h1>
+        <p class="number">Nº {{ funko.numero }}</p>
+
+        <div class="stars">
+          @for (i of [].constructor(funko.valoracion); track i) {
+            <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star">
+          }
+          <img src="/ASSETS/IMAGES/LogoChat.png" alt="comentarios" class="chat">
+        </div>
+
+        <p class="price">€{{ funko.precio }}</p>
+        <p class="stock">EN STOCK: {{ funko.stock }} unidades</p>
+        <p class="description">{{ funko.descripcion }}</p>
+
+        @if (funko.exclusivo) {
+          <button class="exclusive-btn">EXCLUSIVO!</button>
+        }
+      </div>
+    </div>
+  }
+  -->
+
+  <div class="product-card">
+    <div class="left">
+      <img src="/ASSETS/IMAGES/LogoCorazon.png" alt="foto" class="heart">
+      <img src="/ASSETS/IMAGES/LuffyCaja.png" alt="foto" class="luffy">
+      <button class="add-card">AÑADIR AL CARRITO</button>
+    </div>
+    <div class="right">
+      <h1>FUNKO POP! MARVEL:
+        SPIDERMAN</h1>
+      <p class="number">Nº 1422</p>
+      <div class="stars">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
+        <img src="/ASSETS/IMAGES/LogoChat.png" alt="foto" class="chat">
+      </div>
+      <p class="price">€19,99</p>
+      <p class="stock">EN STOCK: +10 unidades</p>
+      <p class="description">Sumérgete en el Spider-Verse con esta exclusiva pieza de Funko Pop! Con
+        detalles auténticos y un acabado premium, es el complemento perfecto para
+        cualquier colección. ¡No te quedes sin él!</p>
+      <button class="exclusive-btn">EXCLUSIVO!</button>
+    </div>
+  </div>
+</div>
+
+<div class="reviews-section">
+  <p class="title-r">Valoraciones y reseñas</p>
+  <div class="reviews-container">
+
+        <!--
+    @for (review of funko.reseñas; track review.id) {
+      <div class="reviews">
+        <p class="name">{{ review.autor }}</p>
+        <div class="stars-r">
+          @for (i of [].constructor(review.puntuacion); track i) {
+            <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+          }
+        </div>
+        <p class="comment">{{ review.texto }}</p>
+      </div>
+    }
+    -->
+
+    <div class="reviews">
+      <p class="name">Sebastián Aramayo Ayarde</p>
+      <div class="stars-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+      </div>
+      <p class="comment">Me encanta este Funko, la figura es genial y muy fiel al personaje.</p>
+    </div>
+
+    <div class="reviews">
+      <p class="name">Andrés Gómez</p>
+      <div class="stars-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+      </div>
+      <p class="comment">Excelente calidad, lo recomiendo totalmente.</p>
+    </div>
+  </div>
+
+  <button class="show-more">Ver más reseñas</button>
+</div>
+
