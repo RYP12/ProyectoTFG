@@ -1,4 +1,8 @@
 <div class="main">
+<!--  Recorremos la lista de Funkos y mostramos su ficha completa.-->
+<!--  "track funko.id" hace que Angular identifique cada elemento por su id-->
+<!--  para mejorar el rendimiento y evitar renders innecesarios.-->
+
 
     <!--
   @for (funko of funkos; track funko.id) {
@@ -63,6 +67,11 @@
 <div class="reviews-section">
   <p class="title-r">Valoraciones y reseñas</p>
   <div class="reviews-container">
+    <!--
+      Recorremos todas las reseñas del funko.
+      Cada review contiene autor, puntuación y comentario.
+    -->
+
 
         <!--
     @for (review of funko.reseñas; track review.id) {
