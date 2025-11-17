@@ -1,0 +1,554 @@
+* {
+  box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif;
+  line-height: 1em;
+  font-weight: bold !important;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  text-align: center;
+}
+
+fieldset.forms_fieldset {
+}
+
+button,
+input {
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
+@keyframes bounceLeft {
+  0% {
+    transform: translate3d(100%, -50%, 0);
+  }
+  50% {
+    transform: translate3d(-30px, -50%, 0);
+  }
+  100% {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+@keyframes bounceRight {
+  0% {
+    transform: translate3d(0, -50%, 0);
+  }
+  50% {
+    transform: translate3d(calc(100% + 30px), -50%, 0);
+  }
+  100% {
+    transform: translate3d(100%, -50%, 0);
+  }
+}
+
+@keyframes showSignUp {
+  100% {
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    white 0%,
+    #A0F3E6 20%,
+    #A0F3E6 80%
+  );
+}
+
+.user_options-container {
+  position: relative;
+  width: 80%;
+}
+
+.user_options-text {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #2EC4B6;
+  border-radius: 20px;
+  border: 1px solid black;
+  box-shadow: 8px 8px;
+  z-index: 2;
+}
+
+.user_options-registered,
+.user_options-unregistered {
+  width: 50%;
+  padding: 20px 45px;
+  color: #fff;
+  font-weight: bold !important;
+  align-content: center;
+}
+
+.user_registered-title,
+.user_unregistered-title {
+  margin-bottom: 15px;
+  font-size: 45px;
+  line-height: 1em;
+  font-weight: bold !important;
+
+}
+
+.user_unregistered-text,
+.user_registered-text {
+  font-size: 30px;
+  line-height: 1.4em;
+  font-weight: 300 !important;
+}
+
+.user_registered-login, .user_unregistered-signup {
+  margin-top: 30px;
+  border-radius: 20px;
+  padding: 20px 40px;
+  line-height: 1em;
+  letter-spacing: 0.2rem;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  background-color: white;
+  font-size: 30px;
+  box-shadow: 5px 5px;
+  border: 1px solid black;
+}
+
+.user_registered-login:hover,
+.user_unregistered-signup:hover {
+  color: rgba(34, 34, 34, 0.85);
+  background-color: #ccc;
+}
+
+.user_options-forms {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  width: calc(50% - 30px);
+  min-height: 620px;
+  background-color: white;
+  border-radius: 20px;
+  border: 1px solid black;
+  box-shadow: 8px 8px;
+  overflow: hidden;
+  transform: translate3d(100%, -50%, 0);
+  transition: transform 0.4s ease-in-out;
+  z-index: 3;
+}
+
+.user_forms-login {
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+form.forms_form {
+  position: relative;
+  top: -30px;
+}
+
+.forms_title {
+  margin-bottom: 45px;
+  font-size: 55px;
+  font-weight: normal !important;
+  line-height: 1em;
+  color: black;
+  letter-spacing: 0.1rem;
+  font-family: 'Faster One', cursive;
+}
+
+.forms_field {
+  margin: 0 10%;
+}
+
+.forms_field:not(:last-of-type) {
+  margin-bottom: 5%;
+}
+
+.forms_field-input {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 25px 40px;
+  font-size: 20px;
+  font-weight: bold !important;
+  color: black !important;
+  letter-spacing: 0.1rem;
+  transition: border-color 0.2s ease-in-out;
+  box-shadow: 5px 5px;
+  text-align: left;
+  padding-left: 70px !important;
+}
+
+.forms_field-input:focus {
+  border-color: black !important;
+}
+
+select.forms_field-input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid black;
+  font-size: 13px;
+  font-weight: bold !important;
+  color: black !important;
+  padding-left: 3px;
+}
+
+.forms_field {
+  position: relative;
+}
+
+.forms_field-label {
+  position: absolute;
+  left: 70px;
+  top: 53%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  font-weight: bold !important;
+  color: black;
+  letter-spacing: 0.1rem;
+  pointer-events: none;
+  transition: all 0.1s ease;
+  font-family: 'League Spartan', sans-serif;
+}
+
+.field-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  pointer-events: none;
+  z-index: 1;
+  width: 45px;
+}
+
+.forms_field-input:focus + .forms_field-label,
+.forms_field-input:not(:placeholder-shown) + .forms_field-label {
+  opacity: 0;
+}
+
+input::placeholder {
+  opacity: 0;
+}
+
+.forms_buttons {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 35px;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.forms_buttons-forgot {
+  font-family: 'league Spartan', sans-serif;
+  letter-spacing: 0.1rem;
+  color: black;
+  text-decoration: underline;
+  transition: color 0.2s ease-in-out;
+  margin: 0 12%;
+  font-weight: 400 !important;
+  font-size: 18px;
+}
+
+.forms_buttons-forgot:hover {
+  color: #2EC4B6;
+}
+
+.forms_buttons-action {
+  border-radius: 20px;
+  padding: 10px 40px;
+  line-height: 1em;
+  background-color: black;
+  font-size: 30px;
+  box-shadow: 4px 4px #2EC4B6;
+  border: 1px solid #2EC4B6;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+  align-self: center;
+  color: white;
+}
+
+.forms_buttons-action:hover {
+  transform: translateY(-3px) scale(1.05);
+  background-color: #0d0d0d;
+  border-color: #3FE0D0;
+  box-shadow: 6px 6px #3FE0D0;
+}
+
+.user_forms-signup,
+.user_forms-login {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, transform 0.5s ease-in-out;
+  align-self: anchor-center;
+  justify-self: anchor-center;
+  width: 100%;
+}
+
+.user_forms-signup {
+  transform: translate3d(120px, 0, 0);
+}
+
+.user_forms-signup .forms_buttons {
+  justify-content: flex-end;
+}
+
+.user_forms-login {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.user_options-forms.bounceLeft {
+  animation: bounceLeft 1s forwards;
+}
+
+.user_options-forms.bounceLeft .user_forms-signup {
+  animation: showSignUp 1s forwards;
+}
+
+.user_options-forms.bounceLeft .user_forms-login {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(-120px, 0, 0);
+}
+
+.user_options-forms.bounceRight {
+  animation: bounceRight 1s forwards;
+}
+
+section.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 100px;
+  font-family: 'Italianno', cursive;
+  text-align: center;
+  color: white;
+  position: relative;
+  bottom: 100px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.funkos-decoration{
+  position: absolute;
+  top: -144px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  padding: 0 5%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.funkos-decoration.left{
+  left: 0;
+}
+
+.funkos-decoration.right{
+  right: 0;
+}
+
+.funko-img {
+  height: 150px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.5));
+}
+
+.funko-img:nth-child(1) {
+  transform: rotate(-17.84deg);
+  top: 30px;
+  position: relative;
+}
+
+.funko-img:nth-child(4) {
+  transform: rotate(17.84deg);
+  top: 30px;
+  position: relative;
+}
+
+@media screen and (max-width: 990px) {
+  .user_options-forms {
+    min-height: 350px;
+  }
+
+  .forms_buttons {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .user_forms-login .forms_buttons-action {
+    margin-top: 30px;
+  }
+
+  .user_forms-signup,
+  .user_forms-login {
+    top: 40px;
+  }
+
+  .user_options-registered,
+  .user_options-unregistered {
+    padding: 50px 45px;
+  }
+
+  h1 {
+    position: relative;
+    top: -40px;
+  }
+}
+
+@media (min-width: 450px) and (max-width: 767px) {
+  div#user_options-forms {
+    width: 60% !important;
+    left: -75px !important;
+  }
+
+  div#user_options-forms.bounceLeft {
+    width: 60% !important;
+    left: 0 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  h1 {
+    font-size: 60px;
+    position: relative;
+    top: -15px;
+  }
+
+  div#user_options-forms {
+    width: 70%;
+    left: -105px;
+  }
+
+  .user_forms-login {
+    width: 100%;
+    left: 0;
+  }
+
+  h2.forms_title {
+    text-align: center;
+  }
+
+  input.forms_field-input {
+    position: relative;
+    left: 15px;
+    width: 85%;
+  }
+
+  select.forms_field-input {
+    position: relative;
+    left: 15px;
+    width: 85%;
+  }
+
+  button.forms_buttons-forgot {
+    align-self: center;
+  }
+
+  .user_options-registered, .user_options-unregistered {
+    padding: 50px 21px;
+  }
+
+  .user_unregistered-text, .user_registered-text {
+    font-size: 12px;
+    line-height: 1.4em;
+    font-weight: 300 !important;
+    margin-right: 23px;
+  }
+
+  .user_registered-title, .user_unregistered-title {
+    margin-bottom: 15px;
+    font-size: 19px;
+    line-height: 1em;
+    font-weight: bold !important;
+    margin-right: 23px;
+  }
+
+  .user_registered-login, .user_unregistered-signup {
+    margin-top: 30px;
+    border-radius: 20px;
+    padding: 10px;
+    text-transform: uppercase;
+    line-height: 1em;
+    letter-spacing: 0.2rem;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    background-color: #FEFAE0;
+    color: #4a2419;
+    position: relative;
+    width: 80%;
+    font-size: 9px;
+  }
+
+  div#user_options-forms.bounceLeft {
+    width: 70%;
+    left: -25px;
+  }
+
+  .user_forms-signup {
+    width: 100%;
+    left: 0;
+  }
+
+  .user_options-registered {
+    padding-right: 5px;
+  }
+
+  .user_registered-title {
+    margin-bottom: 15px;
+    font-size: 19px;
+    line-height: 1em;
+    font-weight: bold !important;
+    margin-left: 25px;
+    text-align: end;
+    margin-right: 12px;
+  }
+
+  .user_registered-text {
+    font-size: 12px;
+    line-height: 1.4em;
+    font-weight: 300 !important;
+    margin-left: 25px;
+    text-align: end;
+    margin-right: 12px;
+  }
+
+  .user_options-registered {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+@media (max-width: 376px) {
+  div#user_options-forms {
+    width: 60% !important;
+    left: -45px;
+  }
+
+  .user_registered-login, .user_unregistered-signup {
+    font-size: 6px;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,203 @@
+* {
+  font-family: 'League Spartan', sans-serif;
+  line-height: 1em;
+  font-weight: bold;
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Faster One", sans-serif;
+  font-size: 5vw;
+  margin: 1rem 0;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.panel {
+  margin: 0 2%;
+  display: grid;
+  grid-template-columns: 3fr 4fr;
+  gap: 30px;
+}
+
+.panel>div {
+  border: 1px solid black;
+  box-shadow: 5px 5px;
+  border-radius: 20px;
+  padding: 3% 5%;
+}
+
+.titulo {
+  display: flex;
+  align-items: flex-end;
+}
+
+.titulo p {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.titulo img {
+  width: 32px;
+}
+
+.titulo-boton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titulo-boton  button{
+  padding: 8px 20px;
+  background-color: #2EC4B6;
+  color: white;
+  border-radius: 20px;
+  box-shadow: 5px 5px black;
+  font-size: 16px;
+  cursor: pointer;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    background 0.25s ease
+}
+
+.titulo-boton button:hover{
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 2px 2px black;
+  background-color: #3FE0D0;
+}
+
+.cliente-datos, .pedidos {
+  margin-top: 26px;
+}
+
+h2 {
+  font-family: 'Jaro', sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.añadir-foto {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  justify-self: center;
+  margin: 5% 0;
+  cursor: pointer;
+}
+
+.añadir-foto img {
+  width: 50%;
+}
+
+.datos-perfil {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(150px, 1fr);
+  column-gap: 50px;
+  row-gap: 30px;
+}
+
+.datos-perfil div {
+  overflow-wrap: break-word;
+}
+
+.datos-perfil p:last-of-type {
+  font-weight: 400;
+  font-size: 25px;
+  margin-top: 15px;
+}
+
+.info-pedido {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pedidos p {
+  font-size: 30px;
+}
+
+.info-pedido p:last-of-type {
+  font-weight: 400;
+}
+
+.productos {
+  margin-top: 25px;
+}
+
+.productos {
+  position: relative;
+}
+
+.carrusel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.flecha-carrusel {
+  position: absolute;
+  z-index: 10;
+  background: white;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flecha-carrusel:hover {
+  background: #f0f0f0;
+}
+
+.flecha-izquierda {
+  left: -20px;
+}
+
+.flecha-derecha {
+  right: -20px;
+}
+
+.productos-carrusel {
+  display: flex;
+  gap: 16px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.producto-item {
+  flex: 0 0 calc(25% - 12px);
+  min-width: 0;
+}
+
+.carrusel-indicadores {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.carrusel-indicadores button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #ccc;
+  cursor: pointer;
+}
+
+.carrusel-indicadores button.activo {
+  background: #333;
+}
