@@ -70,7 +70,7 @@ h1 {
   background-color: #3FE0D0;
 }
 
-.cliente-datos, .pedidos {
+.panel>div>div:nth-child(2) {
   margin-top: 26px;
 }
 
@@ -247,4 +247,60 @@ h2 {
 .pedido {
   border-bottom: 1px solid #B3B3B3;
   padding-bottom: 20px;
+}
+
+.pedidos>div:not(:nth-child(1)) {
+  margin-top: 15px;
+}
+
+.direcciones-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.direccion-item {
+  padding: 10px 5px;
+  box-shadow: 5px 5px black;
+  border: 1px solid black;
+}
+
+.direccion-item p:not(:nth-child(1)) {
+  font-weight: 400;
+}
+
+.direccion-item p {
+  line-height: 25px
+}
+
+.botones {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  gap: 15px;
+}
+
+.eliminar-direccion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #E71D36;
+  border-radius: 100%;
+  width: 27px;
+  height: 27px;
+  cursor: pointer;
+}
+
+.eliminar-direccion img {
+  width: 80%;
+}
+
+.editar-direccion {
+  background-color: #2EC4B6;
+  color: white;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    background 0.25s ease
 }
