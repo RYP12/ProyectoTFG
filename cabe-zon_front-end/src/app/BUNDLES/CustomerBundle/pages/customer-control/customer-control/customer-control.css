@@ -120,6 +120,13 @@ h2 {
   justify-content: space-between;
 }
 
+.pedidos {
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 20px;
+}
+
 .pedidos p {
   font-size: 30px;
 }
@@ -163,7 +170,7 @@ h2 {
 }
 
 .flecha-izquierda {
-  left: -20px;
+  left: 0;
 }
 
 .flecha-derecha {
@@ -173,13 +180,11 @@ h2 {
 .productos-carrusel {
   display: flex;
   gap: 16px;
-  overflow: hidden;
   width: 100%;
 }
 
 .producto-item {
-  flex: 0 0 calc(25% - 12px);
-  min-width: 0;
+  width: 100%;
 }
 
 .carrusel-indicadores {
@@ -200,4 +205,46 @@ h2 {
 
 .carrusel-indicadores button.activo {
   background: #333;
+}
+
+.producto-imagen {
+  background-color: #E9E9E9;
+  box-shadow: 5px 5px black;
+  border: 1px solid black;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.producto-imagen img{
+  height: 180px;
+}
+
+.producto-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.producto-nombre-cantidad, .producto-precio {
+  font-size: 15px !important;
+  margin-top: 12px;
+}
+
+.producto-precio {
+  color: #2EC4B6;
+}
+
+.producto-valorar {
+  text-align: center;
+  width: 100%;
+  background-color: transparent;
+  font-weight: 400;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.pedido {
+  border-bottom: 1px solid #B3B3B3;
+  padding-bottom: 20px;
 }

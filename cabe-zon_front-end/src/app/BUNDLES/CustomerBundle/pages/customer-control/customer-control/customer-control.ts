@@ -4,6 +4,7 @@ import {Header} from '../../../../../SHARED/header/header';
 interface Producto {
   id: number;
   nombre: string;
+  cantidad: number;
   precio: string;
   imagen: string;
 }
@@ -21,14 +22,13 @@ export class CustomerControl {
   currentIndex: number = 0;
   itemsPerView: number = 4;
 
-  // Ejemplo de productos (reemplaza con tus datos reales)
   productos: Producto[] = [
-    { id: 1, nombre: 'Producto 1', precio: '10€', imagen: '/ruta/imagen1.jpg' },
-    { id: 2, nombre: 'Producto 2', precio: '20€', imagen: '/ruta/imagen2.jpg' },
-    { id: 3, nombre: 'Producto 3', precio: '30€', imagen: '/ruta/imagen3.jpg' },
-    { id: 4, nombre: 'Producto 4', precio: '40€', imagen: '/ruta/imagen4.jpg' },
-    { id: 5, nombre: 'Producto 5', precio: '50€', imagen: '/ruta/imagen5.jpg' },
-    { id: 6, nombre: 'Producto 6', precio: '60€', imagen: '/ruta/imagen6.jpg' }
+    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
+    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
+    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
+    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
+    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
+    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
   ];
 
   // Calcula el índice máximo

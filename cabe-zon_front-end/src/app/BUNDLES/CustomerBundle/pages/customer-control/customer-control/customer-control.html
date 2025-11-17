@@ -79,13 +79,87 @@
               <div class="productos-carrusel">
                 @for (producto of productosVisibles; track producto.id) {
                   <div class="producto-item">
-                    <!-- Aquí tu estructura de cada producto -->
+                    <!-- Estructura de cada producto -->
                     <div class="producto-imagen">
                       <img [src]="producto.imagen" [alt]="producto.nombre">
                     </div>
-                    <p class="producto-nombre">{{ producto.nombre }}</p>
-                    <p class="producto-precio">{{ producto.precio }}</p>
-                    <button class="product-valorar" (click)="onValorar(producto)">
+                    <div class="producto-info">
+                      <p class="producto-nombre-cantidad">x{{producto.cantidad}} {{ producto.nombre }}</p>
+                      <p class="producto-precio">{{ producto.precio }}</p>
+                    </div>
+                    <button class="producto-valorar" (click)="onValorar(producto)">
+                      Valorar
+                    </button>
+                  </div>
+                }
+              </div>
+
+              <!-- Flecha Derecha -->
+              @if (mostrarFlechaDerecha) {
+                <button
+                  class="flecha-carrusel flecha-derecha"
+                  (click)="siguiente()">
+                  →
+                </button>
+              }
+            </div>
+
+            <!-- Indicadores (opcional) -->
+            <div class="carrusel-indicadores">
+              @for (pagina of paginasIndicadores; track pagina) {
+                <button
+                  [class.activo]="pagina === currentIndex"
+                  (click)="irAPagina(pagina)">
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="pedido">
+          <h2>Pedido nº1</h2>
+          <div class="info-pedido">
+            <div class="total">
+              <p>Total</p>
+              <p>85€</p>
+            </div>
+            <div class="fecha-pedido">
+              <p>Fecha del pedido</p>
+              <p>04/11/2025</p>
+            </div>
+            <div class="fecha-entrega">
+              <p>Fecha entrega</p>
+              <p>25/11/2025</p>
+            </div>
+            <div class="estado">
+              <p>Estado</p>
+              <p style="color: green">Recibido</p>
+            </div>
+          </div>
+          <div class="productos">
+            <p>Productos</p>
+            <div class="carrusel-wrapper">
+              <!-- Flecha Izquierda -->
+              @if (mostrarFlechaIzquierda) {
+                <button
+                  class="flecha-carrusel flecha-izquierda"
+                  (click)="anterior()">
+                  ←
+                </button>
+              }
+
+              <!-- Contenedor de productos -->
+              <div class="productos-carrusel">
+                @for (producto of productosVisibles; track producto.id) {
+                  <div class="producto-item">
+                    <!-- Estructura de cada producto -->
+                    <div class="producto-imagen">
+                      <img [src]="producto.imagen" [alt]="producto.nombre">
+                    </div>
+                    <div class="producto-info">
+                      <p class="producto-nombre-cantidad">x{{producto.cantidad}} {{ producto.nombre }}</p>
+                      <p class="producto-precio">{{ producto.precio }}</p>
+                    </div>
+                    <button class="producto-valorar" (click)="onValorar(producto)">
                       Valorar
                     </button>
                   </div>
