@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="main">
 <!--  Recorremos la lista de Funkos y mostramos su ficha completa.-->
 <!--  "track funko.id" hace que Angular identifique cada elemento por su id-->
@@ -8,7 +9,7 @@
   @for (funko of funkos; track funko.id) {
     <div class="product-card">
       <div class="left">
-        <img [src]="funko.iconoFavorito" alt="favorito" class="heart">
+        <img [srca]="funko.iconoFavorito" alt="favorito" class="heart">
         <img [src]="funko.imagen" [alt]="funko.nombre" class="luffy">
         <button class="add-card" (click)="agregarAlCarrito(funko)">AÑADIR AL CARRITO</button>
       </div>
@@ -113,4 +114,4 @@
 
   <button class="show-more">Ver más reseñas</button>
 </div>
-
+<app-footer></app-footer>

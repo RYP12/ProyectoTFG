@@ -1,23 +1,26 @@
 #background {
-  background: linear-gradient(
-    to bottom,
-    white 0%,
-    #A0F3E6 20%,
-    #A0F3E6 80%,
-    #f9f9f9
-  );
-
+  background: radial-gradient(white, #A0F3E6 80%);
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  justify-items: center;
+  font-family: "League Spartan", sans-serif;
+}
+
+.titulo h1{
+  text-align: center;
+  color: #ffffff;
+  font-size: 5rem;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  margin: 15% 0 ;
 }
 
 #formularioPrincipal {
   display: grid;
-  grid-template-rows: 0.1fr 0.1fr 0.1fr 0.1fr;
-  margin: 3%;
+  grid-template-rows: 0.1fr 1fr;
+  margin: 0%;
   padding: 3%;
-
+  width: 80%;
   border: solid 1px black;
   border-radius: 20px;
   box-shadow: 5px 5px black;
@@ -52,21 +55,23 @@
   display: grid;
   grid-template-columns:1fr 1fr;
   width: 30%;
-
-  margin-left: 10%;
-  margin-right: 10%;
+  margin: 5% 0 ;
   gap: 25%;
 
   justify-content: center;
   align-items: center;
   justify-items: center;
+  box-sizing: border-box;
+
 }
 
 #botones button {
-  width: 100%;
   border: none;
   font-weight: bold;
   box-shadow: 3px 3px black;
+  cursor: pointer;
+  padding: 3% 20%;
+
 }
 
 #anyadirColabo {
@@ -74,6 +79,11 @@
   grid-template-columns:1fr 1fr;
 
   gap: 2%;
+}
+
+#anyadirColabo button{
+  padding: 30% 60%;
+  cursor: pointer;
 }
 
 #titulo {
@@ -132,7 +142,6 @@
   padding: 10%;
   padding-left: 25%;
   padding-right: 25%;
-
   border: solid 1px black;
   border-radius: 20px;
   box-shadow: 4px 4px black;
