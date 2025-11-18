@@ -25,13 +25,13 @@ public class Coleccion {
     private String nombre;
 
     @Column(name = "numero_de_productos",length = 100,nullable = false)
-    private String numeroDeProductos;
+    private Integer numeroDeProductos;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "coleccion_producto",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_producto",nullable = false)})
-    private Set<Producto> productosSet = new HashSet<>(0);
+    private Set<Producto> productosColeccionSet = new HashSet<>(0);
 
 
 }

@@ -39,7 +39,7 @@ public class Producto{
     private Boolean exclusivo;
 
     @Column(name = "valoracion",nullable = false)
-    private Integer valoracion;
+    private Double valoracion;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "imagen")
     private Set<Imagen> imagenes = new HashSet<>(0);

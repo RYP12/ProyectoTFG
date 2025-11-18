@@ -1,0 +1,91 @@
+<app-header></app-header>
+<section class="user">
+  <div class="user_options-container">
+    <div class="funkos-decoration left">
+      <img src="/ASSETS/IMAGES/funko-SG1.png" class="funko-img">
+      <img src="/ASSETS/IMAGES/funko-SG2.png" class="funko-img">
+      <img src="/ASSETS/IMAGES/funko-SG3.png" class="funko-img">
+      <img src="/ASSETS/IMAGES/funko-SG4.png" class="funko-img">
+    </div>
+    <div class="funkos-decoration right">
+      <img src="/ASSETS/IMAGES/funko-BB2.png" class="funko-img">
+      <img src="/ASSETS/IMAGES/funko-BB1.png" class="funko-img">
+      <img src="/ASSETS/IMAGES/funko-BB4.png" class="funko-img">
+      <img src="/ASSETS/IMAGES/funko-BB3.png" class="funko-img">
+    </div>
+    <div class="user_options-text">
+      <div class="user_options-unregistered">
+        <h2 class="user_unregistered-title">¿No tienes cuenta?</h2>
+        <p class="user_unregistered-text">Únete a nosotros y consigue descuentos exclusivos</p>
+        <button class="user_unregistered-signup" id="signup-button" (click)="mostrarRegistro()">Regístrate aquí</button>
+      </div>
+
+      <div class="user_options-registered">
+        <h2 class="user_registered-title">¿Tienes ya una cuenta?</h2>
+        <p class="user_registered-text">Inicia sesion para aprovechar ofertas o descuentos exclusivos y de todos nuestros sevicios</p>
+        <button class="user_registered-login" id="login-button" (click)="mostrarLogin()">Iniciar sesión</button>
+      </div>
+    </div>
+
+    <div class="user_options-forms" id="user_options-forms"
+      [ngClass]="{'bounceLeft': isRegistroVisible, 'bounceRight': !isRegistroVisible}">
+      <!-- Formulario de login -->
+      <div class="user_forms-login">
+        <h2 class="forms_title">Iniciar Sesión</h2>
+        <form method="post" class="forms_form-login">
+          <input type="hidden" name="action" value="login">
+          <fieldset class="forms_fieldset">
+            <div class="forms_field">
+              <img class="field-icon" src="/ASSETS/IMAGES/LogoCabezaFunko.png">
+              <input type="text" id="email-input" class="forms_field-input" placeholder=" " autofocus="autofocus" required>
+              <label for="email-input" class="forms_field-label">USUARIO</label>
+            </div>
+            <div class="forms_field">
+              <img class="field-icon" src="/ASSETS/IMAGES/mdi--password.png">
+              <input type="password" id="password-input" class="forms_field-input" placeholder=" " required>
+              <label for="password-input" class="forms_field-label">CONTRASEÑA</label>
+            </div>
+          </fieldset>
+          <div class="forms_buttons">
+            <button type="button" class="forms_buttons-forgot">¿Has olvidado la contraseña?</button>
+            <input type="submit" value="Entrar" class="forms_buttons-action">
+          </div>
+        </form>
+      </div>
+
+      <!-- Formulario de registro -->
+      <div class="user_forms-signup">
+        <h2 class="forms_title">Registro</h2>
+        <form method="post" class="forms_form-register">
+          <input type="hidden" name="action" value="register">
+          <fieldset class="forms_fieldset">
+            <div class="forms_field">
+              <img class="field-icon" src="/ASSETS/IMAGES/LogoCabezaFunko.png">
+              <input type="text" id="name-input" class="forms_field-input" placeholder=" " required>
+              <label for="name-input" class="forms_field-label">NOMBRE</label>
+            </div>
+            <div class="forms_field">
+              <img class="field-icon" src="/ASSETS/IMAGES/LogoCabezaFunko.png">
+              <input type="text" id="name-input" class="forms_field-input" placeholder=" " required>
+              <label for="name-input" class="forms_field-label">APELLIDOS</label>
+            </div>
+            <div class="forms_field">
+              <img class="field-icon" src="/ASSETS/IMAGES/material-symbols--mail.png">
+              <input type="text" id="name-input" class="forms_field-input" placeholder=" " required>
+              <label for="name-input" class="forms_field-label">EMAIL</label>
+            </div>
+
+            <div class="forms_field">
+              <img class="field-icon" src="/ASSETS/IMAGES/mdi--password.png">
+              <input type="password" id="password-input" class="forms_field-input" placeholder=" " required>
+              <label for="password-input" class="forms_field-label">CONTRASEÑA</label>
+            </div>
+          </fieldset>
+          <div class="forms_buttons">
+            <input type="submit" value="Registrarse" class="forms_buttons-action">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
