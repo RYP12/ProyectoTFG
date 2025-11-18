@@ -1,0 +1,13 @@
+package com.safa.cabezon_backend.Dto;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class ResenyaClienteDTO {
+    private String texto;
+    private Integer valoracion;
+    private Integer idProducto;
+    private Integer idCliente;
+}
