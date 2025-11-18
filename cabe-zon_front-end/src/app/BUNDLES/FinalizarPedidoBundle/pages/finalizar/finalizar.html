@@ -10,6 +10,29 @@
         </div>
 
         <div class="list">
+          <!-- Aquí se mostrarán todos los funkos añadidos al pedido -->
+          <!-- Con Angular usaremos @for para recorrer el array "funkos" -->
+
+
+                    <!--
+          @for (funko of funkos; track funko.id) {
+          <div class="product">
+            <img class="img-product" [src]="funko.imagenCaja" alt="{{ funko.nombre }}">
+            <div class="datos">
+              <div class="name">{{ funko.nombre }}</div>
+              <div class="price">€ {{ funko.precio }}</div>
+
+              <div class="cont">
+                <button class="menos" (click)="decrementarCantidad(funko)">-</button>
+                <span class="num">{{ funko.cantidad }}</span>
+                <button class="mas" (click)="incrementarCantidad(funko)">+</button>
+              </div>
+            </div>
+            <button class="delete" (click)="eliminarDelPedido(funko)">ELIMINAR</button>
+          </div>
+          }
+          -->
+
           <div class="product">
             <img class="img-product" src="/ASSETS/IMAGES/DekuCaja.png" alt="funko">
             <div class="datos">

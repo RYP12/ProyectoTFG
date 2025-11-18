@@ -222,7 +222,7 @@
 
 .btn-mas {
   position: absolute;
-  bottom: 15px;
+  bottom: 5.2px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #0080f8;
@@ -230,13 +230,15 @@
   box-shadow: 3px 3px 0px black;
   font-family: "League Spartan", sans-serif;
   font-weight: 700;
-  padding: 12px 20px;
-  width: 220px;
+  padding: 6px 20px;
+  width: 150px;
+  height: 20px;
   border: none;
   border-radius: 12px;
   letter-spacing: 1px;
   cursor: pointer;
 }
+
 
 
 
