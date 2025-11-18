@@ -15,6 +15,7 @@ import {
 import {
   OwnerControlClienteForm
 } from './BUNDLES/OwnerBundle/forms/owner-control-cliente-form/owner-control-cliente-form';
+import {Error} from './SHARED/ErrorBundle/pages/error/error';
 
 export const routes: Routes = [
   {
@@ -68,5 +69,9 @@ export const routes: Routes = [
   {
     path: 'admin/clientes/agregar',
     component: OwnerControlClienteForm,
+  },
+  {
+    path: '**',
+    component: Error,
   }
 ];
