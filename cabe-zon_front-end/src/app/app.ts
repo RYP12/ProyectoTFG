@@ -3,8 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import {Footer} from './SHARED/footer/footer';
 import {
   OwnerControlClienteForm
-} from './BUNDLES/OwnerBundle/pages/owner-control-cliente-form/owner-control-cliente-form';
-import {OwnerControlProductos} from './BUNDLES/OwnerBundle/forms/owner-control-productos/owner-control-productos';
+} from './BUNDLES/OwnerBundle/forms/owner-control-cliente-form/owner-control-cliente-form';
+import {OwnerControlProductos} from './BUNDLES/OwnerBundle/pages/owner-control-productos/owner-control-productos';
 
 
 
