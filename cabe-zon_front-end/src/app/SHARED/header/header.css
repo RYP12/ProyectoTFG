@@ -35,6 +35,11 @@
   cursor: pointer;
 }
 
+.center div a {
+  text-decoration: none;
+  color: black;
+}
+
 .right {
   gap: 10px;
 }

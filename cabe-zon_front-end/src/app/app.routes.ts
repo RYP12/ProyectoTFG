@@ -51,7 +51,7 @@ export const routes: Routes = [
     component: OwnerControlPedidos,
   },
   {
-    path: 'admin/pedidos/agregar',
+    path: 'admin/pedidos/:id',
     component: OwnerControlPedidoForm,
   },
   {
