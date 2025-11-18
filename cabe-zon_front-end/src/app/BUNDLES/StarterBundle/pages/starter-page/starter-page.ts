@@ -3,14 +3,14 @@ import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
 
 @Component({
-  selector: 'app-general',
+  selector: 'app-starter-page',
   imports: [
     Header,
     Footer
   ],
-  templateUrl: './general.html',
-  styleUrl: './general.css',
+  templateUrl: './starter-page.html',
+  styleUrl: './starter-page.css',
 })
-export class General {
+export class StarterPage {
 
 }

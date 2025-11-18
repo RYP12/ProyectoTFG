@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {StartedPage} from './BUNDLES/StarterBundle/pages/started/started-page';
 import {Catalogo} from './BUNDLES/CatalogoBundle/pages/catalogo/catalogo';
 import {Login} from './BUNDLES/LoginBundle/pages/login/login';
 import {AboutUs} from './BUNDLES/SobreNosotrosBundle/pages/about-us/about-us';
@@ -16,11 +15,12 @@ import {
   OwnerControlClienteForm
 } from './BUNDLES/OwnerBundle/forms/owner-control-cliente-form/owner-control-cliente-form';
 import {Error} from './SHARED/ErrorBundle/pages/error/error';
+import {StarterPage} from './BUNDLES/StarterBundle/pages/starter-page/starter-page';
 
 export const routes: Routes = [
   {
     path: '',
-    component: StartedPage,
+    component: StarterPage,
   },
   {
     path: 'catalogo',
