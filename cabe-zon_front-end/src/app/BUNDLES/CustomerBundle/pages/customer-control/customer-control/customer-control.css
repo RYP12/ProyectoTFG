@@ -256,6 +256,7 @@ h2 {
 .direcciones-card {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
 }
 
 .direccion-item {
@@ -303,4 +304,14 @@ h2 {
     box-shadow 0.25s ease,
     transform 0.25s ease,
     background 0.25s ease
+}
+
+.agregar-direccion {
+  margin: 5% auto 2%;
+  display: flex;
+  background-color: black;
+  box-shadow: 4px 4px #2EC4B6;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
 }
