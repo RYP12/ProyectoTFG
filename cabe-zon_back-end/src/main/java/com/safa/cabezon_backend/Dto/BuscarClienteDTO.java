@@ -1,14 +1,13 @@
 package com.safa.cabezon_backend.Dto;
 
-import com.safa.cabezon_backend.Modelos.Rol;
+import com.safa.cabezon_backend.Modelos.Nivel;
 import lombok.Data;
 
 @Data
-public class ClienteDTO {
+public class BuscarClienteDTO {
     private String nombre;
     private String apellidos;
     private String foto;
-    private Rol rol;
     private Integer cabecoins;
-    private Integer idNivel;
+    private Nivel nivel;
 }

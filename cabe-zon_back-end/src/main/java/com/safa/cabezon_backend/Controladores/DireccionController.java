@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.BuscarDireccionDTO;
 import com.safa.cabezon_backend.Dto.DireccionDTO;
 import com.safa.cabezon_backend.Modelos.Direccion;
 import com.safa.cabezon_backend.Servicios.DireccionService;
@@ -15,10 +16,10 @@ public class DireccionController {
     private DireccionService direccionService;
 
     @GetMapping("/all")
-    public List<Direccion> getDireccion(){return direccionService.BuscarDirecciones();}
+    public List<BuscarDireccionDTO> getDireccion(){return direccionService.BuscarDirecciones();}
 
     @GetMapping("/{id}")
-    public Direccion getDireccionById(@PathVariable Integer id){return direccionService.BuscarDireccionPorId(id);}
+    public BuscarDireccionDTO getDireccionById(@PathVariable Integer id){return direccionService.BuscarDireccionPorId(id);}
 
     @PostMapping("/post")
     public void postDireccion(@RequestBody DireccionDTO dto){

@@ -40,18 +40,6 @@ public class ProductoService {
         producto.setStock(dto.getStock());
         producto.setExclusivo(dto.getExclusivo());
         producto.setValoracion(dto.getValoracion());
-        Set<Imagen> imagenes = new HashSet<>();
-        for(Integer id: dto.getImagenes()){
-            imagenes.add(imagenService.BuscarImagenPorId(id));
-        }
-        producto.setImagenes(imagenes);
-
-        Set<Coleccion> colecciones = new HashSet<>();
-        for(Integer id: dto.getColeccionesSet()){
-            colecciones.add(coleccionService.BuscarColeccionPorId(id));
-        }
-        producto.setColeccionesSet(colecciones);
-
         productoRepository.save(producto);
     }
 
@@ -65,18 +53,6 @@ public class ProductoService {
             producto.setStock(dto.getStock());
             producto.setExclusivo(dto.getExclusivo());
             producto.setValoracion(dto.getValoracion());
-            Set<Imagen> imagenes = new HashSet<>();
-            for(Integer idImagen: dto.getImagenes()){
-                imagenes.add(imagenService.BuscarImagenPorId(idImagen));
-            }
-            producto.setImagenes(imagenes);
-
-            Set<Coleccion> colecciones = new HashSet<>();
-            for(Integer idcoleccion: dto.getColeccionesSet()){
-                colecciones.add(coleccionService.BuscarColeccionPorId(idcoleccion));
-            }
-            producto.setColeccionesSet(colecciones);
-
             productoRepository.save(producto);
         }
     }

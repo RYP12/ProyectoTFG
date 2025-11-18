@@ -22,6 +22,7 @@ public class NivelService {
     public void EditarDescuentoNivel(Integer id, NivelDTO nivelDTO){
         Nivel nivel = nivelRepository.findById(id).orElse(null);
         nivel.setDescuento(nivelDTO.getDescuento());
+        nivelRepository.save(nivel);
     }
 
 

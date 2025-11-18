@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Modelos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "cliente", catalog = "cabezon", schema = "cabezon")
+@JsonIgnoreProperties({"ListaDeseosSet", "InteresesSet"})
 public class Cliente {
 
     @Id
