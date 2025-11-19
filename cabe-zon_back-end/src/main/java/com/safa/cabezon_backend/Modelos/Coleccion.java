@@ -27,7 +27,7 @@ public class Coleccion {
     @Column(name = "numero_de_productos",length = 100,nullable = false)
     private Integer numeroDeProductos;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "coleccion_producto",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_producto",nullable = false)})

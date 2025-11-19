@@ -34,6 +34,6 @@ public class ColeccionController {
 
     @DeleteMapping("/delete/{id}")
     public void deleteColeccion(@PathVariable Integer id){
-        coleccionService.BorrarColeccionPorId(id);
+        coleccionService.borrarColeccionPorId(id);
     }
 }

@@ -3,8 +3,10 @@ package com.safa.cabezon_backend.Servicios;
 import com.safa.cabezon_backend.Dto.BuscarColeccionDTO;
 import com.safa.cabezon_backend.Dto.ColeccionDTO;
 import com.safa.cabezon_backend.Dto.ProductoDTO;
+import com.safa.cabezon_backend.Modelos.Cliente;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Modelos.Producto;
+import com.safa.cabezon_backend.Repositorios.IClienteRepository;
 import com.safa.cabezon_backend.Repositorios.IColeccionRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoRepository;
 import jakarta.transaction.Transactional;
@@ -27,6 +29,9 @@ public class ColeccionService {
 
     @Autowired
     private IProductoRepository productoRepository;
+
+    @Autowired
+    private IClienteRepository clienteRepository;
 
     @Transactional
     public List<BuscarColeccionDTO> BuscarColecciones() {
@@ -70,7 +75,19 @@ public class ColeccionService {
        return dto;
     }
 
-    public void BorrarColeccionPorId(Integer id) {coleccionRepository.deleteById(id);}
+    @Transactional
+    public void borrarColeccionPorId(Integer id) {
+        Coleccion coleccion = coleccionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Coleccion no encontrada"));
+
+        // Limpiar relaciones ManyToMany en clientes
+        clienteRepository.findAll().forEach(cliente -> {
+            cliente.getInteresesSet().remove(coleccion);
+        });
+
+        // Borrar la colección
+        coleccionRepository.delete(coleccion);
+    }
 
     @Transactional
     public void CrearColeccion(ColeccionDTO coleccion) {
