@@ -7,8 +7,6 @@ import com.safa.cabezon_backend.Repositorios.IClienteRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,15 +64,14 @@ public class ClienteService {
         }
 
         // ListaDeseosSet
-        Set<ProductoDTO> productosDTO = cliente.getListaDeseosSet().stream().map(p ->
-                new ProductoDTO(
+        Set<CrearProductoDTO> productosDTO = cliente.getListaDeseosSet().stream().map(p ->
+                new CrearProductoDTO(
                         p.getNombre(),
                         p.getDescripcion(),
                         p.getPrecio(),
                         p.getCodigoProducto(),
                         p.getStock(),
-                        p.getExclusivo(),
-                        p.getValoracion()
+                        p.getExclusivo()
                 )
         ).collect(Collectors.toSet());
         dto.setListaDeseosSet(productosDTO);

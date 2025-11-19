@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Servicios;
 
+import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
 import com.safa.cabezon_backend.Dto.ProductoPedidoDTO;
 import com.safa.cabezon_backend.Modelos.Pedido;
 import com.safa.cabezon_backend.Modelos.Producto;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -68,5 +70,6 @@ public class ProductoPedidoService {
     public void EliminarProductoPedido(Integer id) {
         productoPedidoRepository.deleteById(id);
     }
+
 
 }

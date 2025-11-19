@@ -2,8 +2,7 @@ package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.BuscarColeccionDTO;
 import com.safa.cabezon_backend.Dto.ColeccionDTO;
-import com.safa.cabezon_backend.Dto.ProductoDTO;
-import com.safa.cabezon_backend.Modelos.Cliente;
+import com.safa.cabezon_backend.Dto.CrearProductoDTO;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IClienteRepository;
@@ -14,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,14 +38,13 @@ public class ColeccionService {
                         c.getNombre(),
                         c.getNumeroDeProductos(),
                         c.getProductosColeccionSet().stream().map(
-                                p -> new ProductoDTO(
+                                p -> new CrearProductoDTO(
                                         p.getNombre(),
                                         p.getDescripcion(),
                                         p.getPrecio(),
                                         p.getCodigoProducto(),
                                         p.getStock(),
-                                        p.getExclusivo(),
-                                        p.getValoracion()
+                                        p.getExclusivo()
                                 )
                         ).collect(Collectors.toSet())
                 ))
@@ -61,14 +58,13 @@ public class ColeccionService {
                coleccion.getNombre(),
                coleccion.getNumeroDeProductos(),
                coleccion.getProductosColeccionSet().stream().map(
-                       p -> new ProductoDTO(
+                       p -> new CrearProductoDTO(
                                p.getNombre(),
                                p.getDescripcion(),
                                p.getPrecio(),
                                p.getCodigoProducto(),
                                p.getStock(),
-                               p.getExclusivo(),
-                               p.getValoracion()
+                               p.getExclusivo()
                        )
                ).collect(Collectors.toSet())
        );
