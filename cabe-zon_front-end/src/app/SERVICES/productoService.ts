@@ -35,10 +35,10 @@ export class ProductoService {
   }
   // ACTUALIZAR PRODUCTO
   actualizarProducto(id: number, producto: Producto): Observable<Producto> {
-    return this.http.put<Producto>(`${this.apiUrl}/put/${id}`, producto);
+    return this.http.put<Producto>(`${this.apiUrl}/producto/put/${id}`, producto);
   }
   // ELIMINAR PRODUCTO
   eliminarProducto(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/producto/delete/${id}`);
   }
 }
