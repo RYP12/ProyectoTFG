@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Header} from '../../../../../SHARED/header/header';
+import {CommonModule, NgClass} from '@angular/common';
 
 interface Producto {
   id: number;
@@ -9,10 +10,19 @@ interface Producto {
   imagen: string;
 }
 
+interface Nivel {
+  points: number;
+  class: string;
+  label: string;
+}
+
 @Component({
   selector: 'app-customer-control',
+  standalone: true,
   imports: [
     Header,
+    NgClass,
+    CommonModule,
   ],
   templateUrl: './customer-control.html',
   styleUrl: './customer-control.css',
