@@ -1,9 +1,11 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.BuscarPedidoDTO;
 import com.safa.cabezon_backend.Dto.PedidoDTO;
 import com.safa.cabezon_backend.Modelos.Pedido;
 import com.safa.cabezon_backend.Servicios.PedidoService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,10 +18,10 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping("/all")
-    public List<Pedido> getPedidos(){return pedidoService.BuscarPedidos();}
+    public ResponseEntity<List<BuscarPedidoDTO>> getPedidos(){return pedidoService.BuscarPedidos();}
 
     @GetMapping("/{id}")
-    public Pedido getPedido(@PathVariable Integer id){return pedidoService.BuscarPedidoPorId(id);}
+    public BuscarPedidoDTO getPedido(@PathVariable Integer id){return pedidoService.BuscarPedidoPorId(id);}
 
     @PostMapping("/post")
     public void postPedido(@RequestBody PedidoDTO dto) {

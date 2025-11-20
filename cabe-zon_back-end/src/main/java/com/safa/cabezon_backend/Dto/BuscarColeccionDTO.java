@@ -7,9 +7,8 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-public class ColeccionDTO {
+public class BuscarColeccionDTO {
     private String nombre;
     private Integer numeroDeProductos;
-    private Set<Integer> productosSet;
-
+    private Set<CrearProductoDTO> productosSet;
 }

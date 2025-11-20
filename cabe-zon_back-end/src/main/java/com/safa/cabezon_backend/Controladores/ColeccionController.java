@@ -1,5 +1,7 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.BuscarColeccionDTO;
+import com.safa.cabezon_backend.Dto.BuscarDireccionDTO;
 import com.safa.cabezon_backend.Dto.ColeccionDTO;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Servicios.ColeccionService;
@@ -15,10 +17,10 @@ public class ColeccionController {
     private ColeccionService coleccionService;
 
     @GetMapping("/all")
-    public List<Coleccion> getColecciones(){return coleccionService.BuscarColecciones();}
+    public List<BuscarColeccionDTO> getColecciones(){return coleccionService.BuscarColecciones();}
 
     @GetMapping("/{id}")
-    public Coleccion getColeccionById(@PathVariable Integer id){return coleccionService.BuscarColeccionPorId(id);}
+    public BuscarColeccionDTO getColeccionById(@PathVariable Integer id){return coleccionService.BuscarColeccionPorId(id);}
 
     @PostMapping("/post")
     public void postColeccion(@RequestBody ColeccionDTO dto){
@@ -32,6 +34,6 @@ public class ColeccionController {
 
     @DeleteMapping("/delete/{id}")
     public void deleteColeccion(@PathVariable Integer id){
-        coleccionService.BorrarColeccionPorId(id);
+        coleccionService.borrarColeccionPorId(id);
     }
 }

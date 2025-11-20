@@ -1,9 +1,11 @@
 package com.safa.cabezon_backend.Controladores;
 
-import com.safa.cabezon_backend.Dto.ProductoDTO;
+import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
+import com.safa.cabezon_backend.Dto.CrearProductoDTO;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Servicios.ProductoService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,17 +24,23 @@ public class ProductoController {
     public Producto getProducto(@PathVariable Integer id){return productoService.BuscarProductoPorId(id);}
 
     @PostMapping("/post")
-    public void postProducto(@RequestBody ProductoDTO dto) {
+    public void postProducto(@RequestBody CrearProductoDTO dto) {
         productoService.CrearProducto(dto);
     }
 
     @PutMapping("/put/{id}")
-    public void putProducto(@PathVariable Integer id, @RequestBody ProductoDTO dto) {
+    public void putProducto(@PathVariable Integer id, @RequestBody CrearProductoDTO dto) {
         productoService.EditarProducto(id, dto);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteProducto(@PathVariable Integer id){
         productoService.EliminarProducto(id);
+    }
+
+    @GetMapping("/top-ventas")
+    public ResponseEntity<List<BuscarProductoDTO>> getTopVentas() {
+        List<BuscarProductoDTO> topProductos = productoService.obtenerTop4MasVendidos();
+        return ResponseEntity.ok(topProductos);
     }
 }

@@ -4,6 +4,7 @@ import com.safa.cabezon_backend.Dto.ResenyaClienteDTO;
 import com.safa.cabezon_backend.Modelos.Cliente;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Modelos.ResenyaCliente;
+import com.safa.cabezon_backend.Repositorios.IClienteRepository;
 import com.safa.cabezon_backend.Repositorios.IResenyaClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ResenyaClienteService {
     private ProductoService productoService;
 
     @Autowired
-    private ClienteService clienteService;
+    private IClienteRepository clienteRepository;
 
     public List<ResenyaCliente> BuscarResenyaCliente() {
         return resenyaClienteRepository.findAll();
@@ -43,7 +44,7 @@ public class ResenyaClienteService {
         Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
         resenyaCliente.setProducto(producto);
 
-        Cliente cliente = clienteService.BuscarClientePorId(dto.getIdCliente());
+        Cliente cliente = clienteRepository.findById(dto.getIdCliente()).orElse(null);
         resenyaCliente.setCliente(cliente);
 
         resenyaClienteRepository.save(resenyaCliente);
@@ -58,7 +59,7 @@ public class ResenyaClienteService {
             Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
             resenyaCliente.setProducto(producto);
 
-            Cliente cliente = clienteService.BuscarClientePorId(dto.getIdCliente());
+            Cliente cliente = clienteRepository.findById(dto.getIdCliente()).orElse(null);
             resenyaCliente.setCliente(cliente);
 
             resenyaClienteRepository.save(resenyaCliente);
