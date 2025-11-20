@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Data, Producto} from '../../../../SERVICES/data';
+import {ProductoService, Producto} from '../../../../SERVICES/productoService';
 
 @Component({
   selector: 'app-catalogo',
@@ -11,17 +10,20 @@ import {Data, Producto} from '../../../../SERVICES/data';
 export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
 
-  constructor(private dataService: Data) { }
+  constructor(private productoService: ProductoService) { }
 
   ngOnInit() {
-    this.dataService.obtenerProductos().subscribe({
+    this.productoService.obtenerProductos().subscribe({
       next: (datos) => {
-        console.log(datos);
         this.listaProductos = datos;
       },
       error: (err) => {
         console.log(err);
       }
     })
+  }
+
+  agregarAlCarrito(funko: Producto) {
+
   }
 }

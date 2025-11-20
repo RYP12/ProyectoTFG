@@ -50,58 +50,18 @@
   <div class="grid">
     <!-- Zona donde se mostrarán todos los funkos -->
     <!-- Con Angular usaremos @for para recorrer el array "funkos" -->
-
-
-        <!--
-    @for (funko of funkos; track funko.id) {
-    <div class="card">
-    <img [src]="funko.imagenDeadpoolRey" alt="{{ funko.nombre }}" class="og">
-    <img [src]="funko.imagenDeadpoolReyCaja" alt="{{ funko.nombre }}" class="hover">
-    <h3>{{ funko.categoria }}</h3>
-    <h2>{{ funko.nombre }}</h2>
-    <p class="precio">{{ funko.precio }} €</p>
-    <button (click)="agregarAlCarrito(funko)">AÑADIR</button>
-    </div>
+    @for (funko of listaProductos; track funko.id) {
+      <div class="card">
+      <!--<img [src]="funko" alt="{{ funko.name }}" class="og">
+      <img [src]="funko" alt="{{ funko.name }}" class="hover">-->
+      <h3>{{ funko.descripcion }}</h3>
+      <h2>{{ funko.nombre }}</h2>
+      <p class="precio">{{ funko.precio }} €</p>
+      <button (click)="agregarAlCarrito(funko)">AÑADIR</button>
+      </div>
     }
-    -->
 
-    <div class="card">
-      <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="foto" class="og">
-      <img src="/ASSETS/IMAGES/DeadpoolReyCaja.png" alt="foto" class="hover">
-      <h3>Marvel</h3>
-      <h2>Deadpool Rey</h2>
-      <p class="precio">14.99 €</p>
-      <button>AÑADIR</button>
-    </div>
+<button class="btn-mas">VER MAS</button>
 
-    <div class="card">
-      <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="foto" class="og">
-      <img src="/ASSETS/IMAGES/DeadpoolReyCaja.png" alt="foto" class="hover">
-      <h3>Marvel</h3>
-      <h2>Deadpool Rey</h2>
-      <p class="precio">14.99 €</p>
-      <button>AÑADIR</button>
-    </div>
-
-    <div class="card">
-      <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="foto" class="og">
-      <img src="/ASSETS/IMAGES/DeadpoolReyCaja.png" alt="foto" class="hover">
-      <h3>Marvel</h3>
-      <h2>Deadpool Rey</h2>
-      <p class="precio">14.99 €</p>
-      <button>AÑADIR</button>
-    </div>
-
-    <div class="card">
-      <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="foto" class="og">
-      <img src="/ASSETS/IMAGES/DeadpoolReyCaja.png" alt="foto" class="hover">
-      <h3>Marvel</h3>
-      <h2>Deadpool Rey</h2>
-      <p class="precio">14.99 €</p>
-      <button>AÑADIR</button>
-    </div>
-
-    <button class="btn-mas">VER MAS</button>
-
-  </div>
+</div>
 </div>
