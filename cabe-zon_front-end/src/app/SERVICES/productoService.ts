@@ -31,14 +31,14 @@ export class ProductoService {
   }
   // CREAR PRODUCTO
   crearProducto(producto: Producto): Observable<Producto>{
-    return this.http.post<Producto>(`${this.apiUrl}/producto`, producto);
+    return this.http.post<Producto>(`${this.apiUrl}/producto/post`, producto);
   }
   // ACTUALIZAR PRODUCTO
   actualizarProducto(id: number, producto: Producto): Observable<Producto> {
-    return this.http.put<Producto>(`${this.apiUrl}/${id}`, producto);
+    return this.http.put<Producto>(`${this.apiUrl}/put/${id}`, producto);
   }
   // ELIMINAR PRODUCTO
   eliminarProducto(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
 }
