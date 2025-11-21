@@ -1,4 +1,4 @@
-package com.safa.cabezon_backend.modelos;
+package com.safa.cabezon_backend.Modelos;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +24,7 @@ public class Imagen {
     private String url;
 
     @ManyToOne
-    @JoinColumn(name = "id_producto",nullable = false)
+    @JoinColumn(name = "id_producto")
     private Producto producto;
 
 

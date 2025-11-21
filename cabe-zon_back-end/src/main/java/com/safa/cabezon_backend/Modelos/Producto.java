@@ -1,5 +1,6 @@
-package com.safa.cabezon_backend.modelos;
+package com.safa.cabezon_backend.Modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,10 +9,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"coleccionesSet"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 
 @Entity
 @Table(name = "producto",catalog = "cabezon",schema = "cabezon")
@@ -39,12 +40,14 @@ public class Producto{
     private Boolean exclusivo;
 
     @Column(name = "valoracion",nullable = false)
-    private Integer valoracion;
+    private Double valoracion;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "imagen")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "producto")
+    @JsonIgnore
     private Set<Imagen> imagenes = new HashSet<>(0);
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinTable(name = "coleccion_producto",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_producto",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)})
