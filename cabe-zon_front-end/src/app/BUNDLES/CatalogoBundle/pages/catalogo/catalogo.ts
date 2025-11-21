@@ -31,11 +31,37 @@ export class Catalogo implements OnInit {
   cargarProductos (){
     this.productoService.obtenerProductos().subscribe({
       next:(datos) => this.listaProductos = datos,
-      error:(error) => console.log(error)
+      error:(error) => console.log('Error al cargar los productos iniciales')
     });
   }
 
   aplicarFiltros (){
+
+    // RANGOS DE PRECIO
+
+    let minimo: number | undefined;
+    let maximo: number | undefined;
+
+    switch (this.filtros.rangoPrecio) {
+      case '0€ - 25€':
+        minimo = 0;
+        maximo = 25;
+        break;
+      case '25€ - 50€':
+        minimo = 25;
+        maximo = 50;
+        break;
+      case '50€ - 1000€':
+        minimo = 50;
+        maximo = 1000;
+        break;
+
+      default:
+        // Si no se selecciona nada se queda 'undefined' los valores
+        break;
+    }
+
+
 
   }
 }
