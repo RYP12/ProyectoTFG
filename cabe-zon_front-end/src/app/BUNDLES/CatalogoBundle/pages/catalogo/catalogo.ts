@@ -1,29 +1,41 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductoService, Producto} from '../../../../SERVICES/productoService';
+import {FormsModule} from '@angular/forms';
+import {Producto, ProductoService} from '../../../../SERVICES/productoService';
 
 @Component({
   selector: 'app-catalogo',
-  imports: [],
+  standalone: true, // Asegúrate de que sea standalone
+  imports: [FormsModule], // <--- 2. AÑADIR AQUÍ
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css',
 })
 export class Catalogo implements OnInit {
-  listaProductos: Producto[] = [];
 
-  constructor(private productoService: ProductoService) { }
+  listaProductos: Producto [] = [];
+
+  // RECIBE LOS FILTROS DEL HTML
+  filtros = {
+
+    orden: '',
+    rangoPrecio: '',
+    colaboracion: ''
+
+  };
+
+  constructor(private productoService: ProductoService) {}
 
   ngOnInit() {
-    this.productoService.obtenerProductos().subscribe({
-      next: (datos) => {
-        this.listaProductos = datos;
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+    this.cargarProductos();
   }
 
-  agregarAlCarrito(funko: Producto) {
+  cargarProductos (){
+    this.productoService.obtenerProductos().subscribe({
+      next:(datos) => this.listaProductos = datos,
+      error:(error) => console.log(error)
+    });
+  }
+
+  aplicarFiltros (){
 
   }
 }
