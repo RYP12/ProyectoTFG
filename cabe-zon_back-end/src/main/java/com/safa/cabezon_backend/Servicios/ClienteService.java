@@ -72,6 +72,7 @@ public class ClienteService {
                         p.getCodigoProducto(),
                         p.getStock(),
                         p.getExclusivo()
+
                 )
         ).collect(Collectors.toSet());
         dto.setListaDeseosSet(productosDTO);
