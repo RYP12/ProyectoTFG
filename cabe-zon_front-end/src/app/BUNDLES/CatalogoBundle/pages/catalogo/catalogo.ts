@@ -1,16 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductoService, Producto} from '../../../../SERVICES/productoService';
+import {CarritoService} from '../../../../SERVICES/carrito-service';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-catalogo',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css',
 })
 export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService,
+              private carritoService: CarritoService,) {}
 
   ngOnInit() {
     this.productoService.obtenerProductos().subscribe({
@@ -24,6 +29,6 @@ export class Catalogo implements OnInit {
   }
 
   agregarAlCarrito(funko: Producto) {
-
+    this.carritoService.agregarProducto(funko);
   }
 }

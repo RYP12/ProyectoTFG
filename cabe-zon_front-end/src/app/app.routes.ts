@@ -3,7 +3,6 @@ import {Catalogo} from './BUNDLES/CatalogoBundle/pages/catalogo/catalogo';
 import {Login} from './BUNDLES/LoginBundle/pages/login/login';
 import {AboutUs} from './BUNDLES/SobreNosotrosBundle/pages/about-us/about-us';
 import {Funko} from './BUNDLES/FunkoBundle/pages/funko/funko';
-import {Confirmar} from './BUNDLES/ConfirmacionPedidoBundle/pages/confirmar/confirmar';
 import {EdicionLimitada} from './BUNDLES/EdicionLimitadaBundle/pages/edicion-limitada/edicion-limitada';
 import {OwnerControlPedidos} from './BUNDLES/OwnerBundle/pages/owner-control-pedidos/owner-control-pedidos';
 import {OwnerControlProductos} from './BUNDLES/OwnerBundle/pages/owner-control-productos/owner-control-productos';
@@ -16,6 +15,8 @@ import {
 } from './BUNDLES/OwnerBundle/forms/owner-control-cliente-form/owner-control-cliente-form';
 import {Error} from './SHARED/ErrorBundle/pages/error/error';
 import {StarterPage} from './BUNDLES/StarterBundle/pages/starter-page/starter-page';
+import {Carrito} from './BUNDLES/CarritoBundle/pages/carrito/carrito';
+import {Finalizar} from './BUNDLES/FinalizarPedidoBundle/pages/finalizar/finalizar';
 
 export const routes: Routes = [
   {
@@ -39,8 +40,8 @@ export const routes: Routes = [
     component: Funko,
   },
   {
-    path: 'confirmacion-de-pedido',
-    component: Confirmar,
+    path: 'finalizar-pedido',
+    component: Finalizar,
   },
   {
     path: 'edicion-limitada',
@@ -69,6 +70,10 @@ export const routes: Routes = [
   {
     path: 'admin/clientes/agregar',
     component: OwnerControlClienteForm,
+  },
+  {
+    path: 'carrito',
+    component: Carrito
   },
   {
     path: '**',
