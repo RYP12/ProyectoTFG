@@ -43,4 +43,29 @@ public class ProductoController {
         List<BuscarProductoDTO> topProductos = productoService.obtenerTop4MasVendidos();
         return ResponseEntity.ok(topProductos);
     }
+
+    @GetMapping("/noexclusivo")
+    public List<BuscarProductoDTO> getNoExclusivo() {
+        return productoService.BuscarPorductosNormales();
+    }
+
+    @GetMapping("/exclusivo")
+    public List<BuscarProductoDTO> getExclusivo() {
+        return productoService.BuscarPorductosExclusivos();
+    }
+
+    @GetMapping("/coleccion/{id}")
+    public List<BuscarProductoDTO> getProductoPorColeccion(@PathVariable Integer id) {
+        return productoService.BuscarPorductosPorColeccion(id);
+    }
+
+    @GetMapping("/franjaPrecio")
+    public List<BuscarProductoDTO> getFranjaPrecio(@RequestParam("min") Double precioMin, @RequestParam("max") Double precioMax) {
+        return productoService.BuscarPorductosPorFranjaPrecio(precioMin,precioMax);
+    }
+
+    @GetMapping("/gustos/{id}")
+    public List<BuscarProductoDTO> getGustos(@PathVariable Integer id) {
+        return productoService.BuscarPorductosPorGustosCliente(id);
+    }
 }

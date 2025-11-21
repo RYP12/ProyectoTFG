@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.BuscarImagenDTO;
+import com.safa.cabezon_backend.Dto.BuscarProductoColeccionDTO;
 import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoDTO;
 import com.safa.cabezon_backend.Modelos.Producto;
@@ -13,8 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -64,6 +63,16 @@ public class ProductoService {
     }
 
     @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosNormales(){
+        return productoRepository.findProductosNoExclusivos().stream().map(this::convertirADTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosExclusivos(){
+        return productoRepository.findProductosExclusivos().stream().map(this::convertirADTO).collect(Collectors.toList());
+    }
+
+    @Transactional
     public List<BuscarProductoDTO> obtenerTop4MasVendidos() {
         Pageable top4 = PageRequest.of(0, 4);
         List<Integer> idProductos = productoPedidoRepository.BuscarTopVentas(top4);
@@ -79,6 +88,20 @@ public class ProductoService {
         return productosOrdenados.stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
+    }
+    @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosPorColeccion(Integer idColeccion) {
+        return productoRepository.buscarProductosPorColeccionId(idColeccion).stream().map(this::convertirADTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosPorFranjaPrecio(double franjaPreciomin, double franjaPreciomax) {
+        return productoRepository.findProductosByPrecio(franjaPreciomin,franjaPreciomax).stream().map(this::convertirADTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosPorGustosCliente(Integer idCliente) {
+        return productoRepository.findGustosCliente(idCliente).stream().map(this::convertirADTO).collect(Collectors.toList());
     }
 
     private BuscarProductoDTO convertirADTO(Producto p) {

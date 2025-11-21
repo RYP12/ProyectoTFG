@@ -41,4 +41,8 @@ public class ImagenService {
         nuevaImagen.setProducto(productoRepository.findById(imagenDTO.getIdProducto()).orElse(null));
         imagenRepository.save(nuevaImagen);
     }
+
+    public List<String> Buscar10ImagenesAleatorias(){
+        return imagenRepository.findUrlsDeProductosAleatorios();
+    }
 }
