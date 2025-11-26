@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import { Producto, ProductoService } from '../../../../SERVICES/productoService';
 
@@ -10,11 +10,11 @@ import { Producto, ProductoService } from '../../../../SERVICES/productoService'
   templateUrl: './owner-control-productos.html',
   styleUrl: './owner-control-productos.css',
 })
-export class OwnerControlProductos {
+export class OwnerControlProductos implements OnInit {
   listaProductos: Producto[] = [];
-  
+
     constructor(private productoService: ProductoService) {}
-  
+
     ngOnInit() {
       this.productoService.obtenerProductos().subscribe({
         next: (datos) => {
