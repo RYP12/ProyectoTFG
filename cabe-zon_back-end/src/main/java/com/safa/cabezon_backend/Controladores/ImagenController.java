@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.BuscarImagenDTO;
 import com.safa.cabezon_backend.Dto.ImagenDTO;
 import com.safa.cabezon_backend.Modelos.Imagen;
 import com.safa.cabezon_backend.Servicios.ImagenService;
@@ -16,10 +17,10 @@ public class ImagenController {
     private ImagenService imagenService;
 
     @GetMapping("/all")
-    public List<Imagen> getImagenes(){return imagenService.BuscarImagenes();}
+    public List<BuscarImagenDTO> getImagenes(){return imagenService.BuscarImagenes();}
 
     @GetMapping("/{id}")
-    public Imagen getImagenById(@PathVariable Integer id){return imagenService.BuscarImagenPorId(id);}
+    public BuscarImagenDTO getImagenById(@PathVariable Integer id){return imagenService.BuscarImagenPorId(id);}
 
     @PostMapping("/post")
     public void postImagen(@RequestBody ImagenDTO dto) {
