@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {RouterLink} from '@angular/router';
+import { Pedido, PedidoService } from '../../../../SERVICES/pedido-service';
 
 @Component({
   selector: 'app-owner-control-pedidos',
@@ -10,5 +11,18 @@ import {RouterLink} from '@angular/router';
   styleUrl: './owner-control-pedidos.css',
 })
 export class OwnerControlPedidos {
-
+  listaPedidos: Pedido[] = [];
+  
+    constructor(private pedidoService: PedidoService,) {}
+  
+    ngOnInit() {
+      this.pedidoService.obtenerPedidos().subscribe({
+        next: (datos) => {
+          this.listaPedidos = datos;
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
+    }
 }
