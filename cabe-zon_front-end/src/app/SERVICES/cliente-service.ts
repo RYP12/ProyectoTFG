@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Usuario} from './usuario-service';
+// import {Usuario} from './usuario-service';
 
 export interface Cliente {
   id?: number;
@@ -9,7 +9,7 @@ export interface Cliente {
   apellidos?: string;
   foto?: string;
   cabecoins?: number;
-  usuario?: Usuario
+  // usuario?: Usuario
 }
 
 @Injectable({

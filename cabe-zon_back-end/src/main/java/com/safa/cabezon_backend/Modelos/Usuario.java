@@ -36,7 +36,7 @@ public class Usuario  implements UserDetails {
     @Enumerated(EnumType.ORDINAL)
     private Rol rol;
 
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "cliente")
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "usuario")
     private Cliente cliente;
 
     @Override
