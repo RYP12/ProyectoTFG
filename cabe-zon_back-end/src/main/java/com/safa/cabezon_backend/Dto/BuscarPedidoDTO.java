@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 public class BuscarPedidoDTO {
+    private Integer id;
     private Date fechaEstimada;
     private Date fechaEntrega;
     private Estado estado;

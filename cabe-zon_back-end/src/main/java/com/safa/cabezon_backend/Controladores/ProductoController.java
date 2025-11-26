@@ -2,6 +2,7 @@ package com.safa.cabezon_backend.Controladores;
 
 import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoDTO;
+import com.safa.cabezon_backend.Dto.ProductoDTO;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Servicios.ProductoService;
 import lombok.AllArgsConstructor;
@@ -18,10 +19,10 @@ public class ProductoController {
     private ProductoService productoService;
 
     @GetMapping("/all")
-    public List<Producto> getProductos(){return productoService.BuscarProductos();}
+    public List<ProductoDTO> getProductos(){return productoService.BuscarProductos();}
 
     @GetMapping("/{id}")
-    public Producto getProducto(@PathVariable Integer id){return productoService.BuscarProductoPorId(id);}
+    public ProductoDTO getProducto(@PathVariable Integer id){return productoService.BuscarProductoPorId(id);}
 
     @PostMapping("/post")
     public void postProducto(@RequestBody CrearProductoDTO dto) {

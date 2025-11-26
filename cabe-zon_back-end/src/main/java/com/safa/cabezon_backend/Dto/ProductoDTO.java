@@ -7,12 +7,14 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-public class CrearProductoDTO {
+public class ProductoDTO {
     private String nombre;
     private String descripcion;
     private Double precio;
     private Integer codigoProducto;
     private Integer stock;
     private Boolean exclusivo;
-    private Set<Integer> idColecciones;
+    private Double valoracion;
+    private Set<BuscarColeccionDTO> colecciones;
+    private Set<BuscarImagenDTO> imagenes;
 }

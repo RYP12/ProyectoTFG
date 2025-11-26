@@ -18,7 +18,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<BuscarPedidoDTO>> getPedidos(){return pedidoService.BuscarPedidos();}
+    public List<BuscarPedidoDTO> getPedidos(){return pedidoService.BuscarPedidos();}
 
     @GetMapping("/{id}")
     public BuscarPedidoDTO getPedido(@PathVariable Integer id){return pedidoService.BuscarPedidoPorId(id);}

@@ -9,6 +9,6 @@ import java.util.Set;
 public class BuscarProductoDTO {
     private String nombre;
     private Double precio;
-    private Set<String> colecciones;
+    private Set<BuscarColeccionDTO> colecciones;
     private Set<BuscarImagenDTO> imagenes;
 }
