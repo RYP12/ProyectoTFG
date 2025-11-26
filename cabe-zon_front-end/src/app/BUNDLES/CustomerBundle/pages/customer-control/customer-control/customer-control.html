@@ -1,6 +1,10 @@
 <app-header></app-header>
 <main>
-  <h1>PANEL CLIENTE</h1>
+  <div class="cabecera">
+    <div></div>
+    <h1>PANEL CLIENTE</h1>
+    <button class="cerrar-sesion">CERRAR SESIÓN</button>
+  </div>
   <div class="panel">
     <div class="datos">
       <div class="titulo-boton">
@@ -458,6 +462,114 @@
         <img src="/ASSETS/IMAGES/mdi--medal-outline.png">
         <p>Nivel</p>
       </div>
+
+      <div class="contenedor-progreso">
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 0">
+          <div class="bola bronce"></div>
+          <p>Bronce</p>
+          <div class="cabecoins">
+            <p>0</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+
+        <div class="tramo-linea">
+          <div class="relleno-linea" [style.width]="getPorcentajeTramo(0, 150)"></div>
+        </div>
+
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 150">
+          <div class="bola plata"></div>
+          <p>Plata</p>
+          <div class="cabecoins">
+            <p>150</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+
+        <div class="tramo-linea">
+          <div class="relleno-linea" [style.width]="getPorcentajeTramo(150, 300)"></div>
+        </div>
+
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 300">
+          <div class="bola oro"></div>
+          <p>Oro</p>
+          <div class="cabecoins">
+            <p>300</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+
+        <div class="tramo-linea">
+          <div class="relleno-linea" [style.width]="getPorcentajeTramo(300, 600)"></div>
+        </div>
+
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 600">
+          <div class="bola esmeralda"></div>
+          <p>Esmeralda</p>
+          <div class="cabecoins">
+            <p>600</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+
+        <div class="tramo-linea">
+          <div class="relleno-linea" [style.width]="getPorcentajeTramo(600, 1200)"></div>
+        </div>
+
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 1200">
+          <div class="bola diamante"></div>
+          <p>Diamante</p>
+          <div class="cabecoins">
+            <p>1200</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+      </div>
+      <div class="info-nivel">
+        <div class="cabecoins">
+          <p class="texto-puntos">Tienes {{ puntosUsuario }}</p>
+          <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+        </div>
+        <h2>Estás en el nivel <span class="texto-nivel {{nivelActual}}">{{ nivelActual }}</span></h2>
+        <div></div>
+      </div>
+      <div class="contenedor-recompensas-sistema">
+        <div class="contenedor-recompensas">
+          <p>Recompensas:</p>
+          <div class="recompensas">
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/mdi--coupon-outline.png">
+              <p>Descuento del 20%</p>
+            </div>
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/mdi--customer-service.png">
+              <p>Atención al cliente premium</p>
+            </div>
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/mdi--new-box.png">
+              <p>Acceso prioritario a nuevos lanzamientos</p>
+            </div>
+          </div>
+        </div>
+        <div class="contenedor-sistema-puntos contenedor-recompensas">
+          <p>¿Como ganar FunkoCoins?</p>
+          <div class="recompensas">
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/pedidos-icon.png">
+              <p>Realizar un pedido = +1 por cada € gastado</p>
+            </div>
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/material-symbols--star-outline.png">
+              <p>Dejar una reseña = +10</p>
+            </div>
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/fluent-mdl2--add-friend.png">
+              <p>Invitar a un amigo y que realice un pedido = +50</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
+<app-footer></app-footer>
