@@ -31,45 +31,7 @@ public class ColeccionService {
     @Autowired
     private IClienteRepository clienteRepository;
 
-    @Transactional
-    public List<BuscarColeccionDTO> BuscarColecciones() {
-        return coleccionRepository.findAll().stream()
-                .map(c -> new BuscarColeccionDTO(
-                        c.getNombre(),
-                        c.getNumeroDeProductos(),
-                        c.getProductosColeccionSet().stream().map(
-                                p -> new CrearProductoDTO(
-                                        p.getNombre(),
-                                        p.getDescripcion(),
-                                        p.getPrecio(),
-                                        p.getCodigoProducto(),
-                                        p.getStock(),
-                                        p.getExclusivo()
-                                )
-                        ).collect(Collectors.toSet())
-                ))
-                .toList();
-    }
 
-    @Transactional
-    public BuscarColeccionDTO BuscarColeccionPorId(Integer id) {
-       Coleccion coleccion= coleccionRepository.findById(id).orElse(null);
-       BuscarColeccionDTO dto = new BuscarColeccionDTO(
-               coleccion.getNombre(),
-               coleccion.getNumeroDeProductos(),
-               coleccion.getProductosColeccionSet().stream().map(
-                       p -> new CrearProductoDTO(
-                               p.getNombre(),
-                               p.getDescripcion(),
-                               p.getPrecio(),
-                               p.getCodigoProducto(),
-                               p.getStock(),
-                               p.getExclusivo()
-                       )
-               ).collect(Collectors.toSet())
-       );
-       return dto;
-    }
 
     @Transactional
     public void borrarColeccionPorId(Integer id) {
@@ -94,7 +56,6 @@ public class ColeccionService {
         for(Integer id:coleccion.getProductosSet()){
             productoRepository.findById(id).ifPresent(productosNuevo::add);
         }
-        coleccionNuevo.setProductosColeccionSet(productosNuevo);
 
         coleccionRepository.save(coleccionNuevo);
     }
@@ -107,7 +68,6 @@ public class ColeccionService {
         for(Integer idProducto:coleccion.getProductosSet()){
             productosNuevo.add(productoRepository.findById(idProducto).orElse(null));
         }
-        coleccionActual.setProductosColeccionSet(productosNuevo);
         coleccionRepository.save(coleccionActual);
     }
 }

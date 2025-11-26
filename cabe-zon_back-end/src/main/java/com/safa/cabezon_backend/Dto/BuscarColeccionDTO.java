@@ -10,5 +10,4 @@ import java.util.Set;
 public class BuscarColeccionDTO {
     private String nombre;
     private Integer numeroDeProductos;
-    private Set<CrearProductoDTO> productosSet;
 }

@@ -1,6 +1,5 @@
 package com.safa.cabezon_backend.Modelos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,15 +42,13 @@ public class Producto{
     private Double valoracion;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "producto")
-    @JsonIgnore
     private Set<Imagen> imagenes = new HashSet<>(0);
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
     @JoinTable(name = "coleccion_producto",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_producto",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)})
-    private Set<Coleccion> coleccionesSet = new HashSet<>(0);
+    private Set<Coleccion> colecciones = new HashSet<>(0);
 
 
 }

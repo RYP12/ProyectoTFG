@@ -1,12 +1,15 @@
 package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
+import com.safa.cabezon_backend.Dto.CrearProductoPedidoDTO;
 import com.safa.cabezon_backend.Dto.ProductoPedidoDTO;
+import com.safa.cabezon_backend.Mapper.ProductoPedidoMapper;
 import com.safa.cabezon_backend.Modelos.Pedido;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Modelos.ProductoPedido;
 import com.safa.cabezon_backend.Repositorios.IPedidoRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoPedidoRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,49 +25,29 @@ public class ProductoPedidoService {
     private IProductoPedidoRepository productoPedidoRepository;
 
     @Autowired
-    private ProductoService productoService;
+    private ProductoPedidoMapper mapper;
 
-    @Autowired
-    private PedidoService pedidoService;
-    @Autowired
-    private IPedidoRepository pedidoRepository;
 
-    public List<ProductoPedido> BuscarProductoPedido() {
-        return productoPedidoRepository.findAll();
+    @Transactional
+    public List<ProductoPedidoDTO> BuscarProductoPedido() {
+        return mapper.listToDto(productoPedidoRepository.findAll());
     }
 
-    public ProductoPedido BuscarProductoPedidoPorId(Integer id) {
-        return productoPedidoRepository.findById(id).orElse(null);
+    @Transactional
+    public ProductoPedidoDTO BuscarProductoPedidoPorId(Integer id) {
+        return mapper.toDto(productoPedidoRepository.findById(id).orElse(null));
     }
 
-    public void CrearProductoPedido(ProductoPedidoDTO dto) {
-        ProductoPedido productoPedido = new ProductoPedido();
-        productoPedido.setSubtotal(0.0);
-        productoPedido.setCantidad(dto.getCantidad());
 
-        Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
-        productoPedido.setProducto(producto);
-
-        Pedido pedido =pedidoRepository.findById(dto.getIdPedido()).orElse(null);
-        productoPedido.setPedido(pedido);
-
-        productoPedidoRepository.save(productoPedido);
+    public void CrearProductoPedido(CrearProductoPedidoDTO dto) {
+       productoPedidoRepository.save(mapper.toEntity(dto));
     }
 
-    public void EditarProductoPedido(Integer id, ProductoPedidoDTO dto) {
+    public void EditarProductoPedido(Integer id, CrearProductoPedidoDTO dto) {
         ProductoPedido productoPedido = productoPedidoRepository.findById(id).orElse(null);
-        if (productoPedido != null) {
-            productoPedido.setSubtotal(0.0);
-            productoPedido.setCantidad(dto.getCantidad());
+        mapper.actualizarEntityFromDto(dto,productoPedido);
+        productoPedidoRepository.save(productoPedido);
 
-            Producto producto = productoService.BuscarProductoPorId(dto.getIdProducto());
-            productoPedido.setProducto(producto);
-
-            Pedido pedido = pedidoRepository.findById(dto.getIdPedido()).orElse(null);
-            productoPedido.setPedido(pedido);
-
-            productoPedidoRepository.save(productoPedido);
-        }
     }
 
     public void EliminarProductoPedido(Integer id) {

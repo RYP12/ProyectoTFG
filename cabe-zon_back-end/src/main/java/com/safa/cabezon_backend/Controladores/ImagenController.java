@@ -35,4 +35,7 @@ public class ImagenController {
     public void deleteImagen(@PathVariable Integer id){
         imagenService.EliminarImagenPorId(id);
     }
+
+    @GetMapping("/10aleatorias")
+    public List<String> findUrlsDeProductosAleatorias(){return imagenService.Buscar10ImagenesAleatorias();}
 }

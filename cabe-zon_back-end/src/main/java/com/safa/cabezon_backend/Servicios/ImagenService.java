@@ -1,6 +1,9 @@
 package com.safa.cabezon_backend.Servicios;
 
+import com.safa.cabezon_backend.Dto.BuscarImagenDTO;
 import com.safa.cabezon_backend.Dto.ImagenDTO;
+import com.safa.cabezon_backend.Mapper.ImagenMapper;
+import com.safa.cabezon_backend.Mapper.PedidoMapper;
 import com.safa.cabezon_backend.Modelos.Imagen;
 import com.safa.cabezon_backend.Repositorios.IImagenRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoRepository;
@@ -20,25 +23,28 @@ public class ImagenService {
     @Autowired
     private IProductoRepository productoRepository;
 
-    public List<Imagen> BuscarImagenes() {return imagenRepository.findAll();}
+    @Autowired
+    private ImagenMapper imagenMapper;
+    @Autowired
+    private PedidoMapper pedidoMapper;
 
-    public Imagen BuscarImagenPorId(Integer id) {return imagenRepository.findById(id).orElse(null);}
+    public List<BuscarImagenDTO> BuscarImagenes() {return imagenMapper.listToDTO(imagenRepository.findAll());}
+
+    public BuscarImagenDTO BuscarImagenPorId(Integer id) {return imagenMapper.toDTO(imagenRepository.findById(id).orElse(null));}
 
     public void EliminarImagenPorId(Integer id) {imagenRepository.deleteById(id);}
 
     public void  CrearImagen(ImagenDTO imagenDTO){
-        Imagen nuevaImagen = new Imagen();
-        nuevaImagen.setNombre(imagenDTO.getNombre());
-        nuevaImagen.setUrl(imagenDTO.getUrl());
-        nuevaImagen.setProducto(productoRepository.findById(imagenDTO.getIdProducto()).orElse(null));
-        imagenRepository.save(nuevaImagen);
+        imagenRepository.save(imagenMapper.toEntity(imagenDTO));
     }
 
     public void EditarImagenPorId(Integer id, ImagenDTO imagenDTO){
         Imagen nuevaImagen = imagenRepository.findById(id).orElse(null);
-        nuevaImagen.setNombre(imagenDTO.getNombre());
-        nuevaImagen.setUrl(imagenDTO.getUrl());
-        nuevaImagen.setProducto(productoRepository.findById(imagenDTO.getIdProducto()).orElse(null));
+        imagenMapper.actualizarImagen(imagenDTO, nuevaImagen);
         imagenRepository.save(nuevaImagen);
+    }
+
+    public List<String> Buscar10ImagenesAleatorias(){
+        return imagenRepository.findUrlsDeProductosAleatorios();
     }
 }

@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Repositorios;
 
 import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
+import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Modelos.ProductoPedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,5 @@ public interface IProductoPedidoRepository extends JpaRepository<ProductoPedido,
             "GROUP BY id_producto " +
             "ORDER BY SUM(cantidad) DESC",
             nativeQuery = true)
-    List<Integer> BuscarTopVentas(Pageable pageable);
+    List<Integer> BuscarTopVentas();
 }

@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.CrearProductoPedidoDTO;
 import com.safa.cabezon_backend.Dto.ProductoPedidoDTO;
 import com.safa.cabezon_backend.Modelos.ProductoPedido;
 import com.safa.cabezon_backend.Servicios.ProductoPedidoService;
@@ -16,18 +17,18 @@ public class ProductoPedidoController {
     private ProductoPedidoService productoPedidoService;
 
     @GetMapping("/all")
-    public List<ProductoPedido> getProductoPedidos(){return productoPedidoService.BuscarProductoPedido();}
+    public List<ProductoPedidoDTO> getProductoPedidos(){return productoPedidoService.BuscarProductoPedido();}
 
     @GetMapping("/{id}")
-    public ProductoPedido getProductoPedidoById(@PathVariable Integer id){return productoPedidoService.BuscarProductoPedidoPorId(id);}
+    public ProductoPedidoDTO getProductoPedidoById(@PathVariable Integer id){return productoPedidoService.BuscarProductoPedidoPorId(id);}
 
     @PostMapping("/post")
-    public void postProductoPedido(@RequestBody ProductoPedidoDTO dto){
+    public void postProductoPedido(@RequestBody CrearProductoPedidoDTO dto){
         productoPedidoService.CrearProductoPedido(dto);
     }
 
     @PutMapping("/put/{id}")
-    public void putProductoPedido(@PathVariable Integer id, @RequestBody ProductoPedidoDTO dto){
+    public void putProductoPedido(@PathVariable Integer id, @RequestBody CrearProductoPedidoDTO dto){
         productoPedidoService.EditarProductoPedido(id, dto);
     }
 
