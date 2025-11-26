@@ -61,7 +61,23 @@ export class Catalogo implements OnInit {
         break;
     }
 
+    const parametrosBack = {
+      orden: this.filtros.orden,
+      minimo: minimo,
+      maximo: maximo,
+      colaboracion: this.filtros.colaboracion
+    }
 
+    console.log('Enviando al backend:', parametrosBack);
+
+
+
+
+
+
+  }
+ // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
+  protected agregarAlCarrito(funko: Producto) {
 
   }
 }
