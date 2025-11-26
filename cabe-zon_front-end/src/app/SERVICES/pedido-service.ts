@@ -16,7 +16,7 @@ export interface Pedido {
   fechaEntrega?: Date;
   estado?: Estado;
   fecha?: Date;
-  precioTotal?: number;
+  precio_total?: number;
   cliente?: Cliente;
 }
 
@@ -28,7 +28,7 @@ export class PedidoService {
 
   constructor(private http: HttpClient) {}
   // OBTENER TODOS LOS PRODUCTOS
-  obtenerProductos(): Observable<Pedido[]> {
+  obtenerPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${this.apiUrl}/pedido/all`);
   }
   // OBTENER PRODUCTO POR ID

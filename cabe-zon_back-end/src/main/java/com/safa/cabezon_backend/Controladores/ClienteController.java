@@ -16,11 +16,11 @@ public class ClienteController {
 
     private ClienteService clienteService;
 
-    @GetMapping("/all")
-    public List<ClienteDTO> getClientes(){return clienteService.BuscarClientes();}
-
-    @GetMapping("/{id}")
-    public ClienteDTO getClienteById(@PathVariable Integer id){return clienteService.BuscarClientePorId(id);}
+//    @GetMapping("/all")
+//    public List<ClienteDTO> getClientes(){return clienteService.BuscarClientes();}
+//
+//    @GetMapping("/{id}")
+//    public ClienteDTO getClienteById(@PathVariable Integer id){return clienteService.BuscarClientePorId(id);}
 
     @PostMapping("/post")
     public void postCliente(@RequestBody CrearClienteDTO dto){

@@ -1,31 +1,14 @@
-.main{
-  margin: 0;
-  font-family: "League Spartan", sans-serif;
-  background: linear-gradient(
-    to bottom,
-    white 0%,
-    #A0F3E6 20%,
-    #A0F3E6 50%,
-    #A0F3E6 80%,
-    #f9f9f9
-  );
-  display: flex;
-  justify-content: center;
-  padding: 40px 20px;
-}
+
 .box-carrito {
-  width: 100%;
+  width: auto;
   display: flex;
   justify-content: center;
 }
 
 .carrito {
-  width: 380px;
   background: #ffffff;
   padding: 20px;
-  border-radius: 18px;
-  border: 2px solid black;
-  box-shadow: 6px 6px 0px black;
+  border-radius: 20px;
 }
 
 .title {

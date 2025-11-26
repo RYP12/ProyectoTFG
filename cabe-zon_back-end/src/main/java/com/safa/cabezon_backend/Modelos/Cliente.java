@@ -53,4 +53,8 @@ public class Cliente {
             inverseJoinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)})
     @JsonIgnore
     private Set<Coleccion> interesesSet = new HashSet<>(0);
+
+    @OneToOne
+    @JoinColumn(name = "id_usuario",nullable = false)
+    private Usuario usuario;
 }
