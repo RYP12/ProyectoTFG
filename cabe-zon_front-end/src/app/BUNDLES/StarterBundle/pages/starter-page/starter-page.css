@@ -3,7 +3,7 @@ main {
     to bottom,
     white 0%,
     #A0F3E6 10%,
-    #ffffff 50%,
+    #A0F3E6 10%,
     #ffffff 80%,
     #ffffff
   );
@@ -236,7 +236,6 @@ main {
   background: transparent;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 
 .marquee-line {
@@ -250,13 +249,12 @@ main {
 }
 
 .marquee-line.middle {
-  font-size: clamp(5rem, 8vw, 10rem);
-  animation: middleFloat 3s ease-in-out infinite alternate;
+  animation: marqueeMoveRight 15s linear infinite;
   transform-origin: center;
 }
 
 .marquee-line.bottom {
-  animation: marqueeMoveRight 15s linear infinite;
+  animation: marqueeMoveLeft 15s linear infinite;
 }
 
 .marquee-line span {
@@ -281,7 +279,161 @@ main {
   100% { transform: translateX(0%); }
 }
 
-@keyframes middleFloat {
-  0% { transform: translateX(-33%); }
-  100% { transform: translateX(0%); }
+.bannerSpringfield {
+  width: 100%;
+  height: 420px;
+  background-image: url('/ASSETS/IMAGES/Springfield.png');
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0 5%;
+  position: relative;
+  font-family: "League Spartan", sans-serif;
+  overflow: hidden;
+  box-sizing: border-box;
 }
+
+.springLeft {
+  position: relative;
+  height: 100%;
+}
+
+.bartFunko {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  width: 260px;
+}
+
+.homerFunko {
+  position: absolute;
+  left: 300px;
+  top: 110px;
+  width: 200px;
+}
+
+.springRight h1 {
+  color: #ffe600;
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 900;
+}
+
+.springRight p {
+  color: white;
+  font-size: 1.3rem;
+  margin-top: .4rem;
+}
+
+.springBtn {
+  margin-top: 1.2rem;
+  padding: 12px 30px;
+  background: #ff3333;
+  border: none;
+  color: white;
+  font-weight: 900;
+  font-size: 1.3rem;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 black;
+}
+
+.springBtn:active {
+  transform: translate(3px,3px);
+  box-shadow: none;
+}
+
+.bottomBanners {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 380px;
+  font-family: "League Spartan", sans-serif;
+}
+
+.bannerHarry {
+  height: 100%;
+  background-image: url('/ASSETS/IMAGES/HarryLord.png');
+  background-size: cover;
+  background-position: bottom;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 5%;
+}
+
+.harryText h1 {
+  color: #7a3cff;
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 900;
+}
+
+.harryText p {
+  color: white;
+  margin: 0.4rem 0;
+  font-size: 1.3rem;
+}
+
+.harryBtn {
+  margin-top: 1rem;
+  padding: 10px 26px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: yellow;
+  background: #0c1cff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 black;
+}
+
+.harryBtn:active {
+  transform: translate(3px,3px);
+  box-shadow: none;
+}
+
+.bannerVader {
+  height: 100%;
+  background-image: url('/ASSETS/IMAGES/DarthVader.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 5%;
+}
+
+.vaderText h1 {
+  color: #ffcc00;
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 900;
+}
+
+.vaderText p {
+  color: white;
+  margin: .4rem 0;
+  font-size: 1.3rem;
+}
+
+.vaderBtn {
+  margin-top: 1rem;
+  padding: 10px 26px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  background: #ffcc00;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 black;
+}
+
+.vaderBtn:active {
+  transform: translate(3px,3px);
+  box-shadow: none;
+}
+
