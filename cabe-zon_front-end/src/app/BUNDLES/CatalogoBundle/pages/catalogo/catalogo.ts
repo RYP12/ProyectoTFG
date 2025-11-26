@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Producto, ProductoService} from '../../../../SERVICES/productoService';
+import {Footer} from '../../../../SHARED/footer/footer';
+import {Header} from '../../../../SHARED/header/header';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true, // Asegúrate de que sea standalone
-  imports: [FormsModule], // <--- 2. AÑADIR AQUÍ
+  imports: [FormsModule, Footer, Header], // <--- 2. AÑADIR AQUÍ
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css',
 })
