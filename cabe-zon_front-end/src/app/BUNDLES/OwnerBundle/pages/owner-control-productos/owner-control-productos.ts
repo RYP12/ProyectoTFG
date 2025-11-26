@@ -19,6 +19,7 @@ export class OwnerControlProductos implements OnInit {
       this.productoService.obtenerProductos().subscribe({
         next: (datos) => {
           this.listaProductos = datos;
+          console.log(this.listaProductos);
         },
         error: (err) => {
           console.log(err);

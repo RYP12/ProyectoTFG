@@ -2,12 +2,23 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
+export enum Rol {
+  CLIENTE = 'CLIENTE',
+  ADMINISTRADOR = 'ADMINISTRADOR',
+}
+
+export interface Usuario {
+  correo?: string;
+  rol ?: Rol
+}
+
 export interface Cliente {
   id?: number;
   nombre?: string;
   apellidos?: string;
   foto?: string;
   cabecoins?: number;
+  usuario?: Usuario
 }
 
 @Injectable({

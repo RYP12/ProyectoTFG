@@ -16,7 +16,7 @@ export interface Pedido {
   fechaEntrega?: Date;
   estado?: Estado;
   fecha?: Date;
-  precioTotal?: number;
+  precio_total?: number;
   cliente?: Cliente;
 }
 

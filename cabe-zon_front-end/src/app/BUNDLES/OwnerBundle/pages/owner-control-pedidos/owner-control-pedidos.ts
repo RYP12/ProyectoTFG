@@ -19,6 +19,7 @@ export class OwnerControlPedidos implements OnInit {
       this.pedidoService.obtenerPedidos().subscribe({
         next: (datos) => {
           this.listaPedidos = datos;
+          console.log(this.listaPedidos);
         },
         error: (err) => {
           console.log(err);
