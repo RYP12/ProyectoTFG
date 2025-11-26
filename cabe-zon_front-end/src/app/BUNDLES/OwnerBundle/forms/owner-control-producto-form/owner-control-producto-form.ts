@@ -3,9 +3,7 @@ import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-owner-control-producto-form',
-  imports: [
-    RouterLink
-  ],
+  imports: [],
   templateUrl: './owner-control-producto-form.html',
   styleUrl: './owner-control-producto-form.css',
 })
