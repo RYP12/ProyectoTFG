@@ -36,6 +36,9 @@ public class Usuario  implements UserDetails {
     @Enumerated(EnumType.ORDINAL)
     private Rol rol;
 
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "cliente")
+    private Cliente cliente;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(this.rol.name()));
