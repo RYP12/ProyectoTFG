@@ -1,28 +1,29 @@
 .main {
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   background: linear-gradient(
     to bottom,
     white 0%,
     #A0F3E6 20%,
     #A0F3E6 50%,
     #A0F3E6 80%,
-    #f9f9f9
+    #ffffff
   );
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-  min-height: 100vh;
-  font-family: "League Spartan", sans-serif;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .product-card {
   display: grid;
   grid-template-columns: 350px 1fr;
   gap: 30px;
-  max-width: 900px;
+  max-width: 812px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .left{
@@ -39,20 +40,20 @@
 
 .heart{
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 5px;
+  left: 5px;
   font-size: 2rem;
   color: #333;
   cursor: pointer;
   line-height: 1;
 }
 
-.luffy{
-  width: 70%;
-  max-height: 300px;
-  margin: 20px 0;
-  grid-row: 2 / 3;
+.luffy {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
 }
+
 
 .add-card {
   background-color: #ffffff;
