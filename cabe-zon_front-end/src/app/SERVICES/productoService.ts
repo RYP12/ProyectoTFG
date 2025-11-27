@@ -41,4 +41,10 @@ export class ProductoService {
   eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/producto/delete/${id}`);
   }
+
+  obtenerTopVentas(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}/producto/top-ventas`);
+  }
+
+
 }
