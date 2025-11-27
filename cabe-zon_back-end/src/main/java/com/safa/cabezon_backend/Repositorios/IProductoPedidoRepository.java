@@ -16,7 +16,7 @@ public interface IProductoPedidoRepository extends JpaRepository<ProductoPedido,
     @Query(value = "SELECT id_producto " +
             "FROM cabezon.productos_pedido " +
             "GROUP BY id_producto " +
-            "ORDER BY SUM(cantidad) DESC",
-            nativeQuery = true)
+            "ORDER BY SUM(cantidad) DESC" +
+            "LIMIT 4", nativeQuery = true)
     List<Integer> BuscarTopVentas();
 }

@@ -16,11 +16,12 @@ import java.util.List;
 public class ColeccionController {
     private ColeccionService coleccionService;
 
-    //@GetMapping("/all")
-    //public List<BuscarColeccionDTO> getColecciones(){}
 
-//    @GetMapping("/{id}")
-//    public BuscarColeccionDTO getColeccionById(@PathVariable Integer id){return coleccionService.BuscarColeccionPorId(id);}
+    @GetMapping("/all")
+    public List<BuscarColeccionDTO> getColecciones(){ return coleccionService.crearColeccion();}
+
+    @GetMapping("/{id}")
+    public BuscarColeccionDTO getColeccionById(@PathVariable Integer id){return coleccionService.BuscarColeccionPorId(id);}
 
     @PostMapping("/post")
     public void postColeccion(@RequestBody ColeccionDTO dto){

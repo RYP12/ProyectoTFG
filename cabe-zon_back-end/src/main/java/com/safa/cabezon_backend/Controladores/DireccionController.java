@@ -2,6 +2,7 @@ package com.safa.cabezon_backend.Controladores;
 
 import com.safa.cabezon_backend.Dto.BuscarDireccionDTO;
 import com.safa.cabezon_backend.Dto.DireccionDTO;
+import com.safa.cabezon_backend.Mapper.ImagenMapper;
 import com.safa.cabezon_backend.Modelos.Direccion;
 import com.safa.cabezon_backend.Servicios.DireccionService;
 import lombok.AllArgsConstructor;

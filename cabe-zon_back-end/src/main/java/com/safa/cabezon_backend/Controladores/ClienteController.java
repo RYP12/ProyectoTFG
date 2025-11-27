@@ -1,8 +1,11 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.BuscarClienteDTO;
 import com.safa.cabezon_backend.Dto.ClienteDTO;
 import com.safa.cabezon_backend.Dto.CrearClienteDTO;
+import com.safa.cabezon_backend.Mapper.ClienteMapper;
 import com.safa.cabezon_backend.Modelos.Cliente;
+import com.safa.cabezon_backend.Repositorios.IClienteRepository;
 import com.safa.cabezon_backend.Servicios.ClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +17,16 @@ import java.util.List;
 @AllArgsConstructor
 public class ClienteController {
 
-    private ClienteService clienteService;
+    private final ClienteService clienteService;
+    private IClienteRepository clienteRepository;
 
-//    @GetMapping("/all")
-//    public List<ClienteDTO> getClientes(){return clienteService.BuscarClientes();}
-//
-//    @GetMapping("/{id}")
-//    public ClienteDTO getClienteById(@PathVariable Integer id){return clienteService.BuscarClientePorId(id);}
+    private ClienteMapper clienteMapper;
+
+    @GetMapping("/all")
+    public List<BuscarClienteDTO> getClientes(){return clienteMapper.listToDTO(clienteRepository.findAll());}
+
+    @GetMapping("/{id}")
+    public BuscarClienteDTO getClienteById(@PathVariable Integer id){return clienteMapper.toDTO(clienteRepository.findById(id).orElse(null));}
 
     @PostMapping("/post")
     public void postCliente(@RequestBody CrearClienteDTO dto){

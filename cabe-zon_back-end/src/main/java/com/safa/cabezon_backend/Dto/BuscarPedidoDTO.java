@@ -12,6 +12,6 @@ public class BuscarPedidoDTO {
     private Date fechaEntrega;
     private Estado estado;
     private Date fecha;
-    private Double precio_total;
+    private Double precioTotal;
     private BuscarClienteDTO Cliente;
 }
