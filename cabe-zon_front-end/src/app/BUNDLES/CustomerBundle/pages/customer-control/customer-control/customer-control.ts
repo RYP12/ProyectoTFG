@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {Header} from '../../../../../SHARED/header/header';
+import {CommonModule, NgClass} from '@angular/common';
+import {Footer} from '../../../../../SHARED/footer/footer';
 
 interface Producto {
   id: number;
@@ -9,10 +11,18 @@ interface Producto {
   imagen: string;
 }
 
+interface Nivel {
+  points: number;
+  class: string;
+  label: string;
+}
+
 @Component({
   selector: 'app-customer-control',
+  standalone: true,
   imports: [
     Header,
+    Footer,
   ],
   templateUrl: './customer-control.html',
   styleUrl: './customer-control.css',
@@ -78,5 +88,32 @@ export class CustomerControl {
   onValorar(producto: Producto): void {
     console.log('Valorar producto:', producto);
     // Aquí puedes implementar la lógica de valoración
+  }
+
+  // Nivel
+  puntosUsuario: number = 1200;
+
+  // Calcula el nombre del nivel automáticamente según los puntos
+  get nivelActual(): string {
+    if (this.puntosUsuario >= 1200) return 'diamante';
+    if (this.puntosUsuario >= 600) return 'esmeralda';
+    if (this.puntosUsuario >= 300) return 'oro';
+    if (this.puntosUsuario >= 150) return 'plata';
+    return 'bronce';
+  }
+
+  // Calcula el porcentaje de llenado de cada tramo de línea individualmente
+  getPorcentajeTramo(inicio: number, fin: number): string {
+    if (this.puntosUsuario >= fin) {
+      return '100%'; // Tramo completo
+    } else if (this.puntosUsuario > inicio) {
+      // Estamos en medio de este tramo
+      const puntosEnTramo = this.puntosUsuario - inicio;
+      const rangoTramo = fin - inicio;
+      const porcentaje = (puntosEnTramo / rangoTramo) * 100;
+      return `${porcentaje}%`;
+    } else {
+      return '0%'; // Aún no llegamos
+    }
   }
 }

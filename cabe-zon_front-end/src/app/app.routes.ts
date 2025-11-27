@@ -16,6 +16,7 @@ import {
 } from './BUNDLES/OwnerBundle/forms/owner-control-cliente-form/owner-control-cliente-form';
 import {Error} from './SHARED/ErrorBundle/pages/error/error';
 import {StarterPage} from './BUNDLES/StarterBundle/pages/starter-page/starter-page';
+import {CustomerControl} from './BUNDLES/CustomerBundle/pages/customer-control/customer-control/customer-control';
 
 export const routes: Routes = [
   {
@@ -69,6 +70,10 @@ export const routes: Routes = [
   {
     path: 'admin/clientes/agregar',
     component: OwnerControlClienteForm,
+  },
+  {
+    path: 'cliente',
+    component: CustomerControl,
   },
   {
     path: '**',

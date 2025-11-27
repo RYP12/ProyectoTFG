@@ -8,9 +8,9 @@ export interface Producto {
   precio?: number;
   descripcion?: string;
   stock?: number;
-  exclusive?: boolean;
-  productNumber?: number;
-  valoration?: number;
+  exclusivo?: boolean;
+  codigoProducto?: number;
+  valoracion?: number;
 }
 
 @Injectable({
