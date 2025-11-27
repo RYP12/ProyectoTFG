@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {ProductoService, Producto} from '../../../../SERVICES/productoService';
 import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-catalogo',
   imports: [
     Header,
-    Footer
+    Footer,
+    FormsModule
   ],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css',
@@ -72,12 +74,9 @@ export class Catalogo implements OnInit {
 
     console.log('Enviando al backend:', parametrosBack);
 
-
-
-
-
-
   }
+
+
   // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
   protected agregarAlCarrito(funko: Producto) {
 
