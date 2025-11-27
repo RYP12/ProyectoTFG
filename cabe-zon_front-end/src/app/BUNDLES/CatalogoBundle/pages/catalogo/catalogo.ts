@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductoService, Producto} from '../../../../SERVICES/productoService';
 import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
+import {CarritoService} from '../../../../SERVICES/carrito-service';
 
 @Component({
   selector: 'app-catalogo',
@@ -24,7 +25,8 @@ export class Catalogo implements OnInit {
 
   };
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService,
+              private carritoService: CarritoService) { }
 
   ngOnInit() {
     this.productoService.obtenerProductos().subscribe({
@@ -80,6 +82,7 @@ export class Catalogo implements OnInit {
   }
   // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
   protected agregarAlCarrito(funko: Producto) {
-
+    this.carritoService.agregarProducto(funko);
+    alert('¡Funko añadido al carrito!');
   }
 }

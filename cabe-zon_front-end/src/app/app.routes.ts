@@ -17,6 +17,8 @@ import {
 import {Error} from './SHARED/ErrorBundle/pages/error/error';
 import {StarterPage} from './BUNDLES/StarterBundle/pages/starter-page/starter-page';
 import {CustomerControl} from './BUNDLES/CustomerBundle/pages/customer-control/customer-control/customer-control';
+import {HtmlTagDefinition} from '@angular/compiler';
+import {Finalizar} from './BUNDLES/FinalizarPedidoBundle/pages/finalizar/finalizar';
 
 export const routes: Routes = [
   {
@@ -74,6 +76,10 @@ export const routes: Routes = [
   {
     path: 'cliente',
     component: CustomerControl,
+  },
+  {
+    path: 'finalizar-pedido',
+    component: Finalizar
   },
   {
     path: '**',
