@@ -24,14 +24,13 @@
 
     <div class="product-grid">
       <!-- Bucle: Repite esto por cada producto que venga del backend -->
-      @for (prod of topProductos; track prod.id) {
+      @for (prod of topProductos; track prod.id; let i = $index) {
         <article class="product-card-small">
+          <div class="top-tag">TOP {{ i + 1 }}</div>
           <div class="card-image">
-            <!-- IMAGEN FIJA: Usamos siempre la misma -->
             <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="Imagen producto">
           </div>
           <div class="card-body">
-            <!-- CATEGORÍA FIJA: Texto estático -->
             <p class="categoria">Funko Pop</p>
 
 
