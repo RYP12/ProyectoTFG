@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class ClienteMapper {
-    public abstract BuscarClienteDTO toDTO(Cliente c);
+    public abstract BuscarClienteDTO toDTO(Cliente cliente);
     public abstract List<BuscarClienteDTO> listToDTO(List<Cliente> dto);
 
     public abstract Cliente toEntity(CrearClienteDTO dto);

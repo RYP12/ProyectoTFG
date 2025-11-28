@@ -7,7 +7,6 @@ import java.util.Set;
 
 @Data
 public class BuscarProductoDTO {
-    private Integer id;
     private String nombre;
     private Double precio;
     private Set<BuscarColeccionDTO> colecciones;
