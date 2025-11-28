@@ -15,9 +15,8 @@
           <!-- Con Angular usaremos @for para recorrer el array "funkos" -->
 
 
-                    <!--
-          @for (funko of funkos; track funko.id) {
-          <div class="product">
+          @for (funko of items; track funko.id) {
+          <div class="product">y
             <img class="img-product" [src]="funko.imagenCaja" alt="{{ funko.nombre }}">
             <div class="datos">
               <div class="name">{{ funko.nombre }}</div>
@@ -32,22 +31,6 @@
             <button class="delete" (click)="eliminarDelPedido(funko)">ELIMINAR</button>
           </div>
           }
-          -->
-
-          <div class="product">
-            <img class="img-product" src="/ASSETS/IMAGES/DekuCaja.png" alt="funko">
-            <div class="datos">
-              <div class="name">Funko pop de Midoriya</div>
-              <div class="price">€ 20</div>
-
-              <div class="cont">
-                <button class="menos">-</button>
-                <span class="num">1</span>
-                <button class="mas">+</button>
-              </div>
-            </div>
-            <button class="delete">ELIMINAR</button>
-          </div>
 
         </div>
       </div>
