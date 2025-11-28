@@ -14,20 +14,19 @@
       <div class="dropdown-filtro select-style">
         <select [(ngModel)]="filtros.orden">
           <option value="">ORDENAR POR</option>
-          <option value="precioMasAlto">Precio mas alto</option>
-          <option value="precioMasBajo">Precio mas bajo</option>
-          <option value="Ofertas">Ofertas</option>
+          <option value="desc">Precio mas alto</option>
+          <option value="asc">Precio mas bajo</option>
         </select>
 
         <span class="arrow-down">&#9660;</span>
       </div>
 
       <div class="dropdown-filtro select-style">
-      <select [(ngModel)]="filt  ros.rangoPrecio">
+      <select [(ngModel)]="filtros.rangoPrecio">
           <option value="">PRECIO</option>
-          <option value="0€ - 25€">0€ - 25€</option>
-          <option value="25€ - 50€">25€ - 50€</option>
-          <option value="50€ - 1000€">50€ - 1000€</option>
+          <option value="0-25">0€ - 25€</option>
+          <option value="25-50">25€ - 50€</option>
+          <option value="50-1000">50€ - 1000€</option>
         </select>
         <span class="arrow-down">&#9660;</span>
       </div>

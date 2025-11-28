@@ -3,6 +3,8 @@ import {ProductoService, Producto} from '../../../../SERVICES/productoService';
 import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {FormsModule} from '@angular/forms';
+import {FiltrosService} from '../../../../SERVICES/filtros-service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-catalogo',
@@ -28,49 +30,44 @@ export class Catalogo implements OnInit {
 
   constructor(private productoService: ProductoService) { }
 
+  // FUNCIONES QUE SE EJECUTAN AL INICIAR LA PAGINA
   ngOnInit() {
-    this.productoService.obtenerProductos().subscribe({
-      next: (datos) => {
-        this.listaProductos = datos;
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+    this.cargarTodos();
   }
+  // MUESTRA TODOS LOS PRODUCTOS
+  cargarTodos() {
+    this.productoService.obtenerProductos().subscribe({
+      next: (datos) => this.listaProductos = datos,
+      error: (err) => console.error(err)
+    });
+  }
+
 
   aplicarFiltros (){
 
-    // RANGOS DE PRECIO
+    let busquedaActiva = false;
+    let min: number = 0;
+    let max: number = 10000;
 
-    let minimo: number | undefined;
-    let maximo: number | undefined;
-
-    switch (this.filtros.rangoPrecio) {
-      case '0€ - 25€':
-        minimo = 0;
-        maximo = 25;
-        break;
-      case '25€ - 50€':
-        minimo = 25;
-        maximo = 50;
-        break;
-      case '50€ - 1000€':
-        minimo = 50;
-        maximo = 1000;
-        break;
-
-      default:
-        // Si no se selecciona nada se queda 'undefined' los valores
-        break;
+    // SI HAY UN RANGO SELECCIONADO, DEFINIMOS MAXIMOS Y MINIMOS
+    if (this.filtros.rangoPrecio !== '') {
+      busquedaActiva = true;
+      switch (this.filtros.rangoPrecio) {
+        case '0€ - 25€': min = 0; max = 25; break;
+        case '25€ - 50€': min = 25; max = 50; break;
+        case '50€ - 1000€': min = 50; max = 1000; break;
+        default: busquedaActiva = false; break;
+      }
     }
 
     const parametrosBack = {
       orden: this.filtros.orden,
-      minimo: minimo,
-      maximo: maximo,
+      minimo: min,
+      maximo: max,
       colaboracion: this.filtros.colaboracion
     }
+
+
 
     console.log('Enviando al backend:', parametrosBack);
 
