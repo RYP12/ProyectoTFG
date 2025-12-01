@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Dto;
 
+import com.safa.cabezon_backend.Modelos.Usuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -10,4 +11,6 @@ public class LoginDTO {
     private String username;
     @NotBlank
     private String password;
+
+
 }
