@@ -37,6 +37,11 @@
   }
   -->
 
+  @if (producto) {
+  <div class="up">
+    <p>Inicio / Catálogo / {{ producto.nombre }}</p>
+  </div>
+
   <div class="product-card">
     <div class="left">
       <img src="/ASSETS/IMAGES/LogoCorazon.png" alt="foto" class="heart">
@@ -63,6 +68,7 @@
       <button class="exclusive-btn">EXCLUSIVO!</button>
     </div>
   </div>
+  }
 </div>
 
 <div class="reviews-section">

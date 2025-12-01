@@ -2,12 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {ProductoService, Producto} from '../../../../SERVICES/productoService';
 import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-catalogo',
   imports: [
     Header,
-    Footer
+    Footer,
+    RouterLink
   ],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css',
@@ -29,6 +31,7 @@ export class Catalogo implements OnInit {
   ngOnInit() {
     this.productoService.obtenerProductos().subscribe({
       next: (datos) => {
+        console.log('🔍 DATOS RECIBIDOS DEL BACKEND:', datos); // <--- MIRA LA CONSOLA DEL NAVEGADOR
         this.listaProductos = datos;
       },
       error: (err) => {
