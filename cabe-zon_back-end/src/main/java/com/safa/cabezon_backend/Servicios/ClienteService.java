@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.*;
+import com.safa.cabezon_backend.Mapper.ClienteMapper;
 import com.safa.cabezon_backend.Modelos.Cliente;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IClienteRepository;
@@ -19,32 +20,19 @@ public class ClienteService {
     @Autowired
     private IClienteRepository clienteRepository;
 
-    //@Transactional
-//    public List<ClienteDTO> BuscarClientes() {
-//        return clienteRepository.findAll().stream()
-//                .map(this::mapToDTO)
-//                .collect(Collectors.toList());
-//    }
+    @Autowired
+    private ClienteMapper clienteMapper;
 
-//    @Transactional
-//    public ClienteDTO BuscarClientePorId(Integer id){return mapToDTO(clienteRepository.findById(id).orElse(null));}
-//
 
     public void CrearCliente(CrearClienteDTO clienteDto){
-        Cliente nuevoCliente = new Cliente();
-        nuevoCliente.setNombre(clienteDto.getNombre());
-        nuevoCliente.setApellidos(clienteDto.getApellidos());
-        clienteRepository.save(nuevoCliente);
+        clienteRepository.save(clienteMapper.toEntity(clienteDto));
     }
 
     public void EliminarClientePorId(Integer id){ clienteRepository.deleteById(id);}
 
     public void EditarClientePorId(Integer id, ClienteDTO clienteDto){
-
         Cliente cliente = clienteRepository.findById(id).orElse(null);
-        cliente.setNombre(clienteDto.getNombre());
-        cliente.setApellidos(clienteDto.getApellidos());
-        cliente.setFoto(clienteDto.getFoto());
+        clienteMapper.actualizar(clienteDto, cliente);
         clienteRepository.save(cliente);
     }
 

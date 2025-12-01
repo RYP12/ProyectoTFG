@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 export interface Producto {
@@ -11,7 +11,6 @@ export interface Producto {
   exclusivo?: boolean;
   codigoProducto?: number;
   valoracion?: number;
-
 }
 
 @Injectable({
@@ -41,22 +40,5 @@ export class ProductoService {
   // ELIMINAR PRODUCTO
   eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/producto/delete/${id}`);
-  }
-
-
-  // OBTENER POR FRANJA DE PRECIO
-  obtenerFranjaPrecio(min: number,  max: number): Observable<Producto[]> {
-
-    const params = new HttpParams()
-      .set('min', min.toString())
-      .set('max', max.toString());
-
-    return this.http.get<Producto[]>(`${this.apiUrl}/producto/franjaPrecio`,{params});
-  }
-
-  // FILTRAR POR COLECCION
-  filtrarPorColeccion(idColeccion: number): Observable<Producto[]> {
-
-    return this.http.get<Producto[]>(`${this.apiUrl}/producto/coleccion/${idColeccion}`);
   }
 }

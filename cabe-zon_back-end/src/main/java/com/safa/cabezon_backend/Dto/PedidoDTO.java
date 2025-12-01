@@ -12,5 +12,5 @@ public class PedidoDTO {
     private Estado estado;
     private Date fecha;
     private Double precio_total;
-    private Integer IdCliente;
+    private Integer idCliente;
 }

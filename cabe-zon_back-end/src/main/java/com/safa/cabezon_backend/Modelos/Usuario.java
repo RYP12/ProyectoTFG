@@ -37,6 +37,8 @@ public class Usuario  implements UserDetails {
     private Rol rol;
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "usuario")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Cliente cliente;
 
     @Override
@@ -46,7 +48,7 @@ public class Usuario  implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return this.username;
     }
 
     @Override
