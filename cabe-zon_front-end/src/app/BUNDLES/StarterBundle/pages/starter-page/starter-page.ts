@@ -17,7 +17,7 @@ import {CurrencyPipe} from '@angular/common';
 })
 export class StarterPage implements OnInit {
 
-
+// Aqui lo que hacemos es crear una copia del ProductoService para usar aqui una funcion
   private productoService = inject(ProductoService);
 
 
@@ -25,8 +25,9 @@ export class StarterPage implements OnInit {
 
 
   ngOnInit(): void {
-    // Llamada simple al backend
+    // Llamamos a la peticion preparada en el productoService gracias a subscribe
     this.productoService.obtenerTopVentas().subscribe({
+      // Si todo esta bien data coge los datos json de los productos
       next: (data) => {
         this.topProductos = data;
       },
