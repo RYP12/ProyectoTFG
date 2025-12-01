@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 export interface Producto {
@@ -44,6 +44,22 @@ export class ProductoService {
   // OBTENER TOP VENTAS (4)
   obtenerTopVentas(): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/top-ventas`);
+  }
+
+  // OBTENER POR FRANJA DE PRECIO
+  obtenerFranjaPrecio(min: number,  max: number): Observable<Producto[]> {
+
+    const params = new HttpParams()
+      .set('min', min.toString())
+      .set('max', max.toString());
+
+    return this.http.get<Producto[]>(`${this.apiUrl}/producto/franjaPrecio`,{params});
+  }
+
+  // FILTRAR POR COLECCION
+  filtrarPorColeccion(idColeccion: number): Observable<Producto[]> {
+
+    return this.http.get<Producto[]>(`${this.apiUrl}/producto/coleccion/${idColeccion}`);
   }
 
 
