@@ -3,12 +3,16 @@ import {ProductoService, Producto} from '../../../../SERVICES/productoService';
 import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {CarritoService} from '../../../../SERVICES/carrito-service';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-catalogo',
   imports: [
     Header,
-    Footer
+    Footer,
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css',
