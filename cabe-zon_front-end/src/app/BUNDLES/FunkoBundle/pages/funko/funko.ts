@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {ActivatedRoute} from '@angular/router';
-import {Producto, ProductoService} from '../../../../SERVICES/productoService';
+import {Producto, ProductoService, Resenya} from '../../../../SERVICES/productoService';
 
 @Component({
   selector: 'app-funko',
@@ -19,6 +19,7 @@ export class Funko implements OnInit {
   private productoService = inject(ProductoService);
 
   producto: Producto | undefined;
+  resenyas: Resenya[] = []
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -40,5 +41,15 @@ export class Funko implements OnInit {
         console.log('Error cargando producto', error);
       }
     });
+
+    this.productoService.obtenerResenyasPorProducto(id).subscribe({
+      next: (data) => {
+        this.resenyas = data;
+        console.log('Reseñas cargadas:', this.resenyas);
+      },
+      error: (error) => {
+        console.log('Error cargando reseñas', error)
+      }
+    })
   }
 }

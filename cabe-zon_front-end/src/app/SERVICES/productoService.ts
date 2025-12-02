@@ -2,6 +2,20 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
+export interface ClienteResenya {
+  nombre: string;
+  apellidos: string;
+  foto?: string;
+}
+
+export interface Resenya {
+  id: number;
+  texto: string;
+  valoracion: number;
+  fecha: string;
+  cliente: ClienteResenya;
+}
+
 export interface Producto {
   id?: number;
   nombre?: string;
@@ -11,6 +25,7 @@ export interface Producto {
   exclusivo?: boolean;
   codigoProducto?: number;
   valoracion?: number;
+  imagenes?: { url: string }[];
 }
 
 @Injectable({
@@ -46,5 +61,9 @@ export class ProductoService {
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/top-ventas`);
   }
 
+  // OBTENER RESEÑAS POR PRODUCTO
+  obtenerResenyasPorProducto(idProducto: number): Observable<Resenya[]> {
+    return this.http.get<Resenya[]>(`${this.apiUrl}/resenya_cliente/producto/${idProducto}`);
+  }
 
 }
