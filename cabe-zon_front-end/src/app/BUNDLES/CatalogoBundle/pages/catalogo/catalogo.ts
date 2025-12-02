@@ -4,6 +4,7 @@ import {Header} from '../../../../SHARED/header/header';
 import { CommonModule } from '@angular/common';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-catalogo',
@@ -11,7 +12,8 @@ import {FormsModule} from '@angular/forms';
     Header,
     Footer,
     FormsModule,
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css',
