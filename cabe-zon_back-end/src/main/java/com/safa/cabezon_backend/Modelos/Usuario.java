@@ -36,6 +36,11 @@ public class Usuario  implements UserDetails {
     @Enumerated(EnumType.ORDINAL)
     private Rol rol;
 
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "usuario")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Cliente cliente;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(this.rol.name()));
@@ -43,7 +48,7 @@ public class Usuario  implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return this.username;
     }
 
     @Override

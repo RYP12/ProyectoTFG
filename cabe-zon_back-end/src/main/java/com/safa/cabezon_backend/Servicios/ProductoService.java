@@ -1,8 +1,7 @@
 package com.safa.cabezon_backend.Servicios;
 
-import com.safa.cabezon_backend.Dto.BuscarImagenDTO;
-import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
-import com.safa.cabezon_backend.Dto.CrearProductoDTO;
+import com.safa.cabezon_backend.Dto.*;
+import com.safa.cabezon_backend.Mapper.ProductoMapper;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IProductoPedidoRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoRepository;
@@ -13,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -30,78 +27,64 @@ public class ProductoService {
     @Autowired
     private IProductoPedidoRepository productoPedidoRepository;
 
+    @Autowired
+    private ProductoMapper mapper;
 
-    public List<Producto> BuscarProductos() {return productoRepository.findAll();}
 
-    public Producto BuscarProductoPorId(Integer id) {return productoRepository.findById(id).orElse(null);}
+    @Transactional
+    public List<ProductoDTO> BuscarProductos() {
+        return mapper.listToDTO(productoRepository.findAll());}
 
+    @Transactional
+    public ProductoDTO BuscarProductoPorId(Integer id) {return mapper.toDTO(productoRepository.findById(id).orElse(null));}
+
+    @Transactional
     public void CrearProducto(CrearProductoDTO dto) {
-        Producto producto = new Producto();
-        producto.setNombre(dto.getNombre());
-        producto.setDescripcion(dto.getDescripcion());
-        producto.setPrecio(dto.getPrecio());
-        producto.setCodigoProducto(dto.getCodigoProducto());
-        producto.setStock(dto.getStock());
-        producto.setExclusivo(dto.getExclusivo());
+        productoRepository.save(mapper.toProducto(dto));
+    }
+
+    @Transactional
+    public void EditarProducto(Integer id, CrearProductoDTO dto) {
+        Producto producto = productoRepository.findById(id).orElse(null);
+        mapper.actualizarEntityFromDTO(dto, producto);
         productoRepository.save(producto);
     }
 
-    public void EditarProducto(Integer id, CrearProductoDTO dto) {
-        Producto producto = productoRepository.findById(id).orElse(null);
-        if (producto != null) {
-            producto.setNombre(dto.getNombre());
-            producto.setDescripcion(dto.getDescripcion());
-            producto.setPrecio(dto.getPrecio());
-            producto.setCodigoProducto(dto.getCodigoProducto());
-            producto.setStock(dto.getStock());
-            producto.setExclusivo(dto.getExclusivo());
-            productoRepository.save(producto);
-        }
-    }
-
+    @Transactional
     public void EliminarProducto(Integer id) {
+        Producto producto = productoRepository.findById(id).orElse(null);
+        producto.getColecciones().clear();
         productoRepository.deleteById(id);
     }
 
     @Transactional
-    public List<BuscarProductoDTO> obtenerTop4MasVendidos() {
-        Pageable top4 = PageRequest.of(0, 4);
-        List<Integer> idProductos = productoPedidoRepository.BuscarTopVentas(top4);
-
-        List<Producto> productosDesordenados = productoRepository.findAllById(idProductos);
-        Map<Integer, Producto> mapaProductos = productosDesordenados.stream()
-                .collect(Collectors.toMap(Producto::getId, p -> p));
-
-        List<Producto> productosOrdenados = idProductos.stream()
-                .map(mapaProductos::get)
-                .filter(Objects::nonNull)
-                .toList();
-        return productosOrdenados.stream()
-                .map(this::convertirADTO)
-                .collect(Collectors.toList());
+    public List<BuscarProductoDTO> BuscarPorductosNormales(){
+        return mapper.listToBuscarDTO(productoRepository.findProductosNoExclusivos());
     }
 
-    private BuscarProductoDTO convertirADTO(Producto p) {
-        BuscarProductoDTO dto = new BuscarProductoDTO();
-        dto.setNombre(p.getNombre());
-        dto.setPrecio(p.getPrecio());
+    @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosExclusivos(){
+        return mapper.listToBuscarDTO(productoRepository.findProductosExclusivos());
+    }
 
-        if (p.getColeccionesSet() != null) {
-            dto.setColecciones(p.getColeccionesSet().stream()
-                    .map(col -> col.getNombre())
-                    .collect(Collectors.toSet()));
-        }
-        if (p.getImagenes() != null) {
-            dto.setImagenes(p.getImagenes().stream()
-                    .map(img -> {
-                        BuscarImagenDTO imgDto = new BuscarImagenDTO();
-                        imgDto.setNombre(img.getNombre());
-                        imgDto.setUrl(img.getUrl());
-                        return imgDto;
-                    })
-                    .collect(Collectors.toSet()));
-        }
+    @Transactional
+    public List<BuscarProductoDTO> obtenerTop4MasVendidos() {
+        List<Integer> idProductos = productoPedidoRepository.BuscarTopVentas();
+        List<Producto> productos = productoRepository.findAllById(idProductos);
+        return mapper.listToBuscarDTO(productos);
+    }
+    @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosPorColeccion(Integer idColeccion) {
+        return mapper.listToBuscarDTO(productoRepository.buscarProductosPorColeccionId(idColeccion));
+    }
 
-        return dto;
+    @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosPorFranjaPrecio(double franjaPreciomin, double franjaPreciomax) {
+        return mapper.listToBuscarDTO(productoRepository.findProductosByPrecio(franjaPreciomin,franjaPreciomax));
+    }
+
+    @Transactional
+    public List<BuscarProductoDTO> BuscarPorductosPorGustosCliente(Integer idCliente) {
+        return mapper.listToBuscarDTO(productoRepository.findGustosCliente(idCliente));
     }
 }

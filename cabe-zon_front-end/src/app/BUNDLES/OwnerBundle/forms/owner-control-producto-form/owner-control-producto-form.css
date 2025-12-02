@@ -1,0 +1,199 @@
+#background {
+  background: radial-gradient(white, #A0F3E6 80%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "League Spartan", sans-serif;
+}
+
+.titulo h1{
+  text-align: center;
+  color: #ffffff;
+  font-size: 5rem;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  margin: 15% 0 ;
+}
+
+#formularioPrincipal {
+  display: grid;
+  grid-template-rows: 0.1fr 1fr;
+  margin: 0%;
+  padding: 3%;
+  width: 80%;
+  border: solid 1px black;
+  border-radius: 20px;
+  box-shadow: 5px 5px black;
+
+  background-color: #f9f9f9;
+}
+
+#primeraParteForm {
+  display: grid;
+  grid-template-columns:0.075fr 1fr;
+  align-items: center;
+
+  width: 100%;
+}
+
+#terceraParteForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  width: 100%;
+}
+
+#cuartaParteForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  width: 100%;
+  gap: 10%;
+}
+
+#botones {
+  display: grid;
+  grid-template-columns:1fr 1fr;
+  width: 30%;
+  margin: 5% 0 ;
+  gap: 25%;
+
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  box-sizing: border-box;
+
+}
+
+#botones button {
+  border: none;
+  font-weight: bold;
+  box-shadow: 3px 3px black;
+  cursor: pointer;
+  padding: 3% 20%;
+
+}
+
+#anyadirColabo {
+  display: grid;
+  grid-template-columns:1fr 1fr;
+
+  gap: 2%;
+}
+
+#anyadirColabo button{
+  padding: 30% 60%;
+  cursor: pointer;
+}
+
+#titulo {
+  font-size: 40px;
+  color: black;
+}
+
+.espiralNegra {
+  width: 70%;
+
+  padding: 10%;
+
+  border: solid 1px black;
+  border-radius: 20px;
+  box-shadow: 4px 4px black;
+
+  align-content: center;
+}
+
+.imagen {
+  background-image: url("/ASSETS/IMAGES/iconoCabezaFunko2.png");
+
+  width: 100%;
+  height: 100%;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+
+  border-radius: 100%;
+  border: solid 1px black;
+  background-color: black;
+
+}
+
+.tamanyoTerceraParteForm {
+  align-items: center;
+}
+
+.botonProcesar {
+  background-color: #2EC4B6;
+  color: #f9f9f9;
+  transform: scale(1.5);
+  border-radius: 20px;
+}
+
+.botonCancelar {
+  background-color: #FF0000;
+  color: #f9f9f9;
+  transform: scale(1.5);
+  border-radius: 20px;
+}
+
+.imagenSinEspiral img {
+  width: 40%;
+  padding: 10%;
+  padding-left: 25%;
+  padding-right: 25%;
+  border: solid 1px black;
+  border-radius: 20px;
+  box-shadow: 4px 4px black;
+}
+
+/* Contenedor starter-page */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+/* Ocultar el checkbox real */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Estilo de la parte deslizante */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: grey; /* color del fondo */
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+/* El círculo */
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* Cuando está activado */
+input:checked + .slider {
+  background-color: #FF0404; /* cambia a verde al activar, puedes modificar */
+}
+
+/* Mueve el círculo a la derecha cuando está activo */
+input:checked + .slider::before {
+  transform: translateX(24px);
+}

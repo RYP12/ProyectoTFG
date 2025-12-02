@@ -1,0 +1,46 @@
+<div class="main">
+  <div class="box-carrito">
+    <div class="carrito">
+
+      <div class="title">
+        <h2>CARRITO</h2>
+        <p class="img-cerrar" style="font-weight: bold; font-size: 20px" matDialogClose>X</p>
+      </div>
+
+      <div class="products">
+        <!-- Aquí irán los productos que hay en el carrito -->
+        <!-- Usaremos el @for para recorrer el array "carrito" y pintar cada funko -->
+
+      @for (producto of carrito; track producto.id) {
+
+        <div class="product">
+          <!-- <img class="img-product" [src]="producto.imagen" [alt]="producto.nombre"> -->
+
+          <div class="info">
+            <h3 class="title">{{ producto.nombre }}</h3>
+            <p class="price">€ {{ producto.precio }}</p>
+
+            <div class="cont">
+              <button class="btn-cont" (click)="restarCantidad(producto)">-</button>
+              <!-- <span class="num">{{ producto.cantidad }}</span> -->
+              <button class="btn-cont" (click)="sumarCantidad(producto)">+</button>
+            </div>
+          </div>
+
+          <button class="btn-borrar" (click)="eliminarDelCarrito(producto)">
+            ELIMINAR
+          </button>
+        </div>
+
+      }
+
+
+        <div class="btns">
+          <button class="btn-verde" mat-dialog-close>SEGUIR COMPRANDO</button>
+          <button class="btn-blanco" routerLink="/finalizar-pedido" [mat-dialog-close]="true">TERMINAR PEDIDO</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

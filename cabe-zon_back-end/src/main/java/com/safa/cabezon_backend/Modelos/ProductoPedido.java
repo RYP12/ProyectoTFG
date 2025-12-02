@@ -25,12 +25,10 @@ public class ProductoPedido {
     private Integer cantidad;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "id_producto")
     private Producto producto;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "id_pedido")
     private Pedido pedido;
 }

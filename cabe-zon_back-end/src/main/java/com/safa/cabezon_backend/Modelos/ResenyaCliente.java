@@ -37,7 +37,6 @@ public class ResenyaCliente {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
-    @JsonIgnoreProperties({"listaDeseosSet", "interesesSet"})
     private Cliente cliente;
 
 

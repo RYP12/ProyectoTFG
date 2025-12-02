@@ -6,23 +6,21 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"ListaDeseosSet", "InteresesSet"})
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-
+@ToString(exclude = {"pedidos", "ListaDeseosSet", "interesesSet"})
+@EqualsAndHashCode(exclude = {"pedidos", "ListaDeseosSet", "interesesSet"})
 @Entity
 @Table(name = "cliente", catalog = "cabezon", schema = "cabezon")
-@JsonIgnoreProperties({"ListaDeseosSet", "InteresesSet"})
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
 
     @Column(name = "nombre")
@@ -44,13 +42,18 @@ public class Cliente {
     @JoinTable(name = "gustos",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_cliente",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_producto",nullable = false)})
-    @JsonIgnore
     private Set<Producto> ListaDeseosSet = new HashSet<>(0);
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "intereses",catalog = "cabezon",schema = "cabezon",
             joinColumns = {@JoinColumn(name = "id_cliente",nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id_coleccion",nullable = false)})
-    @JsonIgnore
     private Set<Coleccion> interesesSet = new HashSet<>(0);
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente",fetch = FetchType.EAGER)
+    private Set<Pedido> pedidos;
+
+    @OneToOne
+    @JoinColumn(name = "id_usuario",nullable = false)
+    private Usuario usuario;
 }

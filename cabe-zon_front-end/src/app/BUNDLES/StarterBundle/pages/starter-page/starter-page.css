@@ -1,0 +1,452 @@
+main {
+  background: linear-gradient(
+    to bottom,
+    white 0%,
+    #A0F3E6 10%,
+    #A0F3E6 10%,
+    #ffffff 80%,
+    #ffffff
+  );
+}
+
+.sliderInicio {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+
+  font-family: "League Spartan", sans-serif;
+
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+
+  padding: 5%;
+
+  border-radius: 20px;
+  box-shadow: 4px 4px #E71D36;
+  background-image: url('/ASSETS/IMAGES/TimeFondo.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.sliderLetrasBoton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.sliderLetras {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sliderLetras h1 {
+  margin: 0;
+  width: 100%;
+  font-size: 3.5em;
+  font-weight: 900;
+  line-height: 0.9;
+  color: white;
+
+}
+
+.sliderLetras h2 {
+  color: white;
+  margin: 0;
+  margin-top: 0.4rem;
+  width: 100%;
+  font-size: 2.4em;
+  font-weight: 800;
+}
+
+.sliderBoton button {
+  margin-top: 1rem;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  font-weight: 800;
+
+  background-color: #E71D36;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+
+  font-family: "League Spartan", sans-serif;
+
+  box-shadow: 3px 3px 0px black;
+  transition: 0.1s ease-in-out;
+}
+
+.sliderBoton button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px black;
+}
+
+.sliderImagen {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sliderImagen img {
+  width: 100%;
+  height: auto;
+  max-width: 420px;
+  object-fit: contain;
+}
+
+.top-sales {
+  width: 100%;
+  max-width: 1200px;
+  margin: 2.5rem auto;
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+.top-sales-title {
+  font-family: "Faster One", sans-serif;
+  font-size: 5rem;
+  text-align: center;
+  letter-spacing: 6px;
+  font-weight: 590;
+  margin: 0 0 1.2rem 0;
+  color: #0a0a0a;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.6rem;
+  align-items: start;
+}
+
+.product-card-small {
+  background-color: #ccffef;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 3px 3px 0px #000000;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  min-height: 260px;
+  position: relative;
+}
+
+.top-tag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: red;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.card-image {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  margin-top: 6px;
+  margin-bottom: 8px;
+  border: solid 1px black;
+  border-radius: 20px;
+  background-color: white;
+  padding: 5px 20px;
+}
+
+.card-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.card-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.categoria {
+  color: #2aa6a0;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin: 0;
+  font-family: "League Spartan", sans-serif;
+}
+
+.nombre {
+  font-weight: 800;
+  font-size: 1rem;
+  margin: 0;
+  color: #111;
+  font-family: "League Spartan", sans-serif;
+}
+
+.precio {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0;
+  color: #000;
+  font-family: "League Spartan", sans-serif;
+}
+
+.btn-add {
+  margin-top: 10px;
+  background: #2EC4B6;
+  color: #fff;
+  border: none;
+  padding: 8px 60px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: "League Spartan", sans-serif;
+  letter-spacing: 0.6px;
+  box-shadow: 2px 2px 0px #000;
+  transition: transform .08s ease;
+}
+
+.btn-add:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 #000;
+}
+
+@media (max-width: 1000px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 900px;
+    margin: 0 auto; }
+}
+
+@media (max-width: 600px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+  .top-sales-title {
+    font-size: 2rem;
+  }
+  .product-card-small
+  { min-height: auto;
+  }
+}
+
+.wild-marquee {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.marquee-line {
+  display: flex;
+  white-space: nowrap;
+  width: max-content;
+}
+
+.marquee-line.top {
+  animation: marqueeMoveLeft 15s linear infinite;
+}
+
+.marquee-line.middle {
+  animation: marqueeMoveRight 15s linear infinite;
+  transform-origin: center;
+}
+
+.marquee-line.bottom {
+  animation: marqueeMoveLeft 15s linear infinite;
+}
+
+.marquee-line span {
+  font-family: "League Spartan", sans-serif;
+  font-size: clamp(3.5rem, 6vw, 8rem);
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 0.9;
+  color: #000000;
+  opacity: 0.95;
+  display: inline-block;
+  padding-right: 2rem;
+}
+
+@keyframes marqueeMoveLeft {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-33%); }
+}
+
+@keyframes marqueeMoveRight {
+  0% { transform: translateX(-33%); }
+  100% { transform: translateX(0%); }
+}
+
+.bannerSpringfield {
+  width: 100%;
+  height: 420px;
+  background-image: url('/ASSETS/IMAGES/Springfield.png');
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0 5%;
+  position: relative;
+  font-family: "League Spartan", sans-serif;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.springLeft {
+  position: relative;
+  height: 100%;
+}
+
+.bartFunko {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  width: 260px;
+}
+
+.homerFunko {
+  position: absolute;
+  left: 300px;
+  top: 110px;
+  width: 200px;
+}
+
+.springRight h1 {
+  color: #ffe600;
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 900;
+}
+
+.springRight p {
+  color: white;
+  font-size: 1.3rem;
+  margin-top: .4rem;
+}
+
+.springBtn {
+  margin-top: 1.2rem;
+  padding: 12px 30px;
+  background: #ff3333;
+  border: none;
+  color: white;
+  font-weight: 900;
+  font-size: 1.3rem;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 black;
+}
+
+.springBtn:active {
+  transform: translate(3px,3px);
+  box-shadow: none;
+}
+
+.bottomBanners {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 380px;
+  font-family: "League Spartan", sans-serif;
+}
+
+.bannerHarry {
+  height: 100%;
+  background-image: url('/ASSETS/IMAGES/HarryLord.png');
+  background-size: cover;
+  background-position: bottom;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 5%;
+}
+
+.harryText h1 {
+  color: #7a3cff;
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 900;
+}
+
+.harryText p {
+  color: white;
+  margin: 0.4rem 0;
+  font-size: 1.3rem;
+}
+
+.harryBtn {
+  margin-top: 1rem;
+  padding: 10px 26px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: yellow;
+  background: #0c1cff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 black;
+}
+
+.harryBtn:active {
+  transform: translate(3px,3px);
+  box-shadow: none;
+}
+
+.bannerVader {
+  height: 100%;
+  background-image: url('/ASSETS/IMAGES/DarthVader.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 5%;
+}
+
+.vaderText h1 {
+  color: #ffcc00;
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 900;
+}
+
+.vaderText p {
+  color: white;
+  margin: .4rem 0;
+  font-size: 1.3rem;
+}
+
+.vaderBtn {
+  margin-top: 1rem;
+  padding: 10px 26px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  background: #ffcc00;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 black;
+}
+
+.vaderBtn:active {
+  transform: translate(3px,3px);
+  box-shadow: none;
+}
+

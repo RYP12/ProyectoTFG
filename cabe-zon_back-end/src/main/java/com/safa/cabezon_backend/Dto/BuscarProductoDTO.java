@@ -7,8 +7,9 @@ import java.util.Set;
 
 @Data
 public class BuscarProductoDTO {
+    private Integer id;
     private String nombre;
     private Double precio;
-    private Set<String> colecciones;
+    private Set<BuscarColeccionDTO> colecciones;
     private Set<BuscarImagenDTO> imagenes;
 }

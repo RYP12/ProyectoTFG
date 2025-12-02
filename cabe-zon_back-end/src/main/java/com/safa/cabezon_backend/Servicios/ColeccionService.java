@@ -3,6 +3,7 @@ package com.safa.cabezon_backend.Servicios;
 import com.safa.cabezon_backend.Dto.BuscarColeccionDTO;
 import com.safa.cabezon_backend.Dto.ColeccionDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoDTO;
+import com.safa.cabezon_backend.Mapper.ColeccionMapper;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IClienteRepository;
@@ -31,44 +32,18 @@ public class ColeccionService {
     @Autowired
     private IClienteRepository clienteRepository;
 
+    @Autowired
+    private ColeccionMapper coleccionMapper;
+
+
     @Transactional
-    public List<BuscarColeccionDTO> BuscarColecciones() {
-        return coleccionRepository.findAll().stream()
-                .map(c -> new BuscarColeccionDTO(
-                        c.getNombre(),
-                        c.getNumeroDeProductos(),
-                        c.getProductosColeccionSet().stream().map(
-                                p -> new CrearProductoDTO(
-                                        p.getNombre(),
-                                        p.getDescripcion(),
-                                        p.getPrecio(),
-                                        p.getCodigoProducto(),
-                                        p.getStock(),
-                                        p.getExclusivo()
-                                )
-                        ).collect(Collectors.toSet())
-                ))
-                .toList();
+    public List<BuscarColeccionDTO> crearColeccion(){
+        return coleccionMapper.listTODTO(coleccionRepository.findAll());
     }
 
     @Transactional
-    public BuscarColeccionDTO BuscarColeccionPorId(Integer id) {
-       Coleccion coleccion= coleccionRepository.findById(id).orElse(null);
-       BuscarColeccionDTO dto = new BuscarColeccionDTO(
-               coleccion.getNombre(),
-               coleccion.getNumeroDeProductos(),
-               coleccion.getProductosColeccionSet().stream().map(
-                       p -> new CrearProductoDTO(
-                               p.getNombre(),
-                               p.getDescripcion(),
-                               p.getPrecio(),
-                               p.getCodigoProducto(),
-                               p.getStock(),
-                               p.getExclusivo()
-                       )
-               ).collect(Collectors.toSet())
-       );
-       return dto;
+    public BuscarColeccionDTO BuscarColeccionPorId(Integer id){
+        return coleccionMapper.toDTO( coleccionRepository.findById(id).orElse(null));
     }
 
     @Transactional
@@ -94,7 +69,6 @@ public class ColeccionService {
         for(Integer id:coleccion.getProductosSet()){
             productoRepository.findById(id).ifPresent(productosNuevo::add);
         }
-        coleccionNuevo.setProductosColeccionSet(productosNuevo);
 
         coleccionRepository.save(coleccionNuevo);
     }
@@ -107,7 +81,6 @@ public class ColeccionService {
         for(Integer idProducto:coleccion.getProductosSet()){
             productosNuevo.add(productoRepository.findById(idProducto).orElse(null));
         }
-        coleccionActual.setProductosColeccionSet(productosNuevo);
         coleccionRepository.save(coleccionActual);
     }
 }

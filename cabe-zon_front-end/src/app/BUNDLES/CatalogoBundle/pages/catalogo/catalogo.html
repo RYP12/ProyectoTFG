@@ -1,0 +1,69 @@
+<app-header></app-header>
+<div class="main">
+  <div class="up">
+    <p routerLink="/">Inicio</p>
+  </div>
+
+  <div class="text">
+    <p>CATALOGO</p>
+  </div>
+
+  <div class="filtro">
+    <div class="filtro-contenedor">
+
+      <div class="dropdown-filtro select-style">
+        <select [(ngModel)]="filtros.orden">
+          <option value="">ORDENAR POR</option>
+          <option value="desc">Precio mas alto</option>
+          <option value="asc">Precio mas bajo</option>
+        </select>
+
+        <span class="arrow-down">&#9660;</span>
+      </div>
+
+      <div class="dropdown-filtro select-style">
+      <select [(ngModel)]="filtros.rangoPrecio">
+          <option value="">PRECIO</option>
+          <option value="0-25">0€ - 25€</option>
+          <option value="25-50">25€ - 50€</option>
+          <option value="50-1000">50€ - 1000€</option>
+        </select>
+        <span class="arrow-down">&#9660;</span>
+      </div>
+
+      <div class="dropdown-filtro select-style">
+        <select [(ngModel)]="filtros.colaboracion">
+          <option value="">COLABORACIÓN</option>
+          <option value="marvel">Marvel</option>
+          <option value="dc">DC Comics</option>
+          <option value="starwars">Star Wars</option>
+        </select>
+        <span class="arrow-down">&#9660;</span>
+      </div>
+
+      <button class="btn-aplicar" (click)="aplicarFiltros()">APLICAR</button>
+
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- Zona donde se mostrarán todos los funkos -->
+    <!-- Con Angular usaremos @for para recorrer el array "funkos" -->
+    @for (funko of listaProductos; track funko.id) {
+      <div class="card">
+        <div [routerLink]="['/funko', funko.id]" style="cursor: pointer">
+          <!--<img [src]="funko" alt="{{ funko.name }}" class="og">
+          <img [src]="funko" alt="{{ funko.name }}" class="hover">-->
+          <h3>{{ funko.descripcion }}</h3>
+          <h2>{{ funko.nombre }}</h2>
+          <p class="precio">{{ funko.precio }} €</p>
+        </div>
+        <button (click)="agregarAlCarrito(funko)">AÑADIR</button>
+      </div>
+    }
+
+<button class="btn-mas">VER MAS</button>
+
+</div>
+</div>
+<app-footer></app-footer>

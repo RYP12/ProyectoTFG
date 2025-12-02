@@ -1,0 +1,55 @@
+<div id="background">
+  <div id="global">
+    <div id="primeraParte">
+      <button style="background-color: #4C97FF; color: #f9f9f9" routerLink="/admin/productos">PRODUCTOS</button>
+      <button>CLIENTES</button>
+      <button routerLink="/admin/pedidos">PEDIDOS</button>
+      <img src="/ASSETS/IMAGES/LogoCabezon.png" alt="">
+    </div>
+
+    <div id="segundaParte">
+      <h1 style="text-align: center; font-size: 43px">PRODUCTOS</h1>
+
+      <div id="todoJunto">
+        <div id="primeraParteForm">
+          <div id="botones">
+            <button><img src="/ASSETS/IMAGES/iconoFlechaIzquierda.png"></button>
+            <button style="background-color: #4C97FF; color: #f9f9f9"><img src="/ASSETS/IMAGES/iconoFlechaDerecha.png"></button>
+          </div>
+          <div id="buscador">
+            <input type="text" placeholder="Buscar" style="border-radius: 20px; height: 100%;">
+          </div>
+          <div id="botonAnyadirAlFinal">
+            <button id="botonAnyadir" routerLink="/admin/productos/agregar">AÑADIR</button>
+          </div>
+        </div>
+
+        <div id="segundaParteForm">
+          <div id="titulos">
+            <p>NOMBRE</p>
+            <p>VALORACIONES</p>
+            <p>STOCK</p>
+            <p>PRECIO</p>
+          </div>
+
+          <div id="datosGlobal">
+
+            @for (producto of listaProductos; track producto.id) {
+             <div class="datos">
+              <h3>{{ producto.nombre }}</h3>
+              <h3>{{ producto.valoracion }}</h3>
+              <h3>{{ producto.stock }}</h3>
+              <h3>{{producto.precio}}$</h3>
+            </div>
+            }
+
+          </div>
+        </div>
+
+        <div id="terceraParteForm">
+          <p>(Numeracion de paginas)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

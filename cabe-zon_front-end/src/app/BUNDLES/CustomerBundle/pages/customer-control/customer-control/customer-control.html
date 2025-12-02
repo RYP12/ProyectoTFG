@@ -1,0 +1,575 @@
+<app-header></app-header>
+<main>
+  <div class="cabecera">
+    <div></div>
+    <h1>PANEL CLIENTE</h1>
+    <button class="cerrar-sesion">CERRAR SESIÓN</button>
+  </div>
+  <div class="panel">
+    <div class="datos">
+      <div class="titulo-boton">
+        <div class="titulo">
+          <img src="/ASSETS/IMAGES/hugeicons--user-02.png">
+          <p>Tus datos</p>
+        </div>
+        <button>EDITAR</button>
+      </div>
+      <div class="cliente-datos">
+        <div class="foto-perfil">
+          <h2>Foto de perfil</h2>
+          <div class="añadir-foto">
+            <img src="/ASSETS/IMAGES/agregarImagenCabezaFunko.png">
+          </div>
+        </div>
+        <div class="datos-perfil">
+          <div class="nombre">
+            <h2>Nombre</h2>
+            <p>Iván</p>
+          </div>
+          <div class="apellidos">
+            <h2>Apellidos</h2>
+            <p>Ramos Villegas</p>
+          </div>
+          <div class="email">
+            <h2>Email</h2>
+            <p>ivanramoss2210@gmail.com</p>
+          </div>
+          <div class="contraseña">
+            <h2>Contraseña</h2>
+            <p>**********</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="historial-pedidos">
+      <div class="titulo">
+        <img src="/ASSETS/IMAGES/pedidos-icon.png">
+        <p>Historial de pedidos</p>
+      </div>
+      <div class="pedidos">
+        <div class="pedido">
+          <h2>Pedido nº1</h2>
+          <div class="info-pedido">
+            <div class="total">
+              <p>Total</p>
+              <p>85€</p>
+            </div>
+            <div class="fecha-pedido">
+              <p>Fecha del pedido</p>
+              <p>04/11/2025</p>
+            </div>
+            <div class="fecha-entrega">
+              <p>Fecha entrega</p>
+              <p>25/11/2025</p>
+            </div>
+            <div class="estado">
+              <p>Estado</p>
+              <p style="color: green">Recibido</p>
+            </div>
+          </div>
+          <div class="productos">
+            <p>Productos</p>
+            <div class="carrusel-wrapper">
+              <!-- Flecha Izquierda -->
+              @if (mostrarFlechaIzquierda) {
+                <button
+                  class="flecha-carrusel flecha-izquierda"
+                  (click)="anterior()">
+                  ←
+                </button>
+              }
+
+              <!-- Contenedor de productos -->
+              <div class="productos-carrusel">
+                @for (producto of productosVisibles; track producto.id) {
+                  <div class="producto-item">
+                    <!-- Estructura de cada producto -->
+                    <div class="producto-imagen">
+                      <img [src]="producto.imagen" [alt]="producto.nombre">
+                    </div>
+                    <div class="producto-info">
+                      <p class="producto-nombre-cantidad">x{{producto.cantidad}} {{ producto.nombre }}</p>
+                      <p class="producto-precio">{{ producto.precio }}</p>
+                    </div>
+                    <button class="producto-valorar" (click)="onValorar(producto)">
+                      Valorar
+                    </button>
+                  </div>
+                }
+              </div>
+
+              <!-- Flecha Derecha -->
+              @if (mostrarFlechaDerecha) {
+                <button
+                  class="flecha-carrusel flecha-derecha"
+                  (click)="siguiente()">
+                  →
+                </button>
+              }
+            </div>
+
+            <!-- Indicadores (opcional) -->
+            <div class="carrusel-indicadores">
+              @for (pagina of paginasIndicadores; track pagina) {
+                <button
+                  [class.activo]="pagina === currentIndex"
+                  (click)="irAPagina(pagina)">
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="pedido">
+          <h2>Pedido nº1</h2>
+          <div class="info-pedido">
+            <div class="total">
+              <p>Total</p>
+              <p>85€</p>
+            </div>
+            <div class="fecha-pedido">
+              <p>Fecha del pedido</p>
+              <p>04/11/2025</p>
+            </div>
+            <div class="fecha-entrega">
+              <p>Fecha entrega</p>
+              <p>25/11/2025</p>
+            </div>
+            <div class="estado">
+              <p>Estado</p>
+              <p style="color: green">Recibido</p>
+            </div>
+          </div>
+          <div class="productos">
+            <p>Productos</p>
+            <div class="carrusel-wrapper">
+              <!-- Flecha Izquierda -->
+              @if (mostrarFlechaIzquierda) {
+                <button
+                  class="flecha-carrusel flecha-izquierda"
+                  (click)="anterior()">
+                  ←
+                </button>
+              }
+
+              <!-- Contenedor de productos -->
+              <div class="productos-carrusel">
+                @for (producto of productosVisibles; track producto.id) {
+                  <div class="producto-item">
+                    <!-- Estructura de cada producto -->
+                    <div class="producto-imagen">
+                      <img [src]="producto.imagen" [alt]="producto.nombre">
+                    </div>
+                    <div class="producto-info">
+                      <p class="producto-nombre-cantidad">x{{producto.cantidad}} {{ producto.nombre }}</p>
+                      <p class="producto-precio">{{ producto.precio }}</p>
+                    </div>
+                    <button class="producto-valorar" (click)="onValorar(producto)">
+                      Valorar
+                    </button>
+                  </div>
+                }
+              </div>
+
+              <!-- Flecha Derecha -->
+              @if (mostrarFlechaDerecha) {
+                <button
+                  class="flecha-carrusel flecha-derecha"
+                  (click)="siguiente()">
+                  →
+                </button>
+              }
+            </div>
+
+            <div class="carrusel-indicadores">
+              @for (pagina of paginasIndicadores; track pagina) {
+                <button
+                  [class.activo]="pagina === currentIndex"
+                  (click)="irAPagina(pagina)">
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="direcciones">
+      <div class="titulo">
+        <img src="/ASSETS/IMAGES/mdi--location.png">
+        <p>Direcciones</p>
+      </div>
+      <div class="direcciones-boton">
+        <div class="direcciones-card">
+          <div class="direccion-item">
+            <p>Plaza Collao nº10</p>
+            <p>Número 10 Piso 8</p>
+            <p>41019</p>
+            <p>Sevilla, Sevilla</p>
+            <p>España</p>
+            <div class="botones">
+              <button class="eliminar-direccion"><img src="/ASSETS/IMAGES/mdi--trash.png"></button>
+              <button class="editar-direccion">EDITAR</button>
+            </div>
+          </div>
+          <div class="direccion-item">
+            <p>Plaza Collao nº10</p>
+            <p>Número 10 Piso 8</p>
+            <p>41019</p>
+            <p>Sevilla, Sevilla</p>
+            <p>España</p>
+            <div class="botones">
+              <button class="eliminar-direccion"><img src="/ASSETS/IMAGES/mdi--trash.png"></button>
+              <button class="editar-direccion">EDITAR</button>
+            </div>
+          </div>
+          <div class="direccion-item">
+            <p>Plaza Collao nº10</p>
+            <p>Número 10 Piso 8</p>
+            <p>41019</p>
+            <p>Sevilla, Sevilla</p>
+            <p>España</p>
+            <div class="botones">
+              <button class="eliminar-direccion"><img src="/ASSETS/IMAGES/mdi--trash.png"></button>
+              <button class="editar-direccion">EDITAR</button>
+            </div>
+          </div>
+          <div class="direccion-item">
+            <p>Plaza Collao nº10</p>
+            <p>Número 10 Piso 8</p>
+            <p>41019</p>
+            <p>Sevilla, Sevilla</p>
+            <p>España</p>
+            <div class="botones">
+              <button class="eliminar-direccion"><img src="/ASSETS/IMAGES/mdi--trash.png"></button>
+              <button class="editar-direccion">EDITAR</button>
+            </div>
+          </div>
+        </div>
+        <button class="agregar-direccion">AGREGAR DIRECCIÓN</button>
+      </div>
+    </div>
+    <div class="lista-deseos">
+      <div class="titulo">
+        <img src="/ASSETS/IMAGES/lets-icons--favorites-fill.png">
+        <p>Lista de deseos</p>
+      </div>
+      <div class="productos-deseados">
+        <div class="producto-deseado-item">
+          <div class="producto-deseado-imagen">
+            <img src="/ASSETS/IMAGES/DeadpoolRey.png">
+          </div>
+          <div class="info-favorito-boton">
+            <div class="info-favorito">
+              <div class="producto-deseado-info">
+                <div class="producto-deseado-colaboracion">
+                  <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+                </div>
+                <p class="producto-deseado-nombre">Deadpool</p>
+                <p class="producto-deseado-precio">10€</p>
+              </div>
+              <div class="boton-favoritos">
+                <button><img src="/ASSETS/IMAGES/mdi--heart.png"></button>
+              </div>
+            </div>
+            <div class="boton-añadir-carrito">
+              <button>AÑADIR AL CARRITO</button>
+            </div>
+          </div>
+        </div>
+        <div class="producto-deseado-item">
+          <div class="producto-deseado-imagen">
+            <img src="/ASSETS/IMAGES/DeadpoolRey.png">
+          </div>
+          <div class="info-favorito-boton">
+            <div class="info-favorito">
+              <div class="producto-deseado-info">
+                <div class="producto-deseado-colaboracion">
+                  <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+                </div>
+                <p class="producto-deseado-nombre">Deadpool</p>
+                <p class="producto-deseado-precio">10€</p>
+              </div>
+              <div class="boton-favoritos">
+                <button><img src="/ASSETS/IMAGES/mdi--heart.png"></button>
+              </div>
+            </div>
+            <div class="boton-añadir-carrito">
+              <button>AÑADIR AL CARRITO</button>
+            </div>
+          </div>
+        </div>
+        <div class="producto-deseado-item">
+          <div class="producto-deseado-imagen">
+            <img src="/ASSETS/IMAGES/DeadpoolRey.png">
+          </div>
+          <div class="info-favorito-boton">
+            <div class="info-favorito">
+              <div class="producto-deseado-info">
+                <div class="producto-deseado-colaboracion">
+                  <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+                </div>
+                <p class="producto-deseado-nombre">Deadpool</p>
+                <p class="producto-deseado-precio">10€</p>
+              </div>
+              <div class="boton-favoritos">
+                <button><img src="/ASSETS/IMAGES/mdi--heart.png"></button>
+              </div>
+            </div>
+            <div class="boton-añadir-carrito">
+              <button>AÑADIR AL CARRITO</button>
+            </div>
+          </div>
+        </div>
+        <div class="producto-deseado-item">
+          <div class="producto-deseado-imagen">
+            <img src="/ASSETS/IMAGES/DeadpoolRey.png">
+          </div>
+          <div class="info-favorito-boton">
+            <div class="info-favorito">
+              <div class="producto-deseado-info">
+                <div class="producto-deseado-colaboracion">
+                  <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+                </div>
+                <p class="producto-deseado-nombre">Deadpool</p>
+                <p class="producto-deseado-precio">10€</p>
+              </div>
+              <div class="boton-favoritos">
+                <button><img src="/ASSETS/IMAGES/mdi--heart.png"></button>
+              </div>
+            </div>
+            <div class="boton-añadir-carrito">
+              <button>AÑADIR AL CARRITO</button>
+            </div>
+          </div>
+        </div>
+        <div class="producto-deseado-item">
+          <div class="producto-deseado-imagen">
+            <img src="/ASSETS/IMAGES/DeadpoolRey.png">
+          </div>
+          <div class="info-favorito-boton">
+            <div class="info-favorito">
+              <div class="producto-deseado-info">
+                <div class="producto-deseado-colaboracion">
+                  <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+                </div>
+                <p class="producto-deseado-nombre">Deadpool</p>
+                <p class="producto-deseado-precio">10€</p>
+              </div>
+              <div class="boton-favoritos">
+                <button><img src="/ASSETS/IMAGES/mdi--heart.png"></button>
+              </div>
+            </div>
+            <div class="boton-añadir-carrito">
+              <button>AÑADIR AL CARRITO</button>
+            </div>
+          </div>
+        </div>
+        <div class="producto-deseado-item">
+          <div class="producto-deseado-imagen">
+            <img src="/ASSETS/IMAGES/DeadpoolRey.png">
+          </div>
+          <div class="info-favorito-boton">
+            <div class="info-favorito">
+              <div class="producto-deseado-info">
+                <div class="producto-deseado-colaboracion">
+                  <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+                </div>
+                <p class="producto-deseado-nombre">Deadpool</p>
+                <p class="producto-deseado-precio">10€</p>
+              </div>
+              <div class="boton-favoritos">
+                <button><img src="/ASSETS/IMAGES/mdi--heart.png"></button>
+              </div>
+            </div>
+            <div class="boton-añadir-carrito">
+              <button>AÑADIR AL CARRITO</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="intereses">
+      <div class="titulo">
+        <img src="/ASSETS/IMAGES/mdi--tag.png">
+        <p>Intereses</p>
+      </div>
+      <div class="marcas">
+        <h2>Marcas a las que sigues:</h2>
+        <div class="marcas-seguidas">
+          <div class="marca">
+            <img src="/ASSETS/IMAGES/LogoSafa.png">
+            <button>
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
+          </div>
+          <div class="marca">
+            <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+            <button>
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
+          </div>
+          <div class="marca">
+            <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+            <button>
+              <span class="material-symbols-outlined">
+                close
+              </span>
+            </button>
+          </div>
+        </div>
+        <h2>Otras marcas:</h2>
+        <div class="otras-marcas">
+          <div class="marca">
+            <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+            <button>
+              <span class="material-symbols-outlined">
+                add
+              </span>
+            </button>
+          </div>
+          <div class="marca">
+            <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+            <button>
+              <span class="material-symbols-outlined">
+                add
+              </span>
+            </button>
+          </div>
+          <div class="marca">
+            <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+            <button>
+              <span class="material-symbols-outlined">
+                add
+              </span>
+            </button>
+          </div>
+          <div class="marca">
+            <img src="/ASSETS/IMAGES/LogoMarvel2.png">
+            <button>
+              <span class="material-symbols-outlined">
+                add
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nivel">
+      <div class="titulo">
+        <img src="/ASSETS/IMAGES/mdi--medal-outline.png">
+        <p>Nivel</p>
+      </div>
+
+      <div class="contenedor-progreso">
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 0">
+          <div class="bola bronce"></div>
+          <p>Bronce</p>
+          <div class="cabecoins">
+            <p>0</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+
+        <div class="tramo-linea">
+          <div class="relleno-linea" [style.width]="getPorcentajeTramo(0, 150)"></div>
+        </div>
+
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 150">
+          <div class="bola plata"></div>
+          <p>Plata</p>
+          <div class="cabecoins">
+            <p>150</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+
+        <div class="tramo-linea">
+          <div class="relleno-linea" [style.width]="getPorcentajeTramo(150, 300)"></div>
+        </div>
+
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 300">
+          <div class="bola oro"></div>
+          <p>Oro</p>
+          <div class="cabecoins">
+            <p>300</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+
+        <div class="tramo-linea">
+          <div class="relleno-linea" [style.width]="getPorcentajeTramo(300, 600)"></div>
+        </div>
+
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 600">
+          <div class="bola esmeralda"></div>
+          <p>Esmeralda</p>
+          <div class="cabecoins">
+            <p>600</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+
+        <div class="tramo-linea">
+          <div class="relleno-linea" [style.width]="getPorcentajeTramo(600, 1200)"></div>
+        </div>
+
+        <div class="circulo-item" [class.activo]="puntosUsuario >= 1200">
+          <div class="bola diamante"></div>
+          <p>Diamante</p>
+          <div class="cabecoins">
+            <p>1200</p>
+            <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+          </div>
+        </div>
+      </div>
+      <div class="info-nivel">
+        <div class="cabecoins">
+          <p class="texto-puntos">Tienes {{ puntosUsuario }}</p>
+          <img src="/ASSETS/IMAGES/CabeCoin.png" alt="CabeCoins">
+        </div>
+        <h2>Estás en el nivel <span class="texto-nivel {{nivelActual}}">{{ nivelActual }}</span></h2>
+        <div></div>
+      </div>
+      <div class="contenedor-recompensas-sistema">
+        <div class="contenedor-recompensas">
+          <p>Recompensas:</p>
+          <div class="recompensas">
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/mdi--coupon-outline.png">
+              <p>Descuento del 20%</p>
+            </div>
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/mdi--customer-service.png">
+              <p>Atención al cliente premium</p>
+            </div>
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/mdi--new-box.png">
+              <p>Acceso prioritario a nuevos lanzamientos</p>
+            </div>
+          </div>
+        </div>
+        <div class="contenedor-sistema-puntos contenedor-recompensas">
+          <p>¿Como ganar FunkoCoins?</p>
+          <div class="recompensas">
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/pedidos-icon.png">
+              <p>Realizar un pedido = +1 por cada € gastado</p>
+            </div>
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/material-symbols--star-outline.png">
+              <p>Dejar una reseña = +10</p>
+            </div>
+            <div class="recompensa">
+              <img src="/ASSETS/IMAGES/fluent-mdl2--add-friend.png">
+              <p>Invitar a un amigo y que realice un pedido = +50</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<app-footer></app-footer>

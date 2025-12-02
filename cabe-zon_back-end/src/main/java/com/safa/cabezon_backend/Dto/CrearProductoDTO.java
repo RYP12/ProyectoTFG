@@ -3,6 +3,8 @@ package com.safa.cabezon_backend.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 public class CrearProductoDTO {
@@ -12,4 +14,5 @@ public class CrearProductoDTO {
     private Integer codigoProducto;
     private Integer stock;
     private Boolean exclusivo;
+    private Set<Integer> idColecciones;
 }
