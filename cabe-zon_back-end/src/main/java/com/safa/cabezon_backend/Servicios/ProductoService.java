@@ -32,8 +32,8 @@ public class ProductoService {
 
 
     @Transactional
-    public List<ProductoDTO> BuscarProductos() {
-        return mapper.listToDTO(productoRepository.findAll());}
+    public List<BuscarProductoDTO> BuscarProductos() {
+        return mapper.listToBuscarDTO(productoRepository.findAll());}
 
     @Transactional
     public ProductoDTO BuscarProductoPorId(Integer id) {return mapper.toDTO(productoRepository.findById(id).orElse(null));}
@@ -87,4 +87,6 @@ public class ProductoService {
     public List<BuscarProductoDTO> BuscarPorductosPorGustosCliente(Integer idCliente) {
         return mapper.listToBuscarDTO(productoRepository.findGustosCliente(idCliente));
     }
+
+
 }

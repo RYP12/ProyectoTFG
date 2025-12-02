@@ -52,7 +52,7 @@
     @for (funko of listaProductos; track funko.id) {
       <div class="card">
         <div [routerLink]="['/funko', funko.id]" style="cursor: pointer">
-          <!--<img [src]="funko" alt="{{ funko.name }}" class="og">
+          <!--<img [src]="funko" alt="{{ funko. }}" class="og">
           <img [src]="funko" alt="{{ funko.name }}" class="hover">-->
           <h3>{{ funko.descripcion }}</h3>
           <h2>{{ funko.nombre }}</h2>

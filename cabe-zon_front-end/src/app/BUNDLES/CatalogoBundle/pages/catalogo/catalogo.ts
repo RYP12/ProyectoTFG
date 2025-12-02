@@ -38,6 +38,7 @@ export class Catalogo implements OnInit {
       next: (datos) => {
         this.listaProductos = datos;
         this.productosOriginales = datos; // Hacemos una copia de seguridad
+        console.log(this.listaProductos);
       },
       error: (err) => {
         console.log(err);
