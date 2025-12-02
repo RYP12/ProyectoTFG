@@ -11,7 +11,6 @@ export interface Producto {
   exclusivo?: boolean;
   codigoProducto?: number;
   valoracion?: number;
-
 }
 
 @Injectable({
@@ -42,7 +41,10 @@ export class ProductoService {
   eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/producto/delete/${id}`);
   }
-
+  // OBTENER TOP VENTAS (4)
+  obtenerTopVentas(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}/producto/top-ventas`);
+  }
 
   // OBTENER POR FRANJA DE PRECIO
   obtenerFranjaPrecio(min: number,  max: number): Observable<Producto[]> {
@@ -59,4 +61,6 @@ export class ProductoService {
 
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/coleccion/${idColeccion}`);
   }
+
+
 }

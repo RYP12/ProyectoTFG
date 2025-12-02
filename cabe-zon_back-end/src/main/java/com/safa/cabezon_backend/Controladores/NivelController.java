@@ -11,19 +11,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/nivel")
 @AllArgsConstructor
+//Controlador de Nivel
 public class NivelController {
 
     private NivelService nivelService;
 
+    //Solicitar todos los niveles
     @GetMapping("/all")
     public List<Nivel> getNiveles(){return nivelService.BuscarNiveles();}
 
+    //Solicitar nivel segun el id que se pase por url
     @GetMapping("/{id}")
     public Nivel getNivel(@PathVariable Integer id){return nivelService.BuscarNivelPorId(id);}
 
+    //Editar los niveles segun id que se pase por url
     @PutMapping("/put/{id}")
     public void putNivel(@PathVariable Integer id, @RequestBody NivelDTO dto) {
         nivelService.EditarDescuentoNivel(id, dto);
     }
 
+    //No creamos ni borrar ni crear porque los niveles seran siempre los mismos
 }

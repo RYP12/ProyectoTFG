@@ -51,12 +51,14 @@
     <!-- Con Angular usaremos @for para recorrer el array "funkos" -->
     @for (funko of listaProductos; track funko.id) {
       <div class="card">
-      <!--<img [src]="funko" alt="{{ funko.name }}" class="og">
-      <img [src]="funko" alt="{{ funko.name }}" class="hover">-->
-      <h3>{{ funko.descripcion }}</h3>
-      <h2>{{ funko.nombre }}</h2>
-      <p class="precio">{{ funko.precio }} €</p>
-      <button (click)="agregarAlCarrito(funko)">AÑADIR</button>
+        <div [routerLink]="['/funko', funko.id]" style="cursor: pointer">
+          <!--<img [src]="funko" alt="{{ funko.name }}" class="og">
+          <img [src]="funko" alt="{{ funko.name }}" class="hover">-->
+          <h3>{{ funko.descripcion }}</h3>
+          <h2>{{ funko.nombre }}</h2>
+          <p class="precio">{{ funko.precio }} €</p>
+        </div>
+        <button (click)="agregarAlCarrito(funko)">AÑADIR</button>
       </div>
     }
 

@@ -3,6 +3,7 @@ package com.safa.cabezon_backend.Servicios;
 import com.safa.cabezon_backend.Dto.BuscarColeccionDTO;
 import com.safa.cabezon_backend.Dto.ColeccionDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoDTO;
+import com.safa.cabezon_backend.Mapper.ColeccionMapper;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IClienteRepository;
@@ -31,7 +32,19 @@ public class ColeccionService {
     @Autowired
     private IClienteRepository clienteRepository;
 
+    @Autowired
+    private ColeccionMapper coleccionMapper;
 
+
+    @Transactional
+    public List<BuscarColeccionDTO> crearColeccion(){
+        return coleccionMapper.listTODTO(coleccionRepository.findAll());
+    }
+
+    @Transactional
+    public BuscarColeccionDTO BuscarColeccionPorId(Integer id){
+        return coleccionMapper.toDTO( coleccionRepository.findById(id).orElse(null));
+    }
 
     @Transactional
     public void borrarColeccionPorId(Integer id) {

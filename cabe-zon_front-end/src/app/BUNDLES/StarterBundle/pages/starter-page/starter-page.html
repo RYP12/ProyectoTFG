@@ -21,56 +21,34 @@
   <section class="top-sales">
     <h2 class="top-sales-title">TOP VENTAS</h2>
 
+
     <div class="product-grid">
-      <article class="product-card-small">
-        <div class="card-image">
-          <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="Nombre funko">
-        </div>
-        <div class="card-body">
-          <p class="categoria">Categoria</p>
-          <p class="nombre">Nombre funko</p>
-          <p class="precio">00€</p>
-          <button class="btn-add">AÑADIR</button>
-        </div>
-      </article>
+      <!-- Bucle: Repite esto por cada producto que venga del backend -->
+      @for (prod of topProductos; track prod.id; let i = $index) {
+        <article class="product-card-small">
+          <div class="top-tag">TOP {{ i + 1 }}</div>
+          <div class="card-image">
+            <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="Imagen producto">
+          </div>
+          <div class="card-body">
+            <p class="categoria">Funko Pop</p>
 
-      <article class="product-card-small">
-        <div class="card-image">
-          <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="Nombre funko">
-        </div>
-        <div class="card-body">
-          <p class="categoria">Categoria</p>
-          <p class="nombre">Nombre funko</p>
-          <p class="precio">00€</p>
-          <button class="btn-add">AÑADIR</button>
-        </div>
-      </article>
 
-      <article class="product-card-small">
-        <div class="card-image">
-          <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="Nombre funko">
-        </div>
-        <div class="card-body">
-          <p class="categoria">Categoria</p>
-          <p class="nombre">Nombre funko</p>
-          <p class="precio">00€</p>
-          <button class="btn-add">AÑADIR</button>
-        </div>
-      </article>
+            <!-- NOMBRE DINÁMICO: Viene de la base de datos -->
+            <p class="nombre">{{ prod.nombre }}</p>
 
-      <article class="product-card-small">
-        <div class="card-image">
-          <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="Nombre funko">
-        </div>
-        <div class="card-body">
-          <p class="categoria">Categoria</p>
-          <p class="nombre">Nombre funko</p>
-          <p class="precio">00€</p>
-          <button class="btn-add">AÑADIR</button>
-        </div>
-      </article>
+
+            <!-- PRECIO DINÁMICO -->
+            <p class="precio">{{ prod.precio | currency:'EUR':'symbol':'1.2-2' }}</p>
+
+
+            <button class="btn-add">AÑADIR</button>
+          </div>
+        </article>
+      }
     </div>
   </section>
+
 
   <section class="wild-marquee" aria-hidden="true">
     <div class="marquee-line top">

@@ -136,6 +136,19 @@ main {
   text-align: center;
   box-sizing: border-box;
   min-height: 260px;
+  position: relative;
+}
+
+.top-tag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: red;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
 }
 
 .card-image {
