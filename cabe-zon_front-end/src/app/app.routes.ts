@@ -19,6 +19,7 @@ import {StarterPage} from './BUNDLES/StarterBundle/pages/starter-page/starter-pa
 import {CustomerControl} from './BUNDLES/CustomerBundle/pages/customer-control/customer-control/customer-control';
 import {HtmlTagDefinition} from '@angular/compiler';
 import {Finalizar} from './BUNDLES/FinalizarPedidoBundle/pages/finalizar/finalizar';
+import {OwnerControlClientes} from './BUNDLES/OwnerBundle/pages/owner-control-clientes/owner-control-clientes';
 
 export const routes: Routes = [
   {
@@ -67,7 +68,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin/clientes',
-    component: OwnerControlClienteForm,
+    component: OwnerControlClientes,
   },
   {
     path: 'admin/clientes/agregar',
