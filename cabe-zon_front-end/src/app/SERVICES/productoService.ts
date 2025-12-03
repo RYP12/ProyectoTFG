@@ -66,5 +66,9 @@ export class ProductoService {
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/coleccion/${idColeccion}`);
   }
 
+  getExclusivos():Observable<Producto[]>{
+    return this.http.get<Producto[]>(`${this.apiUrl}/producto/exclusivo`);
+  }
+
 
 }
