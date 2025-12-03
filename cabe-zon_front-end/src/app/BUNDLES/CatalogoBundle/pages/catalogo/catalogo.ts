@@ -20,6 +20,10 @@ import {RouterLink} from '@angular/router';
 export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
 
+  paginaActual: number = 0;
+  esUltimaPagina: boolean = false;
+  cargando: boolean = false;
+
   // RECIBE LOS FILTROS DEL HTML
   filtros = {
 
@@ -33,14 +37,7 @@ export class Catalogo implements OnInit {
               private carritoService: CarritoService) { }
 
   ngOnInit() {
-    this.productoService.obtenerProductos().subscribe({
-      next: (datos) => {
-        this.listaProductos = datos;
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+    this.cargarProductos();
   }
 
   aplicarFiltros (){
@@ -88,5 +85,13 @@ export class Catalogo implements OnInit {
   protected agregarAlCarrito(funko: Producto) {
     this.carritoService.agregarProducto(funko);
     alert('¡Funko añadido al carrito!');
+  }
+
+  cargarProductos(){
+
+  }
+
+  verMas(){
+
   }
 }

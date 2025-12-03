@@ -27,6 +27,7 @@ public abstract class ProductoMapper {
     public abstract List<BuscarProductoDTO> listToBuscarDTO(List<Producto> productos);
     public abstract ProductoDTO toDTO(Producto producto);
 
+    public abstract BuscarProductoDTO toBuscarProductoDTO(Producto producto);
     @Mapping(source = "idColecciones",target="colecciones")
     public abstract Producto toProducto(CrearProductoDTO productoDTO);
 
