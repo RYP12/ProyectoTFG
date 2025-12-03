@@ -8,6 +8,8 @@ import {CarritoService} from '../../../../SERVICES/carrito-service';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {CommonModule} from '@angular/common';
+import {Coleccion, ColeccionService} from '../../../../SERVICES/coleccion-service';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-edicion-limitada',
@@ -24,6 +26,7 @@ import {CommonModule} from '@angular/common';
 export class EdicionLimitada implements OnInit {
   listaProductos: Producto[] = [];
   productosOriginales: Producto[] = [];
+  colecciones: Coleccion[] = [];
 
   // RECIBE LOS FILTROS DEL HTML
   filtros = {
@@ -35,7 +38,8 @@ export class EdicionLimitada implements OnInit {
   };
 
   constructor(private productoService: ProductoService,
-              private carritoService: CarritoService) { }
+              private carritoService: CarritoService,
+              private coleccionService: ColeccionService) { }
 
   ngOnInit() {
     this.productoService.getExclusivos().subscribe({
@@ -47,37 +51,80 @@ export class EdicionLimitada implements OnInit {
         console.log(err);
       }
     })
+    this.coleccionService.obtenerColecciones().subscribe({
+      next: (datos) => {
+        this.colecciones = datos;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
-  aplicarFiltros (){
-    // Empezamos con la lista original para aplicar filtros
-    let productosFiltrados = [...this.productosOriginales];
+  aplicarFiltros() {
+    // PASO 1: DEFINIR EL ORIGEN DE LOS DATOS (Pattern: Source Normalization)
+    // Declaramos una variable que SIEMPRE será un Observable
+    let fuenteDatos$: Observable<Producto[]>;
 
-    // 1. FILTRO POR RANGO DE PRECIO (CLIENTE)
-    if (this.filtros.rangoPrecio) {
-      const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
-      const min = parseFloat(minStr);
-      const max = parseFloat(maxStr);
-      productosFiltrados = productosFiltrados.filter(p => p.precio && p.precio >= min && p.precio <= max);
+    // Verificamos si el usuario seleccionó una colección
+    if (this.filtros.colaboracion && this.filtros.colaboracion !== '') {
+      const idColeccionSeleccionada = parseInt(this.filtros.colaboracion);
+
+      // --- CAMBIO CLAVE: Lógica para Many-to-Many ---
+      // Filtramos en memoria buscando dentro de la LISTA de colecciones del producto
+      const filtrados = this.productosOriginales.filter(p => {
+        // Validación de seguridad: ¿Tiene lista de colecciones?
+        if (!p.colecciones|| p.colecciones.length === 0) {
+          return false; // Si no tiene colecciones, no pasa el filtro
+        }
+
+        // .some() devuelve true si AL MENOS UNA colección coincide con el ID buscado
+        return p.colecciones.some(c => c.id === idColeccionSeleccionada);
+      });
+
+      // Envolvemos el resultado (vacío o con datos) en un Observable
+      fuenteDatos$ = of(filtrados);
+
+    } else {
+      // Si no hay filtro de colección, la fuente son todos los originales
+      fuenteDatos$ = of(this.productosOriginales);
     }
 
-    // Aquí podrías añadir el filtro por colaboración si tuvieras los datos en el producto
-    // Ejemplo: if (this.filtros.colaboracion) { ... }
+    // PASO 2: SUSCRIBIRSE Y PROCESAR (Pipeline unificado)
 
-    // 2. ORDENACIÓN (CLIENTE)
-    if (this.filtros.orden === 'asc') {
-      productosFiltrados.sort((a, b) => (a.precio || 0) - (b.precio || 0));
-    } else if (this.filtros.orden === 'desc') {
-      productosFiltrados.sort((a, b) => (b.precio || 0) - (a.precio || 0));
-    }
+    fuenteDatos$.subscribe({
+      next: (productosBase) => {
+        // Trabajamos con una copia para inmutabilidad
+        let resultado = [...productosBase];
 
-    // 3. ACTUALIZAR LA LISTA VISIBLE
-    this.listaProductos = productosFiltrados;
+        // --- FILTRO 1: RANGO DE PRECIO (Local) ---
+        if (this.filtros.rangoPrecio) {
+          const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
+          const min = parseFloat(minStr);
+          const max = parseFloat(maxStr);
 
-    // Si no se aplica ningún filtro, mostramos todos los productos
-    if (!this.filtros.rangoPrecio && !this.filtros.orden && !this.filtros.colaboracion) {
-      this.listaProductos = [...this.productosOriginales];
-    }
+          resultado = resultado.filter(p =>
+            p.precio !== undefined && p.precio >= min && p.precio <= max
+          );
+        }
+
+        // --- FILTRO 2: ORDENACIÓN (Local) ---
+        if (this.filtros.orden) {
+          resultado.sort((a, b) => {
+            const precioA = a.precio || 0;
+            const precioB = b.precio || 0;
+            return this.filtros.orden === 'asc' ? precioA - precioB : precioB - precioA;
+          });
+        }
+
+        // PASO 3: ACTUALIZAR LA VISTA
+        this.listaProductos = resultado;
+        console.log(`Filtros aplicados. Mostrando ${resultado.length} productos.`);
+      },
+      error: (err) => {
+        console.error('Error al aplicar filtros:', err);
+      }
+    });
   }
   // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
   protected agregarAlCarrito(funko: Producto) {
