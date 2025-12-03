@@ -22,6 +22,9 @@ export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
   productosOriginales: Producto[] = []; // Guardamos la lista original
 
+  // URL de reserva si el producto no tiene imagen (ajusta la ruta si es necesario)
+  private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
+
   // RECIBE LOS FILTROS DEL HTML
   filtros = {
 
@@ -38,11 +41,24 @@ export class Catalogo implements OnInit {
       next: (datos) => {
         this.listaProductos = datos;
         this.productosOriginales = datos; // Hacemos una copia de seguridad
+        console.log(this.listaProductos);
       },
       error: (err) => {
         console.log(err);
       }
     })
+  }
+
+
+  obtenerImagenUrl(funko: Producto, index: number): string {
+    // 1. Verifica si el array 'imagenes' existe
+    // 2. Verifica si el array es lo suficientemente largo para el índice solicitado
+    // 3. Verifica si el elemento en ese índice tiene una 'url'
+    if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
+      return funko.imagenes[index].url;
+    }
+    // Si falla, devuelve la URL de reserva
+    return this.PLACEHOLDER_IMG_URL;
   }
 
   aplicarFiltros (){

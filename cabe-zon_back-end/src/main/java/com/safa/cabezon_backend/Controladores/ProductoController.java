@@ -21,7 +21,7 @@ public class ProductoController {
 
     //Solicita todos los productos(ProductoDTO)
     @GetMapping("/all")
-    public List<ProductoDTO> getProductos(){return productoService.BuscarProductos();}
+    public List<BuscarProductoDTO> getProductos(){return productoService.BuscarProductos();}
 
     //solicita un producto segun id que se pase por url(ProductoDTO)
     @GetMapping("/{id}")
