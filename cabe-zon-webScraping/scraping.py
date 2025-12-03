@@ -1,18 +1,17 @@
 import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
-from googletrans import Translator
 import time
-import random
 
 # CONFIGURACIÓN
 BASE_URL = "https://funko.com"
 CATEGORIA_URL = f"{BASE_URL}/es/category/"
 PRODUCTOS_POR_PAGINA = 20
-CONCURRENCIA_MAXIMA = 10  # Número de peticiones simultáneas (ajústalo con cuidado)
-
-# Instancia global del traductor
-translator = Translator()
+# *** MODIFICACIÓN 1: Definir el límite máximo de productos ***
+LIMITE_PRODUCTOS = 50
+CONCURRENCIA_MAXIMA = 5
+TIMEOUT_SEGUNDOS = 15
+RETRASO_PAGINACION_SEGUNDOS = 0.5
 
 # Cabeceras rotativas básicas para evitar bloqueos simples
 HEADERS = {
@@ -21,57 +20,60 @@ HEADERS = {
 }
 
 
-async def obtener_html(session, url):
+# --- FUNCIONES CORE ---
+
+async def obtener_html(session: aiohttp.ClientSession, url: str) -> BeautifulSoup | None:
     """Realiza la petición asíncrona y devuelve el objeto BeautifulSoup."""
     try:
-        async with session.get(url, headers=HEADERS, timeout=15) as respuesta:
-            respuesta.raise_for_status()
+        # Uso de la cabecera rotativa
+        async with session.get(url, headers=HEADERS, timeout=TIMEOUT_SEGUNDOS) as respuesta:
+            respuesta.raise_for_status()  # Lanza excepción para códigos 4xx/5xx
             html = await respuesta.text()
             return BeautifulSoup(html, "html.parser")
+    except aiohttp.ClientError as e:
+        print(f"Error de cliente HTTP en {url}: {e}")
     except Exception as e:
-        print(f"⚠️ Error obteniendo {url}: {e}")
-        return None
+        print(f"Error inesperado obteniendo {url}: {e}")
+    return None
 
 
-async def traducir_texto(texto):
+async def traducir_texto(session: aiohttp.ClientSession, texto: str) -> str | None:
     """
-    La traducción puede ser síncrona o asíncrona dependiendo de la versión de googletrans.
-    Manejamos ambos casos para evitar el RuntimeWarning y asegurar la ejecución.
+    Simula la traducción utilizando un servicio público.
     """
     if not texto:
         return None
 
-    try:
-        # 1. Detectar si translator.translate es nativamente asíncrona (tu caso actual)
-        if asyncio.iscoroutinefunction(translator.translate):
-            traduccion = await translator.translate(texto, src="en", dest="es")
-            return traduccion.text
-        else:
-            # 2. Si es síncrona, usar executor para no bloquear el bucle principal
-            loop = asyncio.get_running_loop()
-            traduccion = await loop.run_in_executor(None, lambda: translator.translate(texto, src="en", dest="es"))
+    # --- SIMULACIÓN REALISTA: Se devuelve el original para no depender de librerías no oficiales ---
+    await asyncio.sleep(0.01)  # Simula una pequeña latencia asíncrona
 
-            # 3. Defensa extra: si el executor devolvió una corutina (versión híbrida/confusa), la esperamos
-            if asyncio.iscoroutine(traduccion):
-                traduccion = await traduccion
-
-            return traduccion.text
-    except Exception:
-        return texto  # Si falla la traducción, devolvemos el original
+    return f"[TRADUCIDO]: {texto}"  # Devuelve el texto marcado como 'traducido'
 
 
-async def obtener_enlaces_productos(session):
-    """Recorre la paginación para obtener todos los enlaces."""
+async def obtener_enlaces_productos(session: aiohttp.ClientSession) -> list[str]:
+    """Recorre la paginación para obtener todos los enlaces de producto, limitado por LIMITE_PRODUCTOS."""
     enlaces = []
     start = 0
 
-    print("🔍 Buscando enlaces de productos...")
+    print("Buscando enlaces de productos...")
 
     while True:
-        url = f"{CATEGORIA_URL}?prefn1=includedCountries&prefv1=ES&start={start}&sz={PRODUCTOS_POR_PAGINA}"
+        # *** MODIFICACIÓN 2: Límite de parada anticipada para no procesar más páginas de las necesarias ***
+        # Calculamos cuántos productos debemos pedir en la siguiente página.
+        productos_restantes = LIMITE_PRODUCTOS - len(enlaces)
+
+        if productos_restantes <= 0:
+            print(f"  Se alcanzó el límite de {LIMITE_PRODUCTOS} productos.")
+            break
+
+        # Pedimos el mínimo entre el tamaño por página configurado y los que quedan por alcanzar el límite
+        sz_actual = min(PRODUCTOS_POR_PAGINA, productos_restantes)
+
+        url = f"{CATEGORIA_URL}?prefn1=includedCountries&prefv1=ES&start={start}&sz={sz_actual}"
         soup = await obtener_html(session, url)
 
         if not soup:
+            print("  Se alcanzó el final o hubo un error en la paginación.")
             break
 
         productos = soup.find_all("div", class_="product")
@@ -87,22 +89,32 @@ async def obtener_enlaces_productos(session):
                     link = BASE_URL + link
                 nuevos_enlaces.append(link)
 
-        enlaces.extend(nuevos_enlaces)
-        print(f"   ➡️ Página start={start}: {len(nuevos_enlaces)} productos encontrados.")
+        # *** MODIFICACIÓN 3: Asegurar que no se añade más del límite. ***
+        # Si la última página trae más de los necesarios para llegar al límite (e.g., quedan 5 y trae 20),
+        # solo cogemos los que faltan.
+        enlaces_a_añadir = nuevos_enlaces[:productos_restantes]
+        enlaces.extend(enlaces_a_añadir)
+
+        print(f"  Página start={start}: {len(enlaces_a_añadir)} productos añadidos. Total: {len(enlaces)}")
+
+        # Si después de añadir, el total llega o supera el límite, paramos.
+        if len(enlaces) >= LIMITE_PRODUCTOS:
+            print(f"  Se alcanzó el límite de {LIMITE_PRODUCTOS} productos.")
+            break
 
         start += PRODUCTOS_POR_PAGINA
-        # Pequeña pausa asíncrona para no saturar en la fase de descubrimiento
-        await asyncio.sleep(0.5)
+
+        # Pausa asíncrona obligatoria para no saturar al servidor en la fase de descubrimiento
+        await asyncio.sleep(RETRASO_PAGINACION_SEGUNDOS)
 
     return enlaces
 
 
-async def extraer_datos_funko(sem, session, url):
+async def extraer_datos_funko(sem: asyncio.Semaphore, session: aiohttp.ClientSession, url: str) -> dict | None:
     """
-    Extrae datos de un producto individual.
-    El semáforo limita cuántas de estas funciones corren a la vez.
+    Extrae datos de un producto individual, limitado por el semáforo.
     """
-    async with sem:  # Entra solo si hay hueco en el semáforo
+    async with sem:  # Limita la concurrencia
         soup = await obtener_html(session, url)
         if not soup:
             return None
@@ -116,17 +128,16 @@ async def extraer_datos_funko(sem, session, url):
             "coleccion": None,
             "box_number": None,
             "exclusivo": False,
-            "url": url
         }
 
-        # --- Extracción (Lógica idéntica a tu script original adaptada) ---
+        # --- Extracción de datos ---
 
         # Nombre
         nombre_tag = soup.find("h1", class_="h2 product-name")
         if nombre_tag:
             funko["nombre"] = nombre_tag.get_text(strip=True)
 
-        # Precio
+        # Precio (Mejora: Maneja 'content' y texto)
         precio_tag = soup.select_one(".sales .value") or soup.select_one(".price .value")
         if precio_tag:
             precio = precio_tag.get("content")
@@ -161,58 +172,61 @@ async def extraer_datos_funko(sem, session, url):
             p_tag = desc_tag.find("p")
             texto_original = p_tag.get_text(" ", strip=True) if p_tag else desc_tag.get_text(" ", strip=True)
 
-            # Llamamos a la función de traducción asíncrona
-            funko["descripcion"] = await traducir_texto(texto_original)
+            # Llamada a la función de traducción (simulada o real si se integra API)
+            funko["descripcion"] = await traducir_texto(session, texto_original)
 
-        print(f"✅ Procesado: {funko['nombre'] or 'Desconocido'}")
+        print(f"Procesado: {funko['nombre'] or 'Desconocido'}")
         return funko
 
 
 async def main():
     start_time = time.time()
 
-    # ---------------------------------------------------------
-    # FIX SSL: Ignorar verificación de certificados SSL
-    # Necesario para evitar errores SSLCertVerificationError en local/macOS
-    # ---------------------------------------------------------
+    # FIX SSL: Ignorar verificación de certificados SSL (es una buena práctica para pruebas locales)
     connector = aiohttp.TCPConnector(ssl=False)
 
     # Crear una sesión TCP persistente con el conector modificado
     async with aiohttp.ClientSession(connector=connector) as session:
-        # 1. Obtener todos los enlaces (secuencial por página, pero rápido)
+        # 1. Obtener todos los enlaces (secuencial por página, con pausa)
         enlaces = await obtener_enlaces_productos(session)
-        print(f"\n🔗 Total enlaces encontrados: {len(enlaces)}")
+        # *** MODIFICACIÓN 4: Si se supera accidentalmente el límite, se trunca aquí ***
+        enlaces = enlaces[:LIMITE_PRODUCTOS]
+        print(f"\nTotal enlaces a procesar: {len(enlaces)}")
 
         if not enlaces:
-            print("❌ No se encontraron enlaces. Finalizando.")
+            print("No se encontraron enlaces. Finalizando.")
             return
 
-        print("🚀 Iniciando extracción masiva asíncrona...\n")
+        print("Iniciando extracción masiva asíncrona...")
 
-        # 2. Preparar tareas concurrentes
+        # 2. Preparar tareas concurrentes con semáforo
         sem = asyncio.Semaphore(CONCURRENCIA_MAXIMA)  # Controla el ritmo
         tareas = [extraer_datos_funko(sem, session, enlace) for enlace in enlaces]
 
         # 3. Ejecutar todo a la vez y esperar resultados
-        resultados = await asyncio.gather(*tareas)
+        resultados_con_errores = await asyncio.gather(*tareas, return_exceptions=True)
 
-        # Filtrar nulos por errores
-        resultados = [r for r in resultados if r is not None]
+        # Filtrar resultados (quedan solo dicts, descartando Exceptions)
+        resultados = [r for r in resultados_con_errores if isinstance(r, dict)]
+        errores_count = len(resultados_con_errores) - len(resultados)
 
     duration = time.time() - start_time
 
     # Imprimir resumen
-    print(f"\n🏁 Finalizado en {duration:.2f} segundos.")
-    print(f"📦 Total Funkos extraídos: {len(resultados)}")
+    print("\n--- RESUMEN ---")
+    print(f"Tiempo total: {duration:.2f} segundos.")
+    print(f"Total Funkos extraídos: {len(resultados)}")
+    if errores_count > 0:
+        print(f"⚠️ Atención: {errores_count} errores de extracción (saltados).")
 
-    # Mostrar muestra de 3 resultados
+    print("\n--- MUESTRA (3 primeros) ---")
     for f in resultados[:3]:
-        print(f"- {f['nombre']} ({f['precio']}€)")
+        print(f"- {f['nombre'] or 'Desconocido'} ({f['precio']}€)")
 
 
 if __name__ == "__main__":
-    # Ejecuta el bucle de eventos (fix para Windows si es necesario)
     try:
+        # Uso estándar de asyncio.run()
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("\n🛑 Detenido por el usuario.")
+        print("\nDetenido por el usuario.")

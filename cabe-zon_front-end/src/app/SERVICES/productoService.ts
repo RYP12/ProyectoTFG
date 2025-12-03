@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Coleccion} from './coleccion-service';
+import * as url from 'node:url';
+import {Imagenes} from './imagen-service';
 
 export interface Producto {
   id?: number;
@@ -12,7 +13,8 @@ export interface Producto {
   exclusivo?: boolean;
   codigoProducto?: number;
   valoracion?: number;
-  colecciones?: Coleccion[] ;
+
+  imagenes?: Imagenes[];
 }
 
 @Injectable({
@@ -62,10 +64,6 @@ export class ProductoService {
   filtrarPorColeccion(idColeccion: number): Observable<Producto[]> {
 
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/coleccion/${idColeccion}`);
-  }
-
-  getExclusivos():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.apiUrl}/producto/exclusivo`);
   }
 
 
