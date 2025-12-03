@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Coleccion} from './coleccion-service';
 
 export interface Producto {
   id?: number;
@@ -11,6 +12,7 @@ export interface Producto {
   exclusivo?: boolean;
   codigoProducto?: number;
   valoracion?: number;
+  colecciones?: Coleccion[] ;
 }
 
 @Injectable({
