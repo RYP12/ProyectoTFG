@@ -34,9 +34,9 @@
       <div class="dropdown-filtro select-style">
         <select [(ngModel)]="filtros.colaboracion">
           <option value="">COLABORACIÓN</option>
-          <option value="marvel">Marvel</option>
-          <option value="dc">DC Comics</option>
-          <option value="starwars">Star Wars</option>
+          @for (coleccion of colecciones; track coleccion.id){
+            <option value="{{coleccion.id}}">{{coleccion.nombre}}</option>
+          }
         </select>
         <span class="arrow-down">&#9660;</span>
       </div>
