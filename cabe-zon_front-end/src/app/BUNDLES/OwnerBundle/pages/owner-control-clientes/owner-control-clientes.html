@@ -42,7 +42,7 @@
                 }@else if (cliente.nivel?.nivel === 'DIAMANTE'){
                   <h3 class="niveles" style="background-color: #4EE2EC">{{ cliente.nivel?.nivel}}</h3>
                 }
-
+                <h3>{{cliente.pedidos?.length || 0 }}</h3>
               </div>
             }
           </div>
