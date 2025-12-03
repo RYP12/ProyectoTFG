@@ -3,13 +3,15 @@ import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {ActivatedRoute} from '@angular/router';
 import {Producto, ProductoService, Resenya} from '../../../../SERVICES/productoService';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-funko',
   standalone: true,
   imports: [
     Header,
-    Footer
+    Footer,
+    NgOptimizedImage
   ],
   templateUrl: './funko.html',
   styleUrl: './funko.css',
