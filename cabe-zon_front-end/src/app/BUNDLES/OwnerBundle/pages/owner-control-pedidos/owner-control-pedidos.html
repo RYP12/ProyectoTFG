@@ -16,7 +16,10 @@
             <button><--</button>
             <button style="background-color: #4C97FF; color: #f9f9f9">--></button>
           </div>
-          <input type="text" placeholder="Buscar" style="border-radius: 20px; height: 100%;">
+          <input type="text"
+                 placeholder="Buscar por Estado o ID"
+                 style="border-radius: 20px; height: 100%; padding:4px"
+                 (input)="filtrar($event)">
         </div>
 
         <div id="segundaParteForm">
@@ -29,7 +32,7 @@
 
           <div id="datosGlobal">
 
-            @for (pedido of listaPedidos; track pedido.id) {
+            @for (pedido of listaPedidosFiltrada; track pedido.id) {
              <div class="datos">
                @if (pedido.estado === 'EN_PREPARACION') {
                  <h3 style="color: gold ">Pendiente</h3>
