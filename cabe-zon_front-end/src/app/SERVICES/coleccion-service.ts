@@ -22,4 +22,9 @@ export class ColeccionService {
   obtenerProductoPorID(id:number):Observable<Coleccion>{
     return this.http.get<Coleccion>(`${this.apiUrl}/producto/${id}`);
   }
+
+  //Obtener las colecciones exclusivas
+  obtenerColeccionesExclusivas(): Observable<Coleccion[]> {
+    return this.http.get<Coleccion[]>(`${this.apiUrl}/coleccion/exclusivas`);
+  }
 }

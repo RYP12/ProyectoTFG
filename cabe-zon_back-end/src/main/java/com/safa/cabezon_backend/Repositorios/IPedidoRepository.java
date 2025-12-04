@@ -12,4 +12,6 @@ public interface IPedidoRepository extends JpaRepository<Pedido, Integer> {
 
     @Query("SELECT p FROM Pedido p JOIN FETCH p.cliente")
     List<Pedido> findAllWithCliente();
+
+    int countByCliente_Id(Integer idCliente);
 }

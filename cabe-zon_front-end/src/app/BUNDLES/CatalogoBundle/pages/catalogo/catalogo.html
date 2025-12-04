@@ -22,7 +22,7 @@
       </div>
 
       <div class="dropdown-filtro select-style">
-      <select [(ngModel)]="filtros.rangoPrecio">
+        <select [(ngModel)]="filtros.rangoPrecio">
           <option value="">PRECIO</option>
           <option value="0-25">0€ - 25€</option>
           <option value="25-50">25€ - 50€</option>
@@ -51,10 +51,8 @@
     @for (funko of listaProductos; track funko.id) {
       <div class="card">
         <div [routerLink]="['/funko', funko.id]" style="cursor: pointer">
-          <div id="imgenes">
-            <img [src]="obtenerImagenUrl(funko, 0)" alt="{{ funko.nombre }}" class="og">
-            <img [src]="obtenerImagenUrl(funko, 1)" alt="{{ funko.nombre }}" class="hover">
-          </div>
+          <!--<img [src]="funko" alt="{{ funko.name }}" class="og">
+          <img [src]="funko" alt="{{ funko.name }}" class="hover">-->
           <h3>{{ funko.descripcion }}</h3>
           <h2>{{ funko.nombre }}</h2>
           <p class="precio">{{ funko.precio }} €</p>
@@ -63,8 +61,8 @@
       </div>
     }
 
-<button class="btn-mas">VER MAS</button>
+    <button class="btn-mas">VER MAS</button>
 
-</div>
+  </div>
 </div>
 <app-footer></app-footer>

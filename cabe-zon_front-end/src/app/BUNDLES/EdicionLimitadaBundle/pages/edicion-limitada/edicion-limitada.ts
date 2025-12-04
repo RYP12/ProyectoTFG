@@ -30,11 +30,9 @@ export class EdicionLimitada implements OnInit {
 
   // RECIBE LOS FILTROS DEL HTML
   filtros = {
-
     orden: '',
     rangoPrecio: '',
     colaboracion: ''
-
   };
 
   constructor(private productoService: ProductoService,
@@ -42,59 +40,62 @@ export class EdicionLimitada implements OnInit {
               private coleccionService: ColeccionService) { }
 
   ngOnInit() {
+    // 1. CARGAR SOLO PRODUCTOS EXCLUSIVOS
+    // (Asegúrate de que este método en el servicio llame a un endpoint que filtre por 'exclusivo = true')
     this.productoService.getExclusivos().subscribe({
       next: (datos) => {
         this.listaProductos = datos;
-        this.productosOriginales = datos; // Hacemos una copia de seguridad
+        this.productosOriginales = datos; // La copia de seguridad solo contiene exclusivas
+        console.log("Productos Exclusivos cargados:", datos.length);
       },
       error: (err) => {
         console.log(err);
       }
-    })
-    this.coleccionService.obtenerColecciones().subscribe({
+    });
+
+    // 2. CARGAR SOLO COLECCIONES CON EXCLUSIVAS (¡CAMBIO IMPORTANTE!)
+    // Usamos el método nuevo que creamos antes para que el desplegable
+    // solo muestre opciones que darán resultados.
+    this.coleccionService.obtenerColeccionesExclusivas().subscribe({
       next: (datos) => {
         this.colecciones = datos;
+        console.log("Colecciones VIP cargadas:", datos.length);
       },
       error: (err) => {
         console.log(err);
       }
-    })
+    });
   }
 
   aplicarFiltros() {
-    // PASO 1: DEFINIR EL ORIGEN DE LOS DATOS (Pattern: Source Normalization)
-    // Declaramos una variable que SIEMPRE será un Observable
+    // PASO 1: DEFINIR EL ORIGEN DE LOS DATOS
     let fuenteDatos$: Observable<Producto[]>;
 
-// --- FILTRO POR COLECCIÓN ---
-    if (this.filtros.colaboracion != null && this.filtros.colaboracion !== '') {
-      // Convertimos a número para evitar errores de tipos
-      const idColeccionSeleccionada = Number(this.filtros.colaboracion);
+    // Verificamos si el usuario seleccionó una colección
+    if (this.filtros.colaboracion && this.filtros.colaboracion !== '') {
+      const idColeccionSeleccionada = parseInt(this.filtros.colaboracion);
 
-      // Filtramos productos en memoria
+      // Filtramos en memoria buscando dentro de la LISTA de colecciones del producto
       const filtrados = this.productosOriginales.filter(p => {
-        // Validación: tiene colecciones
-        if (!p.colecciones || p.colecciones.length === 0) return false;
-
-        // Comprobamos si alguna colección coincide
+        if (!p.colecciones || p.colecciones.length === 0) {
+          return false;
+        }
         return p.colecciones.some(c => c.id === idColeccionSeleccionada);
       });
 
       fuenteDatos$ = of(filtrados);
 
     } else {
-      // Si no hay filtro, tomamos todos los productos
+      // Si no hay filtro de colección, la fuente son todos los originales (que ya son solo exclusivas)
       fuenteDatos$ = of(this.productosOriginales);
     }
 
-    // PASO 2: SUSCRIBIRSE Y PROCESAR (Pipeline unificado)
-
+    // PASO 2: SUSCRIBIRSE Y PROCESAR
     fuenteDatos$.subscribe({
       next: (productosBase) => {
-        // Trabajamos con una copia para inmutabilidad
         let resultado = [...productosBase];
 
-        // --- FILTRO 1: RANGO DE PRECIO (Local) ---
+        // --- FILTRO 1: RANGO DE PRECIO ---
         if (this.filtros.rangoPrecio) {
           const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
           const min = parseFloat(minStr);
@@ -105,7 +106,7 @@ export class EdicionLimitada implements OnInit {
           );
         }
 
-        // --- FILTRO 2: ORDENACIÓN (Local) ---
+        // --- FILTRO 2: ORDENACIÓN ---
         if (this.filtros.orden) {
           resultado.sort((a, b) => {
             const precioA = a.precio || 0;
@@ -116,17 +117,16 @@ export class EdicionLimitada implements OnInit {
 
         // PASO 3: ACTUALIZAR LA VISTA
         this.listaProductos = resultado;
-        console.log(`Filtros aplicados. Mostrando ${resultado.length} productos.`);
       },
       error: (err) => {
         console.error('Error al aplicar filtros:', err);
       }
     });
   }
-  // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
+
   protected agregarAlCarrito(funko: Producto) {
     this.carritoService.agregarProducto(funko);
+    // Idealmente usa un Toast o notificación en lugar de alert
     alert('¡Funko añadido al carrito!');
   }
-
 }
