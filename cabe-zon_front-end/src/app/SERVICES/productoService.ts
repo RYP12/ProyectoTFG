@@ -83,9 +83,17 @@ export class ProductoService {
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/coleccion/${idColeccion}`);
   }
 
-  getExclusivos():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.apiUrl}/producto/exclusivo`);
+  //getExclusivos():Observable<Producto[]>{
+   // return this.http.get<Producto[]>(`${this.apiUrl}/producto/exclusivo`);
+  //}
+
+  // OBTENER TODOS LOS PRODUCTOS
+  getExclusivos(page: number = 0, size: number = 20): Observable<any> {
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<any>(`${this.apiUrl}/producto/exclusivo?page=${page}&size=${size}`);
   }
+
+
 
 
 }

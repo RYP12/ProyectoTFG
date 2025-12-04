@@ -44,6 +44,7 @@ public class ProductoService {
         return productos.map(productoMapper::toBuscarProductoDTO);
     }
 
+
     @Transactional
     public Page<BuscarProductoAdminDTO> buscarProductosAdminPaginados(Pageable pageable) {
         Page<Producto> productos = productoRepository.findAll(pageable);
@@ -77,9 +78,11 @@ public class ProductoService {
         return mapper.listToBuscarDTO(productoRepository.findProductosNoExclusivos());
     }
 
+    // EXCLUSIVO
     @Transactional
-    public List<BuscarProductoDTO> BuscarPorductosExclusivos(){
-        return mapper.listToBuscarDTO(productoRepository.findProductosExclusivos());
+    public Page<BuscarProductoDTO> BuscarProductosExclusivos(Pageable pageable){
+        Page<Producto> productos = productoRepository.findProductosExclusivos(pageable);
+        return productos.map(productoMapper::toBuscarProductoDTO);
     }
 
     @Transactional
