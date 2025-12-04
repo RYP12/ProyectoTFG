@@ -29,13 +29,17 @@ export class Catalogo implements OnInit {
   private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
 
   paginaActual: number = 0;
+  tamanyoPagina: number = 20;
   esUltimaPagina: boolean = false;
   cargando: boolean = false;
 
+  // RECIBE LOS FILTROS DEL HTML
   filtros = {
+
     orden: '',
     rangoPrecio: '',
     colaboracion: ''
+
   };
 
   constructor(private productoService: ProductoService,
@@ -125,21 +129,15 @@ export class Catalogo implements OnInit {
   }
 
   cargarProductos(){
+    if (this.cargando) return;
     this.cargando = true;
-
-    // Asumimos que tu servicio ahora acepta la página como argumento
-    this.productoService.obtenerProductos(this.paginaActual).subscribe({
-      next: (respuesta: any) => { // Tipado 'any' temporal si no tienes interfaz de Paginación creada
-        // Concatenamos lo nuevo
-        this.listaProductos = [...this.listaProductos, ...respuesta.content];
-
-        // ACTUALIZAMOS LA COPIA DE SEGURIDAD PARA LOS FILTROS
-        // Ojo: Esto solo contiene lo que se ha visto hasta ahora
-        this.productosOriginales = [...this.listaProductos];
-
+    // Llamamos al servicio pasando la pagina actual
+    this.productoService.obtenerProductos(this.paginaActual, this.tamanyoPagina).subscribe({
+      next: (respuesta: any) => {
+        const nuevosProductos = respuesta.content;
         this.esUltimaPagina = respuesta.last;
+        this.listaProductos.push(...nuevosProductos);
         this.cargando = false;
-        console.log("Productos cargados:", this.listaProductos);
       },
       error: (error) => {
         console.log('Error al cargar productos: ', error);
@@ -149,7 +147,7 @@ export class Catalogo implements OnInit {
   }
 
   verMas(){
-    if (!this.esUltimaPagina && !this.cargando) {
+    if (!this.esUltimaPagina) {
       this.paginaActual++;
       this.cargarProductos();
     }

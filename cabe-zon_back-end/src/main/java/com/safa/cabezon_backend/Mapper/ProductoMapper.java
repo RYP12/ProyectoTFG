@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Mapper;
 
+import com.safa.cabezon_backend.Dto.BuscarProductoAdminDTO;
 import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoDTO;
 import com.safa.cabezon_backend.Dto.ProductoDTO;
@@ -26,6 +27,7 @@ public abstract class ProductoMapper {
     public abstract List<ProductoDTO> listToDTO(List<Producto> productos);
     public abstract List<BuscarProductoDTO> listToBuscarDTO(List<Producto> productos);
     public abstract ProductoDTO toDTO(Producto producto);
+    public abstract BuscarProductoAdminDTO toProductoAdminDTO (Producto producto);
 
     public abstract BuscarProductoDTO toBuscarProductoDTO(Producto producto);
     @Mapping(source = "idColecciones",target="colecciones")

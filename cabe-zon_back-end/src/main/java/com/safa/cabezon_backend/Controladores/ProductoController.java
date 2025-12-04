@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.BuscarProductoAdminDTO;
 import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoDTO;
 import com.safa.cabezon_backend.Dto.ProductoDTO;
@@ -26,11 +27,22 @@ public class ProductoController {
     //Solicita todos los productos(ProductoDTO)
     @GetMapping("/all")
     public ResponseEntity<Page<BuscarProductoDTO>> getProductos(
-            @RequestParam(defaultValue = "0") int page
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
     ){
-        Pageable pageable = PageRequest.of(page, 20, Sort.by("id").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         Page<BuscarProductoDTO> paginaProductos = productoService.buscarPorPagina(pageable);
         return  ResponseEntity.ok(paginaProductos);
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<Page<BuscarProductoAdminDTO>> getProductosAdmins(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<BuscarProductoAdminDTO> pagina = productoService.buscarProductosAdminPaginados(pageable);
+        return  ResponseEntity.ok(pagina);
     }
 
     //solicita un producto segun id que se pase por url(ProductoDTO)
