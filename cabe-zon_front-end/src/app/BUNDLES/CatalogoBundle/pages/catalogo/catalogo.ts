@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductoService, Producto} from '../../../../SERVICES/productoService';
 import {Header} from '../../../../SHARED/header/header';
-import { CommonModule } from '@angular/common';
 import {Footer} from '../../../../SHARED/footer/footer';
+import {CarritoService} from '../../../../SERVICES/carrito-service';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
@@ -12,7 +12,6 @@ import {RouterLink} from '@angular/router';
     Header,
     Footer,
     FormsModule,
-    CommonModule,
     RouterLink
   ],
   templateUrl: './catalogo.html',
@@ -20,7 +19,10 @@ import {RouterLink} from '@angular/router';
 })
 export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
-  productosOriginales: Producto[] = []; // Guardamos la lista original
+
+  paginaActual: number = 0;
+  esUltimaPagina: boolean = false;
+  cargando: boolean = false;
 
   // RECIBE LOS FILTROS DEL HTML
   filtros = {
@@ -31,52 +33,76 @@ export class Catalogo implements OnInit {
 
   };
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService,
+              private carritoService: CarritoService) { }
 
   ngOnInit() {
-    this.productoService.obtenerProductos().subscribe({
-      next: (datos) => {
-        this.listaProductos = datos;
-        this.productosOriginales = datos; // Hacemos una copia de seguridad
+    this.cargarProductos();
+  }
+
+  aplicarFiltros (){
+
+    // RANGOS DE PRECIO
+
+    let minimo: number | undefined;
+    let maximo: number | undefined;
+
+    switch (this.filtros.rangoPrecio) {
+      case '0€ - 25€':
+        minimo = 0;
+        maximo = 25;
+        break;
+      case '25€ - 50€':
+        minimo = 25;
+        maximo = 50;
+        break;
+      case '50€ - 1000€':
+        minimo = 50;
+        maximo = 1000;
+        break;
+
+      default:
+        // Si no se selecciona nada se queda 'undefined' los valores
+        break;
+    }
+
+    const parametrosBack = {
+      orden: this.filtros.orden,
+      minimo: minimo,
+      maximo: maximo,
+      colaboracion: this.filtros.colaboracion
+    }
+
+    console.log('Enviando al backend:', parametrosBack);
+  }
+  // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
+  protected agregarAlCarrito(funko: Producto) {
+    this.carritoService.agregarProducto(funko);
+    alert('¡Funko añadido al carrito!');
+  }
+
+  cargarProductos(){
+    this.cargando = true;
+    // Llamamos al servicio pasando la pagina actual
+    this.productoService.obtenerProductos(this.paginaActual).subscribe({
+      next: (respuesta) => {
+        // Concatenamos lo que ya teniamos con lo nuevo
+        this.listaProductos = [...this.listaProductos, ...respuesta.content];
+        // Actualizamos si es la ultima pagina par esconder el boton
+        this.esUltimaPagina = respuesta.last;
+        this.cargando = false;
       },
-      error: (err) => {
-        console.log(err);
+      error: (error) => {
+        console.log('Error al cargar productos: ', error);
+        this.cargando = false;
       }
     })
   }
 
-  aplicarFiltros (){
-    // Empezamos con la lista original para aplicar filtros
-    let productosFiltrados = [...this.productosOriginales];
-
-    // 1. FILTRO POR RANGO DE PRECIO (CLIENTE)
-    if (this.filtros.rangoPrecio) {
-      const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
-      const min = parseFloat(minStr);
-      const max = parseFloat(maxStr);
-      productosFiltrados = productosFiltrados.filter(p => p.precio && p.precio >= min && p.precio <= max);
+  verMas(){
+    if (!this.esUltimaPagina && !this.cargando) {
+      this.paginaActual++;
+      this.cargarProductos();
     }
-
-    // Aquí podrías añadir el filtro por colaboración si tuvieras los datos en el producto
-    // Ejemplo: if (this.filtros.colaboracion) { ... }
-
-    // 2. ORDENACIÓN (CLIENTE)
-    if (this.filtros.orden === 'asc') {
-      productosFiltrados.sort((a, b) => (a.precio || 0) - (b.precio || 0));
-    } else if (this.filtros.orden === 'desc') {
-      productosFiltrados.sort((a, b) => (b.precio || 0) - (a.precio || 0));
-    }
-
-    // 3. ACTUALIZAR LA LISTA VISIBLE
-    this.listaProductos = productosFiltrados;
-
-    // Si no se aplica ningún filtro, mostramos todos los productos
-    if (!this.filtros.rangoPrecio && !this.filtros.orden && !this.filtros.colaboracion) {
-      this.listaProductos = [...this.productosOriginales];
-    }
-  }
-  // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
-  protected agregarAlCarrito(funko: Producto) {
-
   }
 }
