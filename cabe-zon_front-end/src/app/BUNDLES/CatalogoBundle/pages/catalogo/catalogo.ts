@@ -23,23 +23,19 @@ import {Observable, of} from 'rxjs';
 })
 export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
-  productosOriginales: Producto[] = []; // Guardamos la lista original
+  productosOriginales: Producto[] = [];
   colecciones: Coleccion[] = [];
 
-  // URL de reserva si el producto no tiene imagen (ajusta la ruta si es necesario)
   private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
 
   paginaActual: number = 0;
   esUltimaPagina: boolean = false;
   cargando: boolean = false;
 
-  // RECIBE LOS FILTROS DEL HTML
   filtros = {
-
     orden: '',
     rangoPrecio: '',
     colaboracion: ''
-
   };
 
   constructor(private productoService: ProductoService,
@@ -47,18 +43,10 @@ export class Catalogo implements OnInit {
               private coleccionService: ColeccionService) { }
 
   ngOnInit() {
+    // 1. CARGA INICIAL: Usamos solo la función de paginación
     this.cargarProductos();
-    this.productoService.obtenerProductos().subscribe({
-      next: (datos) => {
-        this.listaProductos = datos;
-        this.productosOriginales = datos; // Hacemos una copia de seguridad
-        console.log(this.listaProductos);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
 
+    // 2. CARGA DE COLECCIONES (Para el filtro)
     this.coleccionService.obtenerColecciones().subscribe({
       next: (datos) => {
         this.colecciones = datos;
@@ -66,58 +54,44 @@ export class Catalogo implements OnInit {
       error: (err) => {
         console.log(err);
       }
-    })
+    });
+
+    // HE ELIMINADO EL BLOQUE CONFLICTIVO DE 'obtenerProductos().subscribe' AQUÍ
   }
 
-
   obtenerImagenUrl(funko: Producto, index: number): string {
-    // 1. Verifica si el array 'imagenes' existe
-    // 2. Verifica si el array es lo suficientemente largo para el índice solicitado
-    // 3. Verifica si el elemento en ese índice tiene una 'url'
     if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
       return funko.imagenes[index].url;
     }
-    // Si falla, devuelve la URL de reserva
     return this.PLACEHOLDER_IMG_URL;
   }
 
+  // IMPORTANTE: Este filtrado es local (Frontend).
+  // Al usar paginación, solo filtrará lo que hayas cargado en pantalla hasta el momento.
   aplicarFiltros() {
-    // PASO 1: DEFINIR EL ORIGEN DE LOS DATOS (Pattern: Source Normalization)
-    // Declaramos una variable que SIEMPRE será un Observable
     let fuenteDatos$: Observable<Producto[]>;
 
-    // Verificamos si el usuario seleccionó una colección
     if (this.filtros.colaboracion && this.filtros.colaboracion !== '') {
       const idColeccionSeleccionada = parseInt(this.filtros.colaboracion);
 
-      // --- CAMBIO CLAVE: Lógica para Many-to-Many ---
-      // Filtramos en memoria buscando dentro de la LISTA de colecciones del producto
       const filtrados = this.productosOriginales.filter(p => {
-        // Validación de seguridad: ¿Tiene lista de colecciones?
         if (!p.colecciones|| p.colecciones.length === 0) {
-          return false; // Si no tiene colecciones, no pasa el filtro
+          return false;
         }
-
-        // .some() devuelve true si AL MENOS UNA colección coincide con el ID buscado
         return p.colecciones.some(c => c.id === idColeccionSeleccionada);
       });
 
-      // Envolvemos el resultado (vacío o con datos) en un Observable
       fuenteDatos$ = of(filtrados);
 
     } else {
-      // Si no hay filtro de colección, la fuente son todos los originales
       fuenteDatos$ = of(this.productosOriginales);
     }
 
-    // PASO 2: SUSCRIBIRSE Y PROCESAR (Pipeline unificado)
-
     fuenteDatos$.subscribe({
       next: (productosBase) => {
-        // Trabajamos con una copia para inmutabilidad
         let resultado = [...productosBase];
 
-        // --- FILTRO 1: RANGO DE PRECIO (Local) ---
+        // Filtro Precio
         if (this.filtros.rangoPrecio) {
           const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
           const min = parseFloat(minStr);
@@ -128,7 +102,7 @@ export class Catalogo implements OnInit {
           );
         }
 
-        // --- FILTRO 2: ORDENACIÓN (Local) ---
+        // Filtro Orden
         if (this.filtros.orden) {
           resultado.sort((a, b) => {
             const precioA = a.precio || 0;
@@ -137,16 +111,14 @@ export class Catalogo implements OnInit {
           });
         }
 
-        // PASO 3: ACTUALIZAR LA VISTA
         this.listaProductos = resultado;
-        console.log(`Filtros aplicados. Mostrando ${resultado.length} productos.`);
       },
       error: (err) => {
         console.error('Error al aplicar filtros:', err);
       }
     });
   }
-  // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
+
   protected agregarAlCarrito(funko: Producto) {
     this.carritoService.agregarProducto(funko);
     alert('¡Funko añadido al carrito!');
@@ -154,15 +126,20 @@ export class Catalogo implements OnInit {
 
   cargarProductos(){
     this.cargando = true;
-    // Llamamos al servicio pasando la pagina actual
+
+    // Asumimos que tu servicio ahora acepta la página como argumento
     this.productoService.obtenerProductos(this.paginaActual).subscribe({
-      next: (respuesta) => {
-        // Concatenamos lo que ya teniamos con lo nuevo
+      next: (respuesta: any) => { // Tipado 'any' temporal si no tienes interfaz de Paginación creada
+        // Concatenamos lo nuevo
         this.listaProductos = [...this.listaProductos, ...respuesta.content];
-        // Actualizamos si es la ultima pagina par esconder el boton
+
+        // ACTUALIZAMOS LA COPIA DE SEGURIDAD PARA LOS FILTROS
+        // Ojo: Esto solo contiene lo que se ha visto hasta ahora
+        this.productosOriginales = [...this.listaProductos];
+
         this.esUltimaPagina = respuesta.last;
         this.cargando = false;
-        console.log(this.listaProductos);
+        console.log("Productos cargados:", this.listaProductos);
       },
       error: (error) => {
         console.log('Error al cargar productos: ', error);
