@@ -66,27 +66,24 @@ export class EdicionLimitada implements OnInit {
     // Declaramos una variable que SIEMPRE será un Observable
     let fuenteDatos$: Observable<Producto[]>;
 
-    // Verificamos si el usuario seleccionó una colección
-    if (this.filtros.colaboracion && this.filtros.colaboracion !== '') {
-      const idColeccionSeleccionada = parseInt(this.filtros.colaboracion);
+// --- FILTRO POR COLECCIÓN ---
+    if (this.filtros.colaboracion != null && this.filtros.colaboracion !== '') {
+      // Convertimos a número para evitar errores de tipos
+      const idColeccionSeleccionada = Number(this.filtros.colaboracion);
 
-      // --- CAMBIO CLAVE: Lógica para Many-to-Many ---
-      // Filtramos en memoria buscando dentro de la LISTA de colecciones del producto
+      // Filtramos productos en memoria
       const filtrados = this.productosOriginales.filter(p => {
-        // Validación de seguridad: ¿Tiene lista de colecciones?
-        if (!p.colecciones|| p.colecciones.length === 0) {
-          return false; // Si no tiene colecciones, no pasa el filtro
-        }
+        // Validación: tiene colecciones
+        if (!p.colecciones || p.colecciones.length === 0) return false;
 
-        // .some() devuelve true si AL MENOS UNA colección coincide con el ID buscado
+        // Comprobamos si alguna colección coincide
         return p.colecciones.some(c => c.id === idColeccionSeleccionada);
       });
 
-      // Envolvemos el resultado (vacío o con datos) en un Observable
       fuenteDatos$ = of(filtrados);
 
     } else {
-      // Si no hay filtro de colección, la fuente son todos los originales
+      // Si no hay filtro, tomamos todos los productos
       fuenteDatos$ = of(this.productosOriginales);
     }
 

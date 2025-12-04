@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {Coleccion, ColeccionService} from '../../../../SERVICES/coleccion-service';
 
 @Component({
   selector: 'app-catalogo',
@@ -21,6 +22,7 @@ import {RouterLink} from '@angular/router';
 export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
   productosOriginales: Producto[] = []; // Guardamos la lista original
+  colecciones: Coleccion[] = [];
 
   // URL de reserva si el producto no tiene imagen (ajusta la ruta si es necesario)
   private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
@@ -34,7 +36,8 @@ export class Catalogo implements OnInit {
 
   };
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService,
+              private coleccionService: ColeccionService) { }
 
   ngOnInit() {
     this.productoService.obtenerProductos().subscribe({
@@ -42,6 +45,14 @@ export class Catalogo implements OnInit {
         this.listaProductos = datos;
         this.productosOriginales = datos; // Hacemos una copia de seguridad
         console.log(this.listaProductos);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+    this.coleccionService.obtenerColecciones().subscribe({
+      next: (datos) => {
+        this.colecciones = datos;
       },
       error: (err) => {
         console.log(err);
