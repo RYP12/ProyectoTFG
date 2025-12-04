@@ -1,14 +1,15 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.LoginDTO;
 import com.safa.cabezon_backend.Dto.RegistroDTO;
 import com.safa.cabezon_backend.Modelos.Usuario;
+import com.safa.cabezon_backend.Security.LoginService;
 import com.safa.cabezon_backend.Servicios.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -16,15 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 //Controlador de Usuarios
 public class AuthController {
 
+    private final UsuarioService usuarioService;
+    private final LoginService loginService;
 
-    @Autowired
-    private UsuarioService usuarioService;
+    //Obtener usuarios
+    @GetMapping("/usuarios")
+    public List<RegistroDTO> getUsuarios() {
+        return usuarioService.buscarUsuarios();
+    }
+
+    //Login
+    @PostMapping("/login")
+    public String login(@RequestBody LoginDTO loginDTO) {
+        return loginService.login(loginDTO);
+    }
 
     //Registro de usuarios
     @PostMapping("/registro")
-    public Usuario registrarUsuario(@RequestBody RegistroDTO registrodto){
-        return usuarioService.registrarUsuario(registrodto);
+    public void registrarUsuario(@RequestBody RegistroDTO registrodto){
+        usuarioService.registrarUsuario(registrodto);
     }
-
 
 }

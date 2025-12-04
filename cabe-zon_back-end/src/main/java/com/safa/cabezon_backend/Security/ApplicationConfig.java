@@ -20,7 +20,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> usuarioRepository.findTopByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        return usuarioRepository::findTopByUsername;
     }
 
     @Bean

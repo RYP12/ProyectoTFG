@@ -3,9 +3,12 @@ package com.safa.cabezon_backend.Servicios;
 import com.safa.cabezon_backend.Dto.LoginDTO;
 import com.safa.cabezon_backend.Dto.RegistroDTO;
 import com.safa.cabezon_backend.Dto.RespuestaDTO;
+import com.safa.cabezon_backend.Mapper.UsuarioMapper;
+import com.safa.cabezon_backend.Modelos.Cliente;
 import com.safa.cabezon_backend.Modelos.Rol;
 import com.safa.cabezon_backend.Modelos.Usuario;
 import com.safa.cabezon_backend.Repositorios.IUsuarioRepository;
+import com.safa.cabezon_backend.Security.ApplicationConfig;
 import com.safa.cabezon_backend.Security.JwtService;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
@@ -18,43 +21,39 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UsuarioService implements UserDetailsService {
 
-    private final JwtService jwtService;
     private IUsuarioRepository usuarioRepository;
-    private final PasswordEncoder passwordencoder;
+    private ApplicationConfig seguridad;
+    private final UsuarioMapper usuarioMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findTopByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        return usuarioRepository.findTopByUsername(username);
     }
 
-    public Usuario registrarUsuario(RegistroDTO registrodto){
+    public void registrarUsuario(RegistroDTO registrodto){
         Usuario usuario = new Usuario();
         usuario.setUsername(registrodto.getUsername());
-        usuario.setPassword(passwordencoder.encode(registrodto.getPassword()));
+        usuario.setPassword(seguridad.passwordencoder().encode(registrodto.getPassword()));
         usuario.setRol(Rol.CLIENTE);
 
-        return usuarioRepository.save(usuario);
+        Cliente cliente = new Cliente();
+        cliente.setNombre(registrodto.getNombre());
+        cliente.setApellidos(registrodto.getApellidos());
+
+        cliente.setUsuario(usuario);
+        usuario.setCliente(cliente);
+
+        usuarioRepository.save(usuario);
     }
 
-    public ResponseEntity<RespuestaDTO> login(LoginDTO dto) throws BadRequestException {
-        Optional<Usuario> usuarioOptional= usuarioRepository.findTopByUsername(dto.getUsername());
-        if(usuarioOptional.isPresent()){
-            Usuario usuario = usuarioOptional.get();
-            if(passwordencoder.matches(dto.getPassword(),usuario.getPassword())){
-                String token = jwtService.generateToken(usuario);
-                return ResponseEntity.ok(RespuestaDTO.builder().estado(HttpStatus.OK.value()).token(token).build());
-            }else {
-                throw new BadRequestException("Contraseña Incorrecta");
-            }
-
-        }else {
-            throw new UsernameNotFoundException("Usuario no encontrado");
-        }
+    public List<RegistroDTO> buscarUsuarios(){
+        return usuarioMapper.listToDTO(usuarioRepository.findAll());
     }
 }
