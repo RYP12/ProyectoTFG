@@ -91,7 +91,6 @@ export class Catalogo implements OnInit {
         // Actualizamos si es la ultima pagina par esconder el boton
         this.esUltimaPagina = respuesta.last;
         this.cargando = false;
-        console.log(this.listaProductos);
       },
       error: (error) => {
         console.log('Error al cargar productos: ', error);
