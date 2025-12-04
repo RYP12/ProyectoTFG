@@ -44,4 +44,9 @@ public class PedidoController {
         pedidoService.EliminarPedido(id);
     }
 
+    @GetMapping("/cliente/{idCliente}/count")
+    public int contarPedidosCliente(@PathVariable Integer idCliente) {
+        return pedidoService.ContarPedidosPorCliente(idCliente);
+    }
+
 }

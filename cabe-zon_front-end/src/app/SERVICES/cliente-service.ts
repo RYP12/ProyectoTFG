@@ -16,6 +16,7 @@ export interface Cliente {
   foto?: string;
   cabecoins?: number;
   nivel?: Nivel;
+  pedidos?: any[];
   // usuario?: Usuario
 }
 

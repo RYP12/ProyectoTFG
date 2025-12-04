@@ -38,6 +38,16 @@ public class JwtService {
                 .compact();
     }
 
+    public String generateVerificationToken(String username) {
+        return Jwts
+                .builder()
+                .setSubject(username) // Guardamos solo el email
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 15))) // 15 min
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     public Claims extraerToken(String token) {
         return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
@@ -53,8 +63,12 @@ public class JwtService {
                 .build();
     }
 
+    public String getUsernameFromToken(String token) {
+        return extraerToken(token).getSubject();
+    }
+
     public boolean validateToken(String token) {
-        return new Date(extraerTokenDTO(token).getFecha_expiracion()).before(new Date());
+        return extraerToken(token).getExpiration().after(new Date());
     }
 
     private Key getSignInKey() {
