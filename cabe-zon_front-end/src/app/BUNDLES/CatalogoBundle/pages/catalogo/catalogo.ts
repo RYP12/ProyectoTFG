@@ -29,6 +29,10 @@ export class Catalogo implements OnInit {
   // URL de reserva si el producto no tiene imagen (ajusta la ruta si es necesario)
   private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
 
+  paginaActual: number = 0;
+  esUltimaPagina: boolean = false;
+  cargando: boolean = false;
+
   // RECIBE LOS FILTROS DEL HTML
   filtros = {
 
@@ -43,6 +47,7 @@ export class Catalogo implements OnInit {
               private coleccionService: ColeccionService) { }
 
   ngOnInit() {
+    this.cargarProductos();
     this.productoService.obtenerProductos().subscribe({
       next: (datos) => {
         this.listaProductos = datos;
@@ -147,4 +152,29 @@ export class Catalogo implements OnInit {
     alert('¡Funko añadido al carrito!');
   }
 
+  cargarProductos(){
+    this.cargando = true;
+    // Llamamos al servicio pasando la pagina actual
+    this.productoService.obtenerProductos(this.paginaActual).subscribe({
+      next: (respuesta) => {
+        // Concatenamos lo que ya teniamos con lo nuevo
+        this.listaProductos = [...this.listaProductos, ...respuesta.content];
+        // Actualizamos si es la ultima pagina par esconder el boton
+        this.esUltimaPagina = respuesta.last;
+        this.cargando = false;
+        console.log(this.listaProductos);
+      },
+      error: (error) => {
+        console.log('Error al cargar productos: ', error);
+        this.cargando = false;
+      }
+    })
+  }
+
+  verMas(){
+    if (!this.esUltimaPagina && !this.cargando) {
+      this.paginaActual++;
+      this.cargarProductos();
+    }
+  }
 }

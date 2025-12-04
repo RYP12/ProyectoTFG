@@ -62,9 +62,11 @@
         <button (click)="agregarAlCarrito(funko)">AÑADIR</button>
       </div>
     }
+    <div> @if (!esUltimaPagina) {
+      <button class="btn-mas" (click)="verMas()" [disabled]="cargando">{{cargando ? 'CARGANDO...' : 'VER MÁS'}}</button>
+    }
+    </div>
 
-<button class="btn-mas">VER MAS</button>
-
-</div>
+  </div>
 </div>
 <app-footer></app-footer>

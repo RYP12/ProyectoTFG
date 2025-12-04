@@ -6,6 +6,10 @@ import com.safa.cabezon_backend.Dto.ProductoDTO;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Servicios.ProductoService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +25,13 @@ public class ProductoController {
 
     //Solicita todos los productos(ProductoDTO)
     @GetMapping("/all")
-    public List<BuscarProductoDTO> getProductos(){return productoService.BuscarProductos();}
+    public ResponseEntity<Page<BuscarProductoDTO>> getProductos(
+            @RequestParam(defaultValue = "0") int page
+    ){
+        Pageable pageable = PageRequest.of(page, 20, Sort.by("id").descending());
+        Page<BuscarProductoDTO> paginaProductos = productoService.buscarPorPagina(pageable);
+        return  ResponseEntity.ok(paginaProductos);
+    }
 
     //solicita un producto segun id que se pase por url(ProductoDTO)
     @GetMapping("/{id}")

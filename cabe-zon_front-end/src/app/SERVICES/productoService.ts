@@ -19,6 +19,15 @@ export interface Producto {
   imagenes?: Imagenes[];
 }
 
+export interface PageResponse<T> {
+  content: T[];
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -28,8 +37,9 @@ export class ProductoService {
 
   constructor(private http: HttpClient) {}
   // OBTENER TODOS LOS PRODUCTOS
-  obtenerProductos(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(`${this.apiUrl}/producto/all`);
+  obtenerProductos(page: number = 0, size: number = 20): Observable<PageResponse<Producto>> {
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/all`);
   }
   // OBTENER PRODUCTO POR ID
   obtenerProductoPorID(id: number): Observable<Producto> {
