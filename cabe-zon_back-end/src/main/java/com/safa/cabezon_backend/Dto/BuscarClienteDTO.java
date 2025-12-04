@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class BuscarClienteDTO {
+    private Integer id;
     private String nombre;
     private String apellidos;
     private String foto;

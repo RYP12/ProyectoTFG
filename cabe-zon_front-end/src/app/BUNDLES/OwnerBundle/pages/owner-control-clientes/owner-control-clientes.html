@@ -8,7 +8,7 @@
     </div>
 
     <div id="segundaParte">
-      <h1 style="text-align: center; font-size: 43px">PEDIDOS</h1>
+      <h1 style="text-align: center; font-size: 43px">CLIENTES</h1>
 
       <div id="todoJunto">
         <div id="primeraParteForm">
@@ -16,7 +16,10 @@
             <button><--</button>
             <button style="background-color: #4C97FF; color: #f9f9f9">--></button>
           </div>
-          <input type="text" placeholder="Buscar" style="border-radius: 20px; height: 100%;">
+          <input type="text"
+                 placeholder="Buscar por Nombre o ID"
+                 style="border-radius: 20px; height: 100%; padding:4px"
+                 (input)="filtrar($event)">
         </div>
 
         <div id="segundaParteForm">
@@ -28,7 +31,7 @@
 
           <div id="datosGlobal">
 
-            @for (cliente of listaClientes; track cliente.id) {
+            @for (cliente of listaClientesFiltrada; track cliente.id) {
               <div class="datos">
                 <h3>{{ cliente.nombre }}</h3>
                 @if(cliente.nivel?.nivel === 'BRONCE'){
