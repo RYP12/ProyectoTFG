@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {Observable, of} from 'rxjs';
 import {Coleccion, ColeccionService} from '../../../../SERVICES/coleccion-service';
 import {CarritoService} from '../../../../SERVICES/carrito-service';
 import {Observable, of} from 'rxjs';

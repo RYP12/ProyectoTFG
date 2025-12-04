@@ -1,8 +1,9 @@
 package com.safa.cabezon_backend.Controladores;
 
 import com.safa.cabezon_backend.Dto.BuscarColeccionDTO;
-import com.safa.cabezon_backend.Dto.BuscarDireccionDTO;
+
 import com.safa.cabezon_backend.Dto.ColeccionDTO;
+import com.safa.cabezon_backend.Mapper.ColeccionMapper;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Servicios.ColeccionService;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 //Controlador colecciones
 public class ColeccionController {
     private ColeccionService coleccionService;
+    private final ColeccionMapper coleccionMapper;
 
     //Solicitar todas las colecciones(BuscarColeccionDTO)
     @GetMapping("/all")
@@ -41,5 +43,12 @@ public class ColeccionController {
     @DeleteMapping("/delete/{id}")
     public void deleteColeccion(@PathVariable Integer id){
         coleccionService.borrarColeccionPorId(id);
+    }
+
+    @GetMapping("/exclusivas")
+    public List<BuscarColeccionDTO> getExclusivas() {
+        List<Coleccion> listaEntidad = coleccionService.obtenerColeccionesExclusivas();
+
+        return coleccionMapper.listTODTO(listaEntidad);
     }
 }
