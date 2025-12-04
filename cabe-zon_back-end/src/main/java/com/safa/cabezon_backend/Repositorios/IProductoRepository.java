@@ -1,6 +1,8 @@
 package com.safa.cabezon_backend.Repositorios;
 
 import com.safa.cabezon_backend.Modelos.Producto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,8 +17,8 @@ public interface IProductoRepository extends JpaRepository<Producto, Integer> {
     @Query(value = "SELECT * FROM cabezon.producto p WHERE p.exclusivo = false", nativeQuery = true)
     List<Producto> findProductosNoExclusivos();
 
-    @Query(value = "SELECT * FROM cabezon.producto p WHERE p.exclusivo = true", nativeQuery = true)
-    List<Producto> findProductosExclusivos();
+    @Query("SELECT p FROM Producto p WHERE p.exclusivo = true")
+    Page<Producto> findProductosExclusivos(Pageable pageable);
 
     @Query(value = """
         SELECT p.* FROM cabezon.coleccion c 

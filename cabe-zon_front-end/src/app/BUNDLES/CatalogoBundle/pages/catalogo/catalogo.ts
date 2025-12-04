@@ -5,7 +5,9 @@ import { CommonModule } from '@angular/common';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {Observable, of} from 'rxjs';
 import {Coleccion, ColeccionService} from '../../../../SERVICES/coleccion-service';
+import {CarritoService} from '../../../../SERVICES/carrito-service';
 
 @Component({
   selector: 'app-catalogo',
@@ -21,11 +23,15 @@ import {Coleccion, ColeccionService} from '../../../../SERVICES/coleccion-servic
 })
 export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
-  productosOriginales: Producto[] = []; // Guardamos la lista original
+  productosOriginales: Producto[] = [];
   colecciones: Coleccion[] = [];
 
-  // URL de reserva si el producto no tiene imagen (ajusta la ruta si es necesario)
   private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
+
+  paginaActual: number = 0;
+  tamanyoPagina: number = 20;
+  esUltimaPagina: boolean = false;
+  cargando: boolean = false;
 
   // RECIBE LOS FILTROS DEL HTML
   filtros = {
@@ -37,19 +43,14 @@ export class Catalogo implements OnInit {
   };
 
   constructor(private productoService: ProductoService,
+              private carritoService: CarritoService,
               private coleccionService: ColeccionService) { }
 
-  ngOnInit() {
-    this.productoService.obtenerProductos().subscribe({
-      next: (datos) => {
-        this.listaProductos = datos;
-        this.productosOriginales = datos; // Hacemos una copia de seguridad
-        console.log(this.listaProductos);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+  async ngOnInit() {
+    // 1. CARGA INICIAL: Usamos solo la función de paginación
+    this.cargarProductos();
+
+    // 2. CARGA DE COLECCIONES (Para el filtro)
     this.coleccionService.obtenerColecciones().subscribe({
       next: (datos) => {
         this.colecciones = datos;
@@ -57,53 +58,98 @@ export class Catalogo implements OnInit {
       error: (err) => {
         console.log(err);
       }
-    })
+    });
+
+    // HE ELIMINADO EL BLOQUE CONFLICTIVO DE 'obtenerProductos().subscribe' AQUÍ
   }
 
-
   obtenerImagenUrl(funko: Producto, index: number): string {
-    // 1. Verifica si el array 'imagenes' existe
-    // 2. Verifica si el array es lo suficientemente largo para el índice solicitado
-    // 3. Verifica si el elemento en ese índice tiene una 'url'
     if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
       return funko.imagenes[index].url;
     }
-    // Si falla, devuelve la URL de reserva
     return this.PLACEHOLDER_IMG_URL;
   }
 
-  aplicarFiltros (){
-    // Empezamos con la lista original para aplicar filtros
-    let productosFiltrados = [...this.productosOriginales];
+  // IMPORTANTE: Este filtrado es local (Frontend).
+  // Al usar paginación, solo filtrará lo que hayas cargado en pantalla hasta el momento.
+  aplicarFiltros() {
+    let fuenteDatos$: Observable<Producto[]>;
 
-    // 1. FILTRO POR RANGO DE PRECIO (CLIENTE)
-    if (this.filtros.rangoPrecio) {
-      const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
-      const min = parseFloat(minStr);
-      const max = parseFloat(maxStr);
-      productosFiltrados = productosFiltrados.filter(p => p.precio && p.precio >= min && p.precio <= max);
+    if (this.filtros.colaboracion && this.filtros.colaboracion !== '') {
+      const idColeccionSeleccionada = parseInt(this.filtros.colaboracion);
+
+      const filtrados = this.productosOriginales.filter(p => {
+        if (!p.colecciones|| p.colecciones.length === 0) {
+          return false;
+        }
+        return p.colecciones.some(c => c.id === idColeccionSeleccionada);
+      });
+
+      fuenteDatos$ = of(filtrados);
+
+    } else {
+      fuenteDatos$ = of(this.productosOriginales);
     }
 
-    // Aquí podrías añadir el filtro por colaboración si tuvieras los datos en el producto
-    // Ejemplo: if (this.filtros.colaboracion) { ... }
+    fuenteDatos$.subscribe({
+      next: (productosBase) => {
+        let resultado = [...productosBase];
 
-    // 2. ORDENACIÓN (CLIENTE)
-    if (this.filtros.orden === 'asc') {
-      productosFiltrados.sort((a, b) => (a.precio || 0) - (b.precio || 0));
-    } else if (this.filtros.orden === 'desc') {
-      productosFiltrados.sort((a, b) => (b.precio || 0) - (a.precio || 0));
-    }
+        // Filtro Precio
+        if (this.filtros.rangoPrecio) {
+          const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
+          const min = parseFloat(minStr);
+          const max = parseFloat(maxStr);
 
-    // 3. ACTUALIZAR LA LISTA VISIBLE
-    this.listaProductos = productosFiltrados;
+          resultado = resultado.filter(p =>
+            p.precio !== undefined && p.precio >= min && p.precio <= max
+          );
+        }
 
-    // Si no se aplica ningún filtro, mostramos todos los productos
-    if (!this.filtros.rangoPrecio && !this.filtros.orden && !this.filtros.colaboracion) {
-      this.listaProductos = [...this.productosOriginales];
-    }
+        // Filtro Orden
+        if (this.filtros.orden) {
+          resultado.sort((a, b) => {
+            const precioA = a.precio || 0;
+            const precioB = b.precio || 0;
+            return this.filtros.orden === 'asc' ? precioA - precioB : precioB - precioA;
+          });
+        }
+
+        this.listaProductos = resultado;
+      },
+      error: (err) => {
+        console.error('Error al aplicar filtros:', err);
+      }
+    });
   }
-  // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
-  protected agregarAlCarrito(funko: Producto) {
 
+  protected agregarAlCarrito(funko: Producto) {
+    this.carritoService.agregarProducto(funko);
+    alert('¡Funko añadido al carrito!');
+  }
+
+  cargarProductos(){
+    if (this.cargando) return;
+    this.cargando = true;
+    // Llamamos al servicio pasando la pagina actual
+    this.productoService.obtenerProductos(this.paginaActual, this.tamanyoPagina).subscribe({
+      next: (respuesta: any) => {
+        const nuevosProductos = respuesta.content;
+        this.esUltimaPagina = respuesta.last;
+        this.listaProductos.push(...nuevosProductos);
+        this.cargando = false;
+      },
+      error: (error) => {
+        console.log('Error al cargar productos: ', error);
+        this.cargando = false;
+      }
+    })
+  }
+
+  verMas(){
+    if (!this.esUltimaPagina) {
+      this.paginaActual++;
+      this.cargarProductos();
+    }
   }
 }

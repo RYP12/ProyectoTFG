@@ -14,9 +14,18 @@ export interface Producto {
   exclusivo?: boolean;
   codigoProducto?: number;
   valoracion?: number;
-  colecciones?: Coleccion[];
 
+  colecciones?: Coleccion[];
   imagenes?: Imagenes[];
+}
+
+export interface PageResponse<T> {
+  content: T[];
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
 }
 
 @Injectable({
@@ -28,8 +37,14 @@ export class ProductoService {
 
   constructor(private http: HttpClient) {}
   // OBTENER TODOS LOS PRODUCTOS
-  obtenerProductos(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(`${this.apiUrl}/producto/all`);
+  obtenerProductos(page: number = 0, size: number = 20): Observable<any> {
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<any>(`${this.apiUrl}/producto/all?page=${page}&size=${size}`);
+  }
+
+  obtenerProductosAdmin(page: number, size: number): Observable<PageResponse<Producto>>{
+    const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/admin`);
   }
   // OBTENER PRODUCTO POR ID
   obtenerProductoPorID(id: number): Observable<Producto> {
@@ -68,9 +83,17 @@ export class ProductoService {
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/coleccion/${idColeccion}`);
   }
 
-  getExclusivos(): Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.apiUrl}/producto/exclusivo`);
+  //getExclusivos():Observable<Producto[]>{
+   // return this.http.get<Producto[]>(`${this.apiUrl}/producto/exclusivo`);
+  //}
+
+  // OBTENER TODOS LOS PRODUCTOS
+  getExclusivos(page: number = 0, size: number = 20): Observable<any> {
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<any>(`${this.apiUrl}/producto/exclusivo?page=${page}&size=${size}`);
   }
+
+
 
 
 }

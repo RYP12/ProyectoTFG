@@ -15,15 +15,15 @@ export class OwnerControlProductos implements OnInit {
 
     constructor(private productoService: ProductoService) {}
 
-    ngOnInit() {
-      this.productoService.obtenerProductos().subscribe({
-        next: (datos) => {
-          this.listaProductos = datos;
-          console.log(this.listaProductos);
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
-    }
+  ngOnInit() {
+    // this.productoService.obtenerProductos().subscribe({
+    // next: (datos) => {
+      //this.listaProductos;
+      //console.log(this.listaProductos);
+   // },
+     // error: (err) => {
+      //console.log(err);
+    //}
+  //})
+}
 }

@@ -8,6 +8,7 @@ import com.safa.cabezon_backend.Repositorios.IProductoRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +30,26 @@ public class ProductoService {
 
     @Autowired
     private ProductoMapper mapper;
+    @Autowired
+    private ProductoMapper productoMapper;
 
 
     @Transactional
     public List<BuscarProductoDTO> BuscarProductos() {
         return mapper.listToBuscarDTO(productoRepository.findAll());}
+
+    @Transactional
+    public Page<BuscarProductoDTO> buscarPorPagina(Pageable pageable) {
+        Page<Producto> productos = productoRepository.findAll(pageable);
+        return productos.map(productoMapper::toBuscarProductoDTO);
+    }
+
+
+    @Transactional
+    public Page<BuscarProductoAdminDTO> buscarProductosAdminPaginados(Pageable pageable) {
+        Page<Producto> productos = productoRepository.findAll(pageable);
+        return  productos.map(productoMapper::toProductoAdminDTO);
+    }
 
     @Transactional
     public ProductoDTO BuscarProductoPorId(Integer id) {return mapper.toDTO(productoRepository.findById(id).orElse(null));}
@@ -62,9 +78,11 @@ public class ProductoService {
         return mapper.listToBuscarDTO(productoRepository.findProductosNoExclusivos());
     }
 
+    // EXCLUSIVO
     @Transactional
-    public List<BuscarProductoDTO> BuscarPorductosExclusivos(){
-        return mapper.listToBuscarDTO(productoRepository.findProductosExclusivos());
+    public Page<BuscarProductoDTO> BuscarProductosExclusivos(Pageable pageable){
+        Page<Producto> productos = productoRepository.findProductosExclusivos(pageable);
+        return productos.map(productoMapper::toBuscarProductoDTO);
     }
 
     @Transactional

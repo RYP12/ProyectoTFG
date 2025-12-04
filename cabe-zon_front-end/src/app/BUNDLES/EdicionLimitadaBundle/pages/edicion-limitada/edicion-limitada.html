@@ -52,8 +52,10 @@
     @for (funko of listaProductos; track funko.id) {
       <div class="card">
         <div [routerLink]="['/funko', funko.id]" style="cursor: pointer">
-          <!--<img [src]="funko" alt="{{ funko.name }}" class="og">
-          <img [src]="funko" alt="{{ funko.name }}" class="hover">-->
+          <div id="imgenes">
+            <img [src]="obtenerImagenUrl(funko, 0)" alt="{{ funko.nombre }}" class="og">
+            <img [src]="obtenerImagenUrl(funko, 1)" alt="{{ funko.nombre }}" class="hover">
+          </div>
           <h3>{{ funko.descripcion }}</h3>
           <h2>{{ funko.nombre }}</h2>
           <p class="precio">{{ funko.precio }} €</p>
@@ -62,7 +64,7 @@
       </div>
     }
 
-    <button class="btn-mas">VER MAS</button>
+    <button class="btn-mas" (click)="verMas()">{{cargando ? 'Cargando...' : 'VER MAS'}}</button>
 
   </div>
 
