@@ -31,9 +31,14 @@ export class ProductoService {
 
   constructor(private http: HttpClient) {}
   // OBTENER TODOS LOS PRODUCTOS
-  obtenerProductos(page: number = 0, size: number = 20): Observable<PageResponse<Producto>> {
+  obtenerProductos(page: number = 0, size: number = 20): Observable<any> {
     let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/all`);
+    return this.http.get<any>(`${this.apiUrl}/producto/all?page=${page}&size=${size}`);
+  }
+
+  obtenerProductosAdmin(page: number, size: number): Observable<PageResponse<Producto>>{
+    const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/admin`);
   }
   // OBTENER PRODUCTO POR ID
   obtenerProductoPorID(id: number): Observable<Producto> {

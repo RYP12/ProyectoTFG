@@ -45,6 +45,12 @@ public class ProductoService {
     }
 
     @Transactional
+    public Page<BuscarProductoAdminDTO> buscarProductosAdminPaginados(Pageable pageable) {
+        Page<Producto> productos = productoRepository.findAll(pageable);
+        return  productos.map(productoMapper::toProductoAdminDTO);
+    }
+
+    @Transactional
     public ProductoDTO BuscarProductoPorId(Integer id) {return mapper.toDTO(productoRepository.findById(id).orElse(null));}
 
     @Transactional
