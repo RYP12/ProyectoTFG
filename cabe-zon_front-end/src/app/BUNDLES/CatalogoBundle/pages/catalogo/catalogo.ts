@@ -74,12 +74,6 @@ export class Catalogo implements OnInit {
     }
 
     console.log('Enviando al backend:', parametrosBack);
-
-
-
-
-
-
   }
   // METODO TEMPORAL PARA ARRANCAR EL PROYECTO
   protected agregarAlCarrito(funko: Producto) {
@@ -88,10 +82,28 @@ export class Catalogo implements OnInit {
   }
 
   cargarProductos(){
-
+    this.cargando = true;
+    // Llamamos al servicio pasando la pagina actual
+    this.productoService.obtenerProductos(this.paginaActual).subscribe({
+      next: (respuesta) => {
+        // Concatenamos lo que ya teniamos con lo nuevo
+        this.listaProductos = [...this.listaProductos, ...respuesta.content];
+        // Actualizamos si es la ultima pagina par esconder el boton
+        this.esUltimaPagina = respuesta.last;
+        this.cargando = false;
+        console.log(this.listaProductos);
+      },
+      error: (error) => {
+        console.log('Error al cargar productos: ', error);
+        this.cargando = false;
+      }
+    })
   }
 
   verMas(){
-
+    if (!this.esUltimaPagina && !this.cargando) {
+      this.paginaActual++;
+      this.cargarProductos();
+    }
   }
 }
