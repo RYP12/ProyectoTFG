@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import { Pedido, PedidoService } from '../../../../SERVICES/pedido-service';
 
@@ -12,7 +12,12 @@ import { Pedido, PedidoService } from '../../../../SERVICES/pedido-service';
 })
 export class OwnerControlPedidos implements OnInit {
 
-  listaPedidos: Pedido[] = [];
+  pedidos = signal<Pedido[]>([]);
+  paginaActual = signal<number>(1);
+  totalPaginas = signal<number>(1);
+
+  itemsPorPagina = 5;
+
 
   // La lista que se ve en pantalla (se vacía y llena al buscar)
   listaPedidosFiltrada: Pedido[] = [];
@@ -20,19 +25,32 @@ export class OwnerControlPedidos implements OnInit {
   constructor(private pedidoService: PedidoService) {}
 
   ngOnInit() {
-    this.pedidoService.obtenerPedidos().subscribe({
-      next: (datos) => {
-        this.listaPedidos = datos;
+    this.cargarPedidos();
+  }
 
-        // Al iniciar, la filtrada es igual a la completa
-        this.listaPedidosFiltrada = datos;
+  cargarPedidos(){
+    const pagina = this.paginaActual();
 
-        console.log(this.listaPedidos);
+    this.pedidoService.obtenerPedidosAdmin(pagina - 1, this.itemsPorPagina).subscribe({
+      next: (data: any) => {
+        if (Array.isArray(data)) {
+          const totalItems = data.length;
+          const paginasCalculadas = Math.ceil(totalItems / this.itemsPorPagina);
+          this.totalPaginas.set(paginasCalculadas || 1);
+
+          const inicio = (pagina - 1) * this.itemsPorPagina;
+          const fin = inicio + this.itemsPorPagina;
+          const pedidosRecortados = data.slice(inicio, fin);
+
+          this.pedidos.set(pedidosRecortados);
+        }
+        else if (data.content) {
+          this.pedidos.set(data.content);
+          this.totalPaginas.set(data.totalPages);
+        }
       },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+      error: (error) => console.log('Error al cargar productos Admin:', error)
+    });
   }
 
   // Función del Buscador
@@ -41,11 +59,11 @@ export class OwnerControlPedidos implements OnInit {
 
     // Si borran, mostramos todo
     if (texto === '') {
-      this.listaPedidosFiltrada = this.listaPedidos;
+      this.listaPedidosFiltrada = this.pedidos();
       return;
     }
 
-    this.listaPedidosFiltrada = this.listaPedidos.filter(pedido => {
+    this.listaPedidosFiltrada = this.pedidos().filter(pedido => {
       // Buscamos por ID
       const id = pedido.id ? String(pedido.id) : '';
 
@@ -65,5 +83,19 @@ export class OwnerControlPedidos implements OnInit {
 
       return coincideId || coincideEstado;
     });
+  }
+
+  paginaAnterior(){
+    if (this.paginaActual() > 1) {
+      this.paginaActual.set(this.paginaActual() - 1);
+      this.cargarPedidos();
+    }
+  }
+
+  paginaPosterior() {
+    if (this.paginaActual() < this.totalPaginas()) {
+      this.paginaActual.set(this.paginaActual() + 1);
+      this.cargarPedidos();
+    }
   }
 }

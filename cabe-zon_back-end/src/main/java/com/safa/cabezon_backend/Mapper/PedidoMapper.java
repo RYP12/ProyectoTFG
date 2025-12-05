@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Mapper;
 
+import com.safa.cabezon_backend.Dto.BuscarPedidoAdminDTO;
 import com.safa.cabezon_backend.Dto.BuscarPedidoDTO;
 import com.safa.cabezon_backend.Dto.PedidoDTO;
 import com.safa.cabezon_backend.Modelos.Cliente;
@@ -21,6 +22,7 @@ public abstract class PedidoMapper {
 
     public abstract List<BuscarPedidoDTO> listToPedidoDTO(List<Pedido> pedidos);
     public abstract BuscarPedidoDTO toDTO(Pedido pedido);
+    public abstract BuscarPedidoAdminDTO toPedidoAdminDTO(Pedido pedido);
 
     @Mapping(source = "idCliente",target="cliente")
     public abstract Pedido toEntity(PedidoDTO pedido);

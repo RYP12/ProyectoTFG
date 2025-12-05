@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.BuscarClienteDTO;
+import com.safa.cabezon_backend.Dto.BuscarPedidoAdminDTO;
 import com.safa.cabezon_backend.Dto.BuscarPedidoDTO;
 import com.safa.cabezon_backend.Dto.PedidoDTO;
 import com.safa.cabezon_backend.Mapper.PedidoMapper;
@@ -11,6 +12,8 @@ import com.safa.cabezon_backend.Repositorios.IPedidoRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +38,12 @@ public class PedidoService {
     public List<BuscarPedidoDTO> BuscarPedidos() {
         List<BuscarPedidoDTO> list = mapper.listToPedidoDTO(pedidoRepository.findAll());
         return list;
+    }
+
+    @Transactional
+    public Page<BuscarPedidoAdminDTO>  BuscarPedidosAdminPaginados (Pageable pageable) {
+        Page<Pedido> pedidos = pedidoRepository.findAll(pageable);
+        return  pedidos.map(mapper::toPedidoAdminDTO);
     }
 
     @Transactional

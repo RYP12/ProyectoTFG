@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Cliente} from './cliente-service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 export enum Estado {
@@ -20,6 +20,16 @@ export interface Pedido {
   cliente?: Cliente;
 }
 
+export interface PageResponse<T> {
+  content: T[];
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  first: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,6 +40,11 @@ export class PedidoService {
   // OBTENER TODOS LOS PRODUCTOS
   obtenerPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${this.apiUrl}/pedido/all`);
+  }
+  // OBTENER PEDIDOS ADMIN PAGINADOS DE 5 EN 5
+  obtenerPedidosAdmin(page: number, size: number): Observable<PageResponse<Pedido>>{
+    const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<any>(`${this.apiUrl}/pedido/admin?page=${page}&size=${size}`);
   }
   // OBTENER PRODUCTO POR ID
   obtenerProductoPorID(id: number): Observable<Pedido> {

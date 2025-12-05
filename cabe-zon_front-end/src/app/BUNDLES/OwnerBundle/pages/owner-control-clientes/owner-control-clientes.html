@@ -13,8 +13,8 @@
       <div id="todoJunto">
         <div id="primeraParteForm">
           <div id="botones">
-            <button><img src="/ASSETS/IMAGES/iconoFlechaIzquierda.png"></button>
-            <button style="background-color: #4C97FF; color: #f9f9f9"><img src="/ASSETS/IMAGES/iconoFlechaDerecha.png"></button>
+            <button (click)="paginaAnterior()><img src="/ASSETS/IMAGES/iconoFlechaIzquierda.png"></button>
+            <button style="background-color: #4C97FF; color: #f9f9f9" (click)="paginaPosterior()"><img src="/ASSETS/IMAGES/iconoFlechaDerecha.png"></button>
           </div>
           <div id="buscador">
             <input type="text" placeholder="Buscar" style="border-radius: 20px; height: 100%;">
@@ -33,7 +33,7 @@
 
           <div id="datosGlobal">
 
-            @for (cliente of listaClientesFiltrada; track cliente.id) {
+            @for (cliente of clientes(); track cliente.id) {
               <div class="datos">
                 <h3>{{ cliente.nombre }}</h3>
                 @if(cliente.nivel?.nivel === 'BRONCE'){
@@ -51,10 +51,6 @@
               </div>
             }
           </div>
-        </div>
-
-        <div id="terceraParteForm">
-          <p>(Numeracion de paginas)</p>
         </div>
       </div>
     </div>

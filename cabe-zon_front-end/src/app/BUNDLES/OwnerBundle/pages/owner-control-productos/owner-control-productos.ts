@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import { Producto, ProductoService } from '../../../../SERVICES/productoService';
+import {PageResponse, Producto, ProductoService} from '../../../../SERVICES/productoService';
 
 @Component({
   selector: 'app-owner-control-productos',
@@ -11,19 +11,54 @@ import { Producto, ProductoService } from '../../../../SERVICES/productoService'
   styleUrl: './owner-control-productos.css',
 })
 export class OwnerControlProductos implements OnInit {
-  listaProductos: Producto[] = [];
+  productos = signal<Producto[]>([]);
+  paginaActual = signal<number>(1);
+  totalPaginas = signal<number>(1);
 
-    constructor(private productoService: ProductoService) {}
+  itemsPorPagina = 5;
+
+  constructor(private productoService: ProductoService) {}
 
   ngOnInit() {
-    // this.productoService.obtenerProductos().subscribe({
-    // next: (datos) => {
-      //this.listaProductos;
-      //console.log(this.listaProductos);
-   // },
-     // error: (err) => {
-      //console.log(err);
-    //}
-  //})
-}
+    this.cargarProductos();
+  }
+
+  cargarProductos() {
+    const pagina = this.paginaActual();
+
+    this.productoService.obtenerProductosAdmin(pagina - 1, this.itemsPorPagina).subscribe({
+      next: (data: any) => {
+        if (Array.isArray(data)) {
+          const totalItems = data.length;
+          const paginasCalculadas = Math.ceil(totalItems / this.itemsPorPagina);
+          this.totalPaginas.set(paginasCalculadas || 1);
+
+          const inicio = (pagina - 1) * this.itemsPorPagina;
+          const fin = inicio + this.itemsPorPagina;
+          const productosRecortados = data.slice(inicio, fin);
+
+          this.productos.set(productosRecortados);
+        }
+        else if (data.content) {
+          this.productos.set(data.content);
+          this.totalPaginas.set(data.totalPages);
+        }
+      },
+      error: (error) => console.log('Error al cargar productos Admin:', error)
+    });
+  }
+
+  paginaAnterior(){
+    if (this.paginaActual() > 1) {
+      this.paginaActual.set(this.paginaActual() - 1);
+      this.cargarProductos();
+    }
+  }
+
+  paginaPosterior() {
+    if (this.paginaActual() < this.totalPaginas()) {
+      this.paginaActual.set(this.paginaActual() + 1);
+      this.cargarProductos();
+    }
+  }
 }

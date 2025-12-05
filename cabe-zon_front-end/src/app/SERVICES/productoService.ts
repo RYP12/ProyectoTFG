@@ -26,6 +26,7 @@ export interface PageResponse<T> {
   totalPages: number;
   size: number;
   number: number;
+  first: boolean;
 }
 
 @Injectable({
@@ -52,7 +53,7 @@ export class ProductoService {
 
   obtenerProductosAdmin(page: number, size: number): Observable<PageResponse<Producto>>{
     const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/admin`);
+    return this.http.get<any>(`${this.apiUrl}/producto/admin?page=${page}&size=${size}`);
   }
   // OBTENER PRODUCTO POR ID
   obtenerProductoPorID(id: number): Observable<Producto> {

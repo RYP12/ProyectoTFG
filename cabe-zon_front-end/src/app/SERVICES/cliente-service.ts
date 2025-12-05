@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 // import {Usuario} from './usuario-service';
 
@@ -20,6 +20,16 @@ export interface Cliente {
   // usuario?: Usuario
 }
 
+export interface PageResponse<T> {
+  content: T[];
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  first: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,6 +41,12 @@ export class ClienteService {
   obtenerClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.apiUrl}/cliente/all`);
   }
+  // ONTENER CLIENTES PAGINADOS DE 5 EN 5
+  obtenerClientesAdmin(page: number, size: number): Observable<PageResponse<Cliente>>{
+    const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<any>(`${this.apiUrl}/cliente/admin?page=${page}&size=${size}`);
+  }
+
   // OBTENER PRODUCTO POR ID
   obtenerClientesPorID(id: number): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.apiUrl}/cliente/${id}`);
