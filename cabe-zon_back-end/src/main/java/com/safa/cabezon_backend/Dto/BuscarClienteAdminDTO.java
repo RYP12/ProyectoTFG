@@ -2,6 +2,7 @@ package com.safa.cabezon_backend.Dto;
 
 import com.safa.cabezon_backend.Modelos.Nivel;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
