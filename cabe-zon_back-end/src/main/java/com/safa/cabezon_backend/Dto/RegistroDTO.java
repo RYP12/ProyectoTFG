@@ -1,16 +1,25 @@
 package com.safa.cabezon_backend.Dto;
 
-import com.safa.cabezon_backend.Modelos.Rol;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegistroDTO {
+    private Integer id;
+
     @NotBlank
     private String username;
+
     @NotBlank
     private String password;
+
+    @NotBlank
+    private String nombre;
+
+    @NotBlank
+    private String apellidos;
 }

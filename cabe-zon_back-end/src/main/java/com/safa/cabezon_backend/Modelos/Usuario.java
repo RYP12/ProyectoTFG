@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,9 +42,21 @@ public class Usuario  implements UserDetails {
     @ToString.Exclude
     private Cliente cliente;
 
+    @Column(name = "cuenta_verificada")
+    private boolean cuentaVerificada = false;
+
+    @Column(name = "token_verificacion")
+    private String tokenVerificacion;
+
+    @Column(name = "token_recuperacion")
+    private String tokenRecuperacion;
+
+    @Column(name = "token_recuperacion_expiracion")
+    private LocalDateTime tokenRecuperacionExpiracion;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(this.rol.name()));
+        return new ArrayList<>(List.of(new SimpleGrantedAuthority(this.rol.name())));
     }
 
     @Override

@@ -2,45 +2,38 @@ package com.safa.cabezon_backend.Servicios;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class EmailService {
 
-    private final JavaMailSender javaMailSender;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
-    @Async
-    public void enviarCorreoVerificacion(String to, String token) {
+    // Método para enviar correo usando un html
+    public void enviarCorreo(String destinatario, String asunto, String contenidoHtml) {
+        MimeMessage mensaje = javaMailSender.createMimeMessage();
+
         try {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            // true indica que es un mensaje MULTIPART (necesario para adjuntos o html complejo)
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
 
-            helper.setTo(to);
-            helper.setSubject("Verifica tu cuenta en Cabe-zon");
+            helper.setTo(destinatario);
+            helper.setSubject(asunto);
+            helper.setFrom("sirf2410@gmail.com");
 
-            // Angular cogerá este token y llamará al backend.
-            String url = "http://localhost:4200/verificar?token=" + token;
+            // true indica que el contenido es HTML
+            helper.setText(contenidoHtml, true);
 
-            String htmlContent = """
-                <div style='font-family: Arial, sans-serif; padding: 20px;'>
-                    <h2>Bienvenido a Cabe-zon</h2>
-                    <p>Gracias por registrarte. Para activar tu cuenta, haz clic en el botón:</p>
-                    <a href='%s' style='background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Activar Cuenta</a>
-                    <p>Si no funciona el botón, copia este enlace: %s</p>
-                    <p><small>Este enlace caduca en 15 minutos.</small></p>
-                </div>
-                """.formatted(url, url);
-
-            helper.setText(htmlContent, true);
-            javaMailSender.send(message);
+            javaMailSender.send(mensaje);
 
         } catch (MessagingException e) {
-            throw new RuntimeException("Error al enviar el correo de verificación", e);
+            // Manejo básico de errores
+            e.printStackTrace();
+            throw new RuntimeException("Error al enviar el correo: " + e.getMessage());
         }
     }
 }

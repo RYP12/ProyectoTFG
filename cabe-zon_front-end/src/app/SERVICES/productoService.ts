@@ -5,6 +5,20 @@ import * as url from 'node:url';
 import {Imagenes} from './imagen-service';
 import {Coleccion} from './coleccion-service';
 
+export interface ClienteResenya {
+  nombre: string;
+  apellidos: string;
+  foto?: string;
+}
+
+export interface Resenya {
+  id: number;
+  texto: string;
+  valoracion: number;
+  fecha: string;
+  cliente: ClienteResenya;
+}
+
 export interface Producto {
   id?: number;
   nombre?: string;
@@ -108,5 +122,9 @@ export class ProductoService {
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/buscar`, { params });
   }
 
+  // OBTENER RESEÑAS POR PRODUCTO
+  obtenerResenyasPorProducto(idProducto: number): Observable<Resenya[]> {
+    return this.http.get<Resenya[]>(`${this.apiUrl}/resenya_cliente/producto/${idProducto}`);
+  }
 
 }

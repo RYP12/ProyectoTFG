@@ -59,4 +59,10 @@ public class ResenyaClienteService {
     public void EliminarResenyaCliente(Integer id) {
         resenyaClienteRepository.deleteById(id);
     }
+
+    @Transactional
+    public List<ResenyaClienteDTO> buscarResenyasPorProducto(Integer idProducto) {
+        List<ResenyaCliente> resenyas = resenyaClienteRepository.findByProductoId(idProducto);
+        return resenyaClienteMapper.toListResenyaClienteDTO(resenyas);
+    }
 }

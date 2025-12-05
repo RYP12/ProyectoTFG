@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Security;
 
+import com.safa.cabezon_backend.Modelos.Rol;
 import com.safa.cabezon_backend.Modelos.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,9 +28,9 @@ public class JwtService {
         TokenDTO tokenDTO = TokenDTO
                 .builder()
                 .username(usuario.getUsername())
-                .rol(usuario.getRol().name())
-                .fecha_creacion(System.currentTimeMillis())
-                .fecha_expiracion(System.currentTimeMillis() * 1000 * 60 * 60)
+                .rol(usuario.getRol())
+                .fecha_creacion(LocalDateTime.now().toString())
+                .fecha_expiracion(LocalDateTime.now().plusHours(2).toString())
                 .build();
 
         return Jwts
@@ -54,12 +56,12 @@ public class JwtService {
 
     public TokenDTO extraerTokenDTO(String token) {
         Claims claims = extraerToken(token);
-        Map<String, Object> mapa = (LinkedHashMap<String, Object>) claims.get("tokenDTO");
+        Map<String, Object> mapa = (Map<String, Object>) claims.get("tokenDTO");
         return  TokenDTO.builder()
                 .username((String) mapa.get("username"))
-                .fecha_creacion((Long) mapa.get("fecha_creacion"))
-                .fecha_expiracion((Long) mapa.get("fecha_expiracion"))
-                .rol((String) mapa.get("rol"))
+                .fecha_creacion((String) mapa.get("fecha_creacion"))
+                .fecha_expiracion((String) mapa.get("fecha_expiracion"))
+                .rol(Rol.valueOf((String)  mapa.get("rol")))
                 .build();
     }
 
@@ -74,6 +76,11 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    // Metodo que me dice si el token a expirado
+    public boolean isExpired(String token) {
+        return LocalDateTime.parse(extraerTokenDTO(token).getFecha_expiracion()).isBefore(LocalDateTime.now());
     }
 
 

@@ -25,8 +25,6 @@ public class FiltroJWT extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
     private UsuarioService usuarioService;
 
     @Override
@@ -50,7 +48,7 @@ public class FiltroJWT extends OncePerRequestFilter {
         String token = authHeader.substring(7);
         TokenDTO tokenDTO = jwtService.extraerTokenDTO(token);
 
-        if (tokenDTO != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (tokenDTO != null && SecurityContextHolder.getContext().getAuthentication() == null && !jwtService.isExpired(token)) {
 
             Usuario usuario = (Usuario) usuarioService.loadUserByUsername(tokenDTO.getUsername());
 

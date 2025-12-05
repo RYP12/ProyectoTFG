@@ -38,20 +38,15 @@
   -->
 
   @if (producto) {
-  <div class="up">
-    <p>Inicio / Catálogo / {{ producto.nombre }}</p>
-  </div>
-
   <div class="product-card">
     <div class="left">
       <img src="/ASSETS/IMAGES/LogoCorazon.png" alt="foto" class="heart">
-      <img src="/ASSETS/IMAGES/LuffyCaja.png" alt="foto" class="luffy">
+      <img [src]="obtenerImagenUrl(producto, 0)" alt="Foto {{producto.nombre}}" class="imagen-funko">
       <button class="add-card">AÑADIR AL CARRITO</button>
     </div>
     <div class="right">
-      <h1>FUNKO POP! MARVEL:
-        SPIDERMAN</h1>
-      <p class="number">Nº 1422</p>
+      <h1 style="text-transform: uppercase">{{producto.nombre}}</h1>
+      <p class="number">Nº {{ producto.codigoProducto }}</p>
       <div class="stars">
         <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
         <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
@@ -60,12 +55,12 @@
         <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
         <img src="/ASSETS/IMAGES/LogoChat.png" alt="foto" class="chat">
       </div>
-      <p class="price">€19,99</p>
-      <p class="stock">EN STOCK: +10 unidades</p>
-      <p class="description">Sumérgete en el Spider-Verse con esta exclusiva pieza de Funko Pop! Con
-        detalles auténticos y un acabado premium, es el complemento perfecto para
-        cualquier colección. ¡No te quedes sin él!</p>
+      <p class="price">{{producto.precio}}€</p>
+      <p class="stock">EN STOCK: {{producto.stock}} unidades</p>
+      <p class="description">{{producto.descripcion}}</p>
+      @if (producto.exclusivo) {
       <button class="exclusive-btn">EXCLUSIVO!</button>
+      }
     </div>
   </div>
   }
@@ -79,42 +74,22 @@
       Cada review contiene autor, puntuación y comentario.
     -->
 
+    <div class="reviews">
+      @if (resenyas.length === 0) {
+        <p style="text-align: center; width: 100%;">No hay reseñas para este producto aún.</p>
+      }
 
-        <!--
-    @for (review of funko.reseñas; track review.id) {
-      <div class="reviews">
-        <p class="name">{{ review.autor }}</p>
-        <div class="stars-r">
-          @for (i of [].constructor(review.puntuacion); track i) {
-            <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-          }
+      @for (review of resenyas; track review.id) {
+        <div class="reviews">
+          <p class="name">{{ review.cliente.nombre }} {{review.cliente.apellidos }}</p>
+          <div class="stars-r">
+            @for (i of [].constructor(review.valoracion); track i) {
+              <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
+            }
+          </div>
+          <p class="comment">{{ review.texto }}</p>
         </div>
-        <p class="comment">{{ review.texto }}</p>
-      </div>
-    }
-    -->
-
-    <div class="reviews">
-      <p class="name">Sebastián Aramayo Ayarde</p>
-      <div class="stars-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-      </div>
-      <p class="comment">Me encanta este Funko, la figura es genial y muy fiel al personaje.</p>
-    </div>
-
-    <div class="reviews">
-      <p class="name">Andrés Gómez</p>
-      <div class="stars-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-        <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-      </div>
-      <p class="comment">Excelente calidad, lo recomiendo totalmente.</p>
+      }
     </div>
   </div>
 

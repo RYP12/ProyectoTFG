@@ -6,5 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
-    Optional<Usuario> findTopByUsername(String username);
+    Usuario findTopByUsername(String username);
+
+    Optional<Usuario> findByTokenVerificacion(String tokenVerificacion);
+    Optional<Usuario> findByTokenRecuperacion(String tokenRecuperacion);
 }

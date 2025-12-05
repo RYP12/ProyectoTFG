@@ -35,4 +35,9 @@ public class ResenyaClienteController {
     public void deleteResenyaCliente(@PathVariable Integer id){
         resenyaClienteService.EliminarResenyaCliente(id);
     }
+
+    @GetMapping("/producto/{idProducto}")
+    public List<ResenyaClienteDTO> getResenyasByProducto(@PathVariable Integer idProducto){
+        return resenyaClienteService.buscarResenyasPorProducto(idProducto);
+    }
 }
