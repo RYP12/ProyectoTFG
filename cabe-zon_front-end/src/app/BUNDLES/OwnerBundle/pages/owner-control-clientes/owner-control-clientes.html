@@ -1,0 +1,60 @@
+<div id="background">
+  <div id="global">
+    <div id="primeraParte">
+      <button routerLink="/admin/productos">PRODUCTOS</button>
+      <button style="background-color: #4C97FF; color: #f9f9f9" routerLink="/admin/clientes">CLIENTES</button>
+      <button routerLink="/admin/pedidos">PEDIDOS</button>
+      <img src="/ASSETS/IMAGES/LogoCabezon.png" alt="">
+    </div>
+
+    <div id="segundaParte">
+      <h1 style="text-align: center; font-size: 43px">CLIENTES</h1>
+
+      <div id="todoJunto">
+        <div id="primeraParteForm">
+          <div id="botones">
+            <button><--</button>
+            <button style="background-color: #4C97FF; color: #f9f9f9">--></button>
+          </div>
+          <input type="text"
+                 placeholder="Buscar por Nombre o ID"
+                 style="border-radius: 20px; height: 100%; padding:4px"
+                 (input)="filtrar($event)">
+        </div>
+
+        <div id="segundaParteForm">
+          <div id="titulos">
+            <p>NOMBRE</p>
+            <p>NIVEL</p>
+            <p>PEDIDOS</p>
+          </div>
+
+          <div id="datosGlobal">
+
+            @for (cliente of listaClientesFiltrada; track cliente.id) {
+              <div class="datos">
+                <h3>{{ cliente.nombre }}</h3>
+                @if(cliente.nivel?.nivel === 'BRONCE'){
+                  <h3 class="niveles" style="background-color: #D79435">{{ cliente.nivel?.nivel}}</h3>
+                } @else if (cliente.nivel?.nivel === 'PLATA'){
+                  <h3 class="niveles" style="background-color: #B8B8B8">{{ cliente.nivel?.nivel}}</h3>
+                }@else if (cliente.nivel?.nivel === 'ORO'){
+                  <h3 class="niveles" style="background-color: #E4C900">{{ cliente.nivel?.nivel}}</h3>
+                }@else if (cliente.nivel?.nivel === 'ESMERALDA'){
+                  <h3 class="niveles" style="background-color: #009975">{{ cliente.nivel?.nivel}}</h3>
+                }@else if (cliente.nivel?.nivel === 'DIAMANTE'){
+                  <h3 class="niveles" style="background-color: #4EE2EC">{{ cliente.nivel?.nivel}}</h3>
+                }
+                <h3>{{cliente.pedidos?.length || 0 }}</h3>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div id="terceraParteForm">
+          <p>(Numeracion de paginas)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

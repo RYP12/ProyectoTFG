@@ -22,8 +22,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PedidoService {
 
+
     @Autowired
     private IPedidoRepository pedidoRepository;
+
 
     @Autowired
     private PedidoMapper mapper;
@@ -55,5 +57,9 @@ public class PedidoService {
 
     public void EliminarPedido(Integer id) {
         pedidoRepository.deleteById(id);
+    }
+
+    public int ContarPedidosPorCliente(Integer idCliente) {
+        return pedidoRepository.countByCliente_Id(idCliente);
     }
 }

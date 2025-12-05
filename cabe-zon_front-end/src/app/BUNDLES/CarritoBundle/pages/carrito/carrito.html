@@ -8,37 +8,51 @@
       </div>
 
       <div class="products">
-        <!-- Aquí irán los productos que hay en el carrito -->
-        <!-- Usaremos el @for para recorrer el array "carrito" y pintar cada funko -->
 
-      @for (producto of carrito; track producto.id) {
-
-        <div class="product">
-          <!-- <img class="img-product" [src]="producto.imagen" [alt]="producto.nombre"> -->
-
-          <div class="info">
-            <h3 class="title">{{ producto.nombre }}</h3>
-            <p class="price">€ {{ producto.precio }}</p>
-
-            <div class="cont">
-              <button class="btn-cont" (click)="restarCantidad(producto)">-</button>
-              <!-- <span class="num">{{ producto.cantidad }}</span> -->
-              <button class="btn-cont" (click)="sumarCantidad(producto)">+</button>
+        @if (carrito.length === 0) {
+          <div class="empty-state">
+            <div class="icon-box">
+              🛒
             </div>
+            <h3>Tu carrito está vacío</h3>
+            <p>¡Aún no has añadido ningún Funko a tu colección!</p>
+
+            <button class="btn-verde" mat-dialog-close style="margin-top: 20px;" routerLink="/catalogo">
+              IR AL CATÁLOGO
+            </button>
+          </div>
+        }
+
+        @else {
+          <div class="lista-scroll">
+            @for (producto of carrito; track producto.id) {
+              <div class="product">
+                <!-- <img class="img-product" [src]="producto.imagen" [alt]="producto.nombre"> -->
+
+                <div class="info">
+                  <h3 class="title">{{ producto.nombre }}</h3>
+                  <p class="price">€ {{ producto.precio }}</p>
+
+                  <div class="cont">
+                    <button class="btn-cont" (click)="restarCantidad(producto)">-</button>
+                    <!-- <span class="num">{{ producto.cantidad || 1 }}</span> -->
+                    <button class="btn-cont" (click)="sumarCantidad(producto)">+</button>
+                  </div>
+                </div>
+
+                <button class="btn-borrar" (click)="eliminarDelCarrito(producto)">
+                  ELIMINAR
+                </button>
+              </div>
+            }
           </div>
 
-          <button class="btn-borrar" (click)="eliminarDelCarrito(producto)">
-            ELIMINAR
-          </button>
-        </div>
-
-      }
-
-
-        <div class="btns">
-          <button class="btn-verde" mat-dialog-close>SEGUIR COMPRANDO</button>
-          <button class="btn-blanco" routerLink="/finalizar-pedido" [mat-dialog-close]="true">TERMINAR PEDIDO</button>
-        </div>
+          <!-- Botones de acción (Solo si hay productos) -->
+          <div class="btns">
+            <button class="btn-verde" mat-dialog-close>SEGUIR COMPRANDO</button>
+            <button class="btn-blanco" routerLink="/finalizar-pedido" [mat-dialog-close]="true">TERMINAR PEDIDO</button>
+          </div>
+        }
 
       </div>
     </div>

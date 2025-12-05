@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import * as url from 'node:url';
+import {Imagenes} from './imagen-service';
+import {Coleccion} from './coleccion-service';
 
 export interface Producto {
   id?: number;
@@ -11,6 +14,9 @@ export interface Producto {
   exclusivo?: boolean;
   codigoProducto?: number;
   valoracion?: number;
+
+  colecciones?: Coleccion[];
+  imagenes?: Imagenes[];
 }
 
 export interface PageResponse<T> {
@@ -77,6 +83,18 @@ export class ProductoService {
 
     return this.http.get<Producto[]>(`${this.apiUrl}/producto/coleccion/${idColeccion}`);
   }
+
+  //getExclusivos():Observable<Producto[]>{
+   // return this.http.get<Producto[]>(`${this.apiUrl}/producto/exclusivo`);
+  //}
+
+  // OBTENER TODOS LOS PRODUCTOS
+  getExclusivos(page: number = 0, size: number = 20): Observable<any> {
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    return this.http.get<any>(`${this.apiUrl}/producto/exclusivo?page=${page}&size=${size}`);
+  }
+
+
 
 
 }

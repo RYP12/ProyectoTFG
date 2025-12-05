@@ -3,6 +3,7 @@ import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {Producto, ProductoService} from '../../../../SERVICES/productoService';
 import {CurrencyPipe} from '@angular/common';
+import {RouterLink} from '@angular/router';
 
 
 @Component({
@@ -10,7 +11,8 @@ import {CurrencyPipe} from '@angular/common';
   imports: [
     Header,
     Footer,
-    CurrencyPipe
+    CurrencyPipe,
+    RouterLink
   ],
   templateUrl: './starter-page.html',
   styleUrl: './starter-page.css',

@@ -3,12 +3,20 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 // import {Usuario} from './usuario-service';
 
+export interface Nivel{
+  id?:number;
+  nivel?:string;
+  descuento?:number;
+}
+
 export interface Cliente {
   id?: number;
   nombre?: string;
   apellidos?: string;
   foto?: string;
   cabecoins?: number;
+  nivel?: Nivel;
+  pedidos?: any[];
   // usuario?: Usuario
 }
 
@@ -20,23 +28,23 @@ export class ClienteService {
 
   constructor(private http: HttpClient) {}
   // OBTENER TODOS LOS PRODUCTOS
-  obtenerProductos(): Observable<Cliente[]> {
+  obtenerClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.apiUrl}/cliente/all`);
   }
   // OBTENER PRODUCTO POR ID
-  obtenerProductoPorID(id: number): Observable<Cliente> {
+  obtenerClientesPorID(id: number): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.apiUrl}/cliente/${id}`);
   }
   // CREAR PRODUCTO
-  crearProducto(cliente: Cliente): Observable<Cliente>{
+  crearCliente(cliente: Cliente): Observable<Cliente>{
     return this.http.post<Cliente>(`${this.apiUrl}/cliente/post`, cliente);
   }
   // ACTUALIZAR PRODUCTO
-  actualizarProducto(id: number, cliente: Cliente): Observable<Cliente> {
+  actualizarCliente(id: number, cliente: Cliente): Observable<Cliente> {
     return this.http.put<Cliente>(`${this.apiUrl}/cliente/put/${id}`, cliente);
   }
   // ELIMINAR PRODUCTO
-  eliminarProducto(id: number): Observable<void> {
+  eliminarCliente(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/cliente/delete/${id}`);
   }
 }

@@ -24,12 +24,26 @@ main {
   padding: 5%;
 
   border-radius: 20px;
-  box-shadow: 4px 4px #E71D36;
+  box-shadow: 6px 6px #E71D36;
   background-image: url('/ASSETS/IMAGES/TimeFondo.png');
   background-size: cover;
   background-position: center;
 }
 
+
+.fondo1{
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/ASSETS/IMAGES/fondotoystory.webp') !important;
+  box-shadow: 6px 6px #2B59FF;
+}
+
+.fondo2{
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/ASSETS/IMAGES/fondoStrangerThings.jpg') !important;
+  box-shadow: 6px 6px #E71D36;
+}
 .sliderLetrasBoton {
   display: flex;
   flex-direction: column;
@@ -61,6 +75,9 @@ main {
   font-size: 2.4em;
   font-weight: 800;
 }
+.azul button{
+  background-color: #2B59FF!important;
+}
 
 .sliderBoton button {
   margin-top: 1rem;
@@ -86,6 +103,7 @@ main {
 }
 
 .sliderImagen {
+  height: 400px;
   width: 100%;
   display: flex;
   justify-content: center;

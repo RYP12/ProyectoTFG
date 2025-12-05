@@ -8,6 +8,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class BuscarColeccionDTO {
+    private Integer id;
     private String nombre;
     private Integer numeroDeProductos;
 }

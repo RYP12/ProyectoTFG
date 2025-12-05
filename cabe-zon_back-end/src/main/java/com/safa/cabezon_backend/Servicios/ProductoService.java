@@ -35,14 +35,15 @@ public class ProductoService {
 
 
     @Transactional
-    public List<ProductoDTO> BuscarProductos() {
-        return mapper.listToDTO(productoRepository.findAll());}
+    public List<BuscarProductoDTO> BuscarProductos() {
+        return mapper.listToBuscarDTO(productoRepository.findAll());}
 
     @Transactional
     public Page<BuscarProductoDTO> buscarPorPagina(Pageable pageable) {
         Page<Producto> productos = productoRepository.findAll(pageable);
         return productos.map(productoMapper::toBuscarProductoDTO);
     }
+
 
     @Transactional
     public Page<BuscarProductoAdminDTO> buscarProductosAdminPaginados(Pageable pageable) {
@@ -77,9 +78,11 @@ public class ProductoService {
         return mapper.listToBuscarDTO(productoRepository.findProductosNoExclusivos());
     }
 
+    // EXCLUSIVO
     @Transactional
-    public List<BuscarProductoDTO> BuscarPorductosExclusivos(){
-        return mapper.listToBuscarDTO(productoRepository.findProductosExclusivos());
+    public Page<BuscarProductoDTO> BuscarProductosExclusivos(Pageable pageable){
+        Page<Producto> productos = productoRepository.findProductosExclusivos(pageable);
+        return productos.map(productoMapper::toBuscarProductoDTO);
     }
 
     @Transactional
@@ -102,4 +105,6 @@ public class ProductoService {
     public List<BuscarProductoDTO> BuscarPorductosPorGustosCliente(Integer idCliente) {
         return mapper.listToBuscarDTO(productoRepository.findGustosCliente(idCliente));
     }
+
+
 }

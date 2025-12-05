@@ -35,6 +35,10 @@ public class ColeccionService {
     @Autowired
     private ColeccionMapper coleccionMapper;
 
+    @Transactional
+    public List<Coleccion> obtenerColeccionesExclusivas() {
+        return coleccionRepository.findColeccionesConProductosExclusivos();
+    }
 
     @Transactional
     public List<BuscarColeccionDTO> crearColeccion(){

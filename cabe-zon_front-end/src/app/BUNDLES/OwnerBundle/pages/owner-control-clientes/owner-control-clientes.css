@@ -82,15 +82,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5%;
-
-
 }
 
 #botones button {
   border: solid 1px black;
   border-radius: 20px;
   box-shadow: 2px 2px black;
-
 }
 
 #segundaParteForm {
@@ -107,7 +104,7 @@
 
 #titulos {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 
   justify-items: center;
 }
@@ -119,7 +116,7 @@
 
 .datos {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr ;
 
   justify-items: center;
   margin-bottom: 1%;
@@ -140,3 +137,18 @@
   box-shadow: 3px 3px black;
 }
 
+.niveles{
+  color: white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-shadow: 2px 2px 4px black;
+  padding:10px 0px;
+}
+
+h3{
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+}
