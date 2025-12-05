@@ -26,6 +26,11 @@ public class LoginService {
 
         if(usuario != null && seguridad.passwordencoder().matches(loginDTO.getPassword(), usuario.getPassword())) {
 
+            // Verificar si la cuenta ya esta verificada
+            if (!usuario.isCuentaVerificada()) {
+                throw new RuntimeException("Debes verificar tu cuenta antes de iniciar sesión.");
+            }
+
             return jwtService.generateToken(usuario);
         }
 

@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     Usuario findTopByUsername(String username);
+
+    Optional<Usuario> findByTokenVerificacion(String tokenVerificacion);
+    Optional<Usuario> findByTokenRecuperacion(String tokenRecuperacion);
 }

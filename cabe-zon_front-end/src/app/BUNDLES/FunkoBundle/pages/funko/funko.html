@@ -38,14 +38,10 @@
   -->
 
   @if (producto) {
-  <div class="up">
-    <p>Inicio / Catálogo / {{ producto.nombre }}</p>
-  </div>
-
   <div class="product-card">
     <div class="left">
       <img src="/ASSETS/IMAGES/LogoCorazon.png" alt="foto" class="heart">
-      <img ngSrc="{{ producto.imagenes }}" alt="foto" class="luffy">
+      <img [src]="obtenerImagenUrl(producto, 0)" alt="Foto {{producto.nombre}}" class="imagen-funko">
       <button class="add-card">AÑADIR AL CARRITO</button>
     </div>
     <div class="right">
