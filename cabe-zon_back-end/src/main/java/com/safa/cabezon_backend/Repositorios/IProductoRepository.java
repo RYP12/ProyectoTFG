@@ -28,6 +28,16 @@ public interface IProductoRepository extends JpaRepository<Producto, Integer> {
         """, nativeQuery = true)
     List<Producto> buscarProductosPorColeccionId(@Param("idColeccion") Integer id);
 
+    // BUSCAR PRODUCTOS POR ID PAGINADOS
+    @Query(value = """
+        SELECT p.* FROM cabezon.coleccion c 
+        JOIN cabezon.coleccion_producto cp ON c.id = cp.id_coleccion 
+        JOIN cabezon.producto p ON p.id = cp.id_producto 
+        WHERE c.id = :idColeccion
+        """, nativeQuery = true)
+    Page<Producto> findByColecciones_Id(Integer idColeccion, Pageable pageable);
+    //------------
+
     @Query(value = "SELECT * FROM cabezon.producto WHERE producto.precio BETWEEN :precioMin AND :precioMax", nativeQuery = true)
     List<Producto> findProductosByPrecio(@Param("precioMin") Double precioMin, @Param("precioMax") Double precioMax);
 

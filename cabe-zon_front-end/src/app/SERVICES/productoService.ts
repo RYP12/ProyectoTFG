@@ -37,9 +37,17 @@ export class ProductoService {
 
   constructor(private http: HttpClient) {}
   // OBTENER TODOS LOS PRODUCTOS
-  obtenerProductos(page: number = 0, size: number = 20): Observable<any> {
-    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<any>(`${this.apiUrl}/producto/all?page=${page}&size=${size}`);
+  obtenerProductos(page: number = 0, size: number = 20, coleccionId?: number): Observable<PageResponse<Producto>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    // Si nos pasan una colección, la añadimos a la URL
+    if (coleccionId) {
+      params = params.set('coleccionId', coleccionId.toString());
+    }
+
+    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/all2`, { params });
   }
 
   obtenerProductosAdmin(page: number, size: number): Observable<PageResponse<Producto>>{

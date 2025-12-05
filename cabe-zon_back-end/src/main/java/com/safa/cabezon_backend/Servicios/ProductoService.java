@@ -7,7 +7,10 @@ import com.safa.cabezon_backend.Repositorios.IProductoPedidoRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,37 @@ public class ProductoService {
     @Autowired
     private ProductoMapper productoMapper;
 
+
+    // IMPLEMENTACION DE CACHE
+
+    // FUNCION PRINCIPAL QUE GUARDA LOS PRODUCTOS AL ARRANCAR
+    @Transactional
+    @Cacheable("productos")
+    public List<BuscarProductoDTO>BuscarProductosCache (){
+        System.out.println("--- ACCEDIENDO A BASE DE DATOS PARA BUSCAR PRODUCTOS ---");
+        return mapper.listToBuscarDTO(productoRepository.findAll());
+    }
+
+    // IMPORTANTE: SI CREAMOS UN PRODUCTO NUEVO HAY QUE BORRA CACHE ANTIGUA
+
+    @Transactional
+    @CacheEvict(value = "productos", allEntries = true)
+    public void CrearProductoCache(CrearProductoDTO dto) {
+        productoRepository.save(mapper.toProducto(dto));
+    }
+
+    @Transactional
+    @CacheEvict(value = "productos", allEntries = true)
+    public void EditarProductoCache(Integer id, CrearProductoDTO dto) {
+
+    }
+
+    @Transactional
+    @CacheEvict(value = "productos", allEntries = true)
+    public void EliminarProductoCache(Integer id) {
+
+    }
+    // ------------- FIN -----------------
 
     @Transactional
     public List<BuscarProductoDTO> BuscarProductos() {
@@ -95,6 +129,23 @@ public class ProductoService {
     public List<BuscarProductoDTO> BuscarPorductosPorColeccion(Integer idColeccion) {
         return mapper.listToBuscarDTO(productoRepository.buscarProductosPorColeccionId(idColeccion));
     }
+
+    // Modificamos el método para aceptar un ID de colección opcional
+    @Transactional
+    public Page<BuscarProductoDTO> buscarPorPagina(Pageable pageable, Integer coleccionId) {
+        Page<Producto> productos;
+
+        if (coleccionId != null && coleccionId > 0) {
+            // Si hay filtro, usamos el nuevo método del repositorio
+            productos = productoRepository.findByColecciones_Id(coleccionId, pageable);
+        } else {
+            // Si no, traemos todos como antes
+            productos = productoRepository.findAll(pageable);
+        }
+
+        return productos.map(productoMapper::toBuscarProductoDTO);
+    }
+
 
     @Transactional
     public List<BuscarProductoDTO> BuscarPorductosPorFranjaPrecio(double franjaPreciomin, double franjaPreciomax) {

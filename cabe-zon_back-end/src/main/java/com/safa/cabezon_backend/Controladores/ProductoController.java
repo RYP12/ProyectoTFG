@@ -4,7 +4,6 @@ import com.safa.cabezon_backend.Dto.BuscarProductoAdminDTO;
 import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoDTO;
 import com.safa.cabezon_backend.Dto.ProductoDTO;
-import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Servicios.ProductoService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,6 +33,25 @@ public class ProductoController {
         Page<BuscarProductoDTO> paginaProductos = productoService.buscarPorPagina(pageable);
         return  ResponseEntity.ok(paginaProductos);
     }
+
+
+
+    @GetMapping("/all2")
+    public ResponseEntity<Page<BuscarProductoDTO>> getProductos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) Integer coleccionId // <--- Nuevo parámetro opcional
+    ){
+        // Mantenemos tu ordenación por ID descendente
+        Pageable pageable = PageRequest.of(page, 20, Sort.by("id").descending());
+
+        // Pasamos el filtro al servicio
+        Page<BuscarProductoDTO> paginaProductos = productoService.buscarPorPagina(pageable, coleccionId);
+
+        return ResponseEntity.ok(paginaProductos);
+    }
+
+
+
 
     //SOLICITAR PRODCUTOS EXCLUSIVOS PAGINADOS
     @GetMapping("/exclusivo")
