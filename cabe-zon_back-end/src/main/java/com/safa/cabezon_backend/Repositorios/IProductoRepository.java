@@ -13,6 +13,8 @@ import java.util.List;
 @Repository
 public interface IProductoRepository extends JpaRepository<Producto, Integer> {
 
+    List<Producto> findByNombreContainingIgnoreCase(String nombre);
+
 
     @Query(value = "SELECT * FROM cabezon.producto p WHERE p.exclusivo = false", nativeQuery = true)
     List<Producto> findProductosNoExclusivos();

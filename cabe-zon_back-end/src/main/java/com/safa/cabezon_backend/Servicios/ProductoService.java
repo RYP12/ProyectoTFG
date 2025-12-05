@@ -37,6 +37,12 @@ public class ProductoService {
 
 
     @Transactional
+    public List<BuscarProductoDTO> buscarPorNombre(String nombre) {
+        List<Producto> lista = productoRepository.findByNombreContainingIgnoreCase(nombre);
+        return mapper.listToBuscarDTO(lista);
+    }
+
+    @Transactional
     public List<BuscarProductoDTO> BuscarProductos() {
         return mapper.listToBuscarDTO(productoRepository.findAll());}
 

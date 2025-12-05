@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Faster+One&display=swap');
-
+/* --- BARRA DE NAVEGACIÓN --- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -13,8 +11,11 @@
   flex-wrap: wrap;
   gap: 10px;
   font-family: 'League Spartan', sans-serif;
+  background-color: white;
+  position: relative; /* Necesario para z-index */
 }
 
+/* --- ENLACES CENTRO --- */
 .center div:hover {
   color: #454545;
 }
@@ -30,9 +31,10 @@
 }
 
 .center div {
-  margin: 0 20px;
+  margin: 0 15px;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap; /* Evita que el texto se rompa */
 }
 
 .center div a {
@@ -41,62 +43,159 @@
 }
 
 .right {
-  gap: 10px;
+  gap: 15px;
+  position: relative;
 }
 
+/* --- BUSCADOR (CONTENEDOR PRINCIPAL) --- */
+.search-container {
+  position: relative; /* Clave: los resultados absolutos se pegan a esto */
+  min-width: 250px;   /* Ancho mínimo para que no se vea aplastado */
+}
+
+/* --- INPUT VISUAL --- */
 .search {
   display: flex;
   align-items: center;
   border: 1px solid black;
   border-radius: 20px;
-  padding: 3px 8px;
+  padding: 5px 12px;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .search input {
   border: none;
   outline: none;
   font-family: 'League Spartan', sans-serif;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
 }
 
-.client{
+/* --- RESULTADOS DESPLEGABLES --- */
+.search-results {
+  position: absolute;
+  top: 100%; /* Justo debajo */
+  left: 0;
+  right: 0;  /* Ocupa todo el ancho del contenedor padre */
+  margin-top: 5px; /* Un pequeño espacio de separación */
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  z-index: 9999; /* Muy alto para tapar todo lo de abajo */
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+}
+
+/* Scrollbar personalizada para que quede bonita */
+.search-results::-webkit-scrollbar {
+  width: 6px;
+}
+.search-results::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.search-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.search-item:hover {
+  background-color: #f0f0f0;
+}
+
+.search-item:last-child {
+  border-bottom: none;
+}
+
+.search-results.empty {
+  padding: 15px;
+  color: #666;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* --- TEXTOS PRODUCTO --- */
+.info-producto {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-producto .nombre {
+  font-weight: 700;
+  font-size: 14px;
+  color: black;
+}
+
+.info-producto .precio {
+  font-size: 13px;
+  color: #4C97FF;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* --- CLIENTE Y CARRITO --- */
+.client {
   display: flex;
   align-items: center;
   border: 1px solid black;
   border-radius: 20px;
-  padding: 3px 8px;
+  padding: 5px 12px;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .client:hover {
-  box-shadow: 1px 4px 10px rgba(0,0,0,0.2);
-  transform: translateY(-1px);
+  background-color: #f9f9f9;
 }
 
 .icon {
-  height: 18px;
-  margin-right: 5px;
+  height: 20px;
   cursor: pointer;
 }
 
-.icon:hover {
-  transform: scale(1.2);
-  filter: brightness(1.3);
+/* Lupa dentro del input */
+.search .icon {
+  margin-left: 5px;
 }
 
-@media (max-width: 768px) {
+.client .icon {
+  margin-right: 8px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
   .navbar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    gap: 15px;
   }
 
   .center {
-    justify-content: flex-start;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 10px;
-    margin-top: 5px;
   }
 
-  .search input {
-    width: 80px;
+  .right {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .search-container {
+    width: 100%;
+    max-width: 400px; /* Que no se haga gigante en móviles */
   }
 }

@@ -107,4 +107,12 @@ public class ProductoController {
     public List<BuscarProductoDTO> getGustos(@PathVariable Integer id) {
         return productoService.BuscarPorductosPorGustosCliente(id);
     }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<List<BuscarProductoDTO>> buscarPorNombre(@RequestParam String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return ResponseEntity.ok(List.of());
+        }
+        return ResponseEntity.ok(productoService.buscarPorNombre(nombre));
+    }
 }
