@@ -13,8 +13,8 @@
       <div id="todoJunto">
         <div id="primeraParteForm">
           <div id="botones">
-            <button (click)="paginaAnterior()" [disabled]="esPrimera"><img src="/ASSETS/IMAGES/iconoFlechaIzquierda.png"></button>
-            <button style="background-color: #4C97FF; color: #f9f9f9" (click)="paginaPosterior()" [disabled]="esUltima"><img src="/ASSETS/IMAGES/iconoFlechaDerecha.png"></button>
+            <button (click)="paginaAnterior()"><img src="/ASSETS/IMAGES/iconoFlechaIzquierda.png"></button>
+            <button style="background-color: #4C97FF; color: #f9f9f9" (click)="paginaPosterior()" ><img src="/ASSETS/IMAGES/iconoFlechaDerecha.png"></button>
           </div>
           <div id="buscador">
             <input type="text" placeholder="Buscar" style="border-radius: 20px; height: 100%;">
@@ -34,7 +34,7 @@
 
           <div id="datosGlobal">
 
-            @for (producto of listaProductos; track producto.id) {
+            @for (producto of productos(); track producto.id) {
              <div class="datos">
               <h3>{{ producto.nombre }}</h3>
               <h3>{{ producto.valoracion }}</h3>

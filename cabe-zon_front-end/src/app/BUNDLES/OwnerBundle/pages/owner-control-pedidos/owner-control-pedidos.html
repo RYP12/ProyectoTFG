@@ -13,8 +13,8 @@
       <div id="todoJunto">
         <div id="primeraParteForm">
           <div id="botones">
-            <button><--</button>
-            <button style="background-color: #4C97FF; color: #f9f9f9">--></button>
+            <button (click)="paginaAnterior()"><--</button>
+            <button style="background-color: #4C97FF; color: #f9f9f9" (click)="paginaPosterior()">--></button>
           </div>
           <input type="text"
                  placeholder="Buscar por Estado o ID"
@@ -32,7 +32,7 @@
 
           <div id="datosGlobal">
 
-            @for (pedido of listaPedidosFiltrada; track pedido.id) {
+            @for (pedido of pedidos(); track pedido.id) {
              <div class="datos">
                @if (pedido.estado === 'EN_PREPARACION') {
                  <h3 style="color: gold ">Pendiente</h3>
@@ -49,10 +49,6 @@
             </div>
             }
           </div>
-        </div>
-
-        <div id="terceraParteForm">
-          <p>(Numeracion de paginas)</p>
         </div>
       </div>
     </div>

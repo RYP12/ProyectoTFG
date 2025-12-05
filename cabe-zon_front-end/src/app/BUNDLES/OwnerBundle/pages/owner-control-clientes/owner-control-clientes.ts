@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {Cliente, ClienteService} from '../../../../SERVICES/cliente-service';
+import {Producto} from '../../../../SERVICES/productoService';
 
 @Component({
   selector: 'app-owner-control-clientes',
@@ -11,22 +12,42 @@ import {Cliente, ClienteService} from '../../../../SERVICES/cliente-service';
   styleUrl: './owner-control-clientes.css',
 })
 export class OwnerControlClientes implements OnInit {
-  listaClientes: Cliente[] = [];
+  clientes = signal<Cliente[]>([]);
+  paginaActual = signal<number>(1);
+  totalPaginas = signal<number>(1);
+
+  itemsPorPagina = 5;
   listaClientesFiltrada: Cliente[] = [];
 
   constructor(private clienteService: ClienteService,) {}
 
   ngOnInit() {
-    this.clienteService.obtenerClientes().subscribe({
-      next: (datos) => {
-        this.listaClientes = datos;
-        this.listaClientesFiltrada = datos;
-        console.log(this.listaClientes);
+    this.cargarClientes();
+  }
+
+  cargarClientes() {
+    const pagina = this.paginaActual();
+
+    this.clienteService.obtenerClientesAdmin(pagina - 1, this.itemsPorPagina).subscribe({
+      next: (data: any) => {
+        if (Array.isArray(data)) {
+          const totalItems = data.length;
+          const paginasCalculadas = Math.ceil(totalItems / this.itemsPorPagina);
+          this.totalPaginas.set(paginasCalculadas || 1);
+
+          const inicio = (pagina - 1) * this.itemsPorPagina;
+          const fin = inicio + this.itemsPorPagina;
+          const clientesRecortados = data.slice(inicio, fin);
+
+          this.clientes.set(clientesRecortados);
+        }
+        else if (data.content) {
+          this.clientes.set(data.content);
+          this.totalPaginas.set(data.totalPages);
+        }
       },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+      error: (error) => console.log('Error al cargar productos Admin:', error)
+    });
   }
 
   filtrar(event: any) {
@@ -34,12 +55,12 @@ export class OwnerControlClientes implements OnInit {
 
     // Si está vacío, reseteamos
     if (!texto) {
-      this.listaClientesFiltrada = this.listaClientes;
+      this.listaClientesFiltrada = this.clientes();
       return;
     }
 
     // Filtramos
-    this.listaClientesFiltrada = this.listaClientes.filter(cliente => {
+    this.listaClientesFiltrada = this.clientes().filter(cliente => {
       // Si nombre es null, usamos cadena vacía
       const nombre = cliente.nombre ? cliente.nombre.toLowerCase() : '';
 
@@ -50,4 +71,17 @@ export class OwnerControlClientes implements OnInit {
     });
   }
 
+  paginaAnterior(){
+    if (this.paginaActual() > 1) {
+      this.paginaActual.set(this.paginaActual() - 1);
+      this.cargarClientes();
+    }
+  }
+
+  paginaPosterior() {
+    if (this.paginaActual() < this.totalPaginas()) {
+      this.paginaActual.set(this.paginaActual() + 1);
+      this.cargarClientes();
+    }
+  }
 }

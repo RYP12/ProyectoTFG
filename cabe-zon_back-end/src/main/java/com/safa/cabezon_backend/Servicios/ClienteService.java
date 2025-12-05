@@ -8,6 +8,8 @@ import com.safa.cabezon_backend.Repositorios.IClienteRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,11 @@ public class ClienteService {
     @Autowired
     private ClienteMapper clienteMapper;
 
+    @Transactional
+    public Page<BuscarClienteAdminDTO> buscarClienteAdminPaginados(Pageable pageable) {
+        Page<Cliente> clientes = clienteRepository.findAll(pageable);
+        return clientes.map(clienteMapper::toClienteAdminDTO);
+    }
 
     public void CrearCliente(CrearClienteDTO clienteDto){
         clienteRepository.save(clienteMapper.toEntity(clienteDto));

@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {PageResponse, Producto, ProductoService} from '../../../../SERVICES/productoService';
-import {log} from 'node:util';
 
 @Component({
   selector: 'app-owner-control-productos',
@@ -12,14 +11,11 @@ import {log} from 'node:util';
   styleUrl: './owner-control-productos.css',
 })
 export class OwnerControlProductos implements OnInit {
-  listaProductos: Producto[] = [];
+  productos = signal<Producto[]>([]);
+  paginaActual = signal<number>(1);
+  totalPaginas = signal<number>(1);
 
-  paginaActual: number = 0;
-  tamanyoPagina: number = 5; // Tu requisito: de 5 en 5
-  totalPaginas: number = 0;
-  totalElementos: number = 0;
-  esPrimera: boolean = true;
-  esUltima: boolean = false;
+  itemsPorPagina = 5;
 
   constructor(private productoService: ProductoService) {}
 
@@ -28,30 +24,41 @@ export class OwnerControlProductos implements OnInit {
   }
 
   cargarProductos() {
-    this.productoService.obtenerProductosAdmin(this.paginaActual, this.tamanyoPagina).subscribe({
-      next: (response: PageResponse<Producto>) => {
-        this.listaProductos = response.content;
-        this.totalPaginas = response.totalPages;
-        this.totalElementos = response.totalElements;
-        this.esPrimera = response.first;
-        this.esUltima = response.last;
-        this.paginaActual = response.number;
+    const pagina = this.paginaActual();
+
+    this.productoService.obtenerProductosAdmin(pagina - 1, this.itemsPorPagina).subscribe({
+      next: (data: any) => {
+        if (Array.isArray(data)) {
+          const totalItems = data.length;
+          const paginasCalculadas = Math.ceil(totalItems / this.itemsPorPagina);
+          this.totalPaginas.set(paginasCalculadas || 1);
+
+          const inicio = (pagina - 1) * this.itemsPorPagina;
+          const fin = inicio + this.itemsPorPagina;
+          const productosRecortados = data.slice(inicio, fin);
+
+          this.productos.set(productosRecortados);
+        }
+        else if (data.content) {
+          this.productos.set(data.content);
+          this.totalPaginas.set(data.totalPages);
+        }
       },
       error: (error) => console.log('Error al cargar productos Admin:', error)
     });
   }
 
   paginaAnterior(){
-    if(!this.esPrimera){
-      this.paginaActual--;
-      this.cargarProductos()
+    if (this.paginaActual() > 1) {
+      this.paginaActual.set(this.paginaActual() - 1);
+      this.cargarProductos();
     }
   }
 
   paginaPosterior() {
-    if(!this.esUltima){
-      this.paginaActual++;
-      this.cargarProductos()
+    if (this.paginaActual() < this.totalPaginas()) {
+      this.paginaActual.set(this.paginaActual() + 1);
+      this.cargarProductos();
     }
   }
 }

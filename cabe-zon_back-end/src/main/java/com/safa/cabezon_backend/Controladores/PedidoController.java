@@ -1,10 +1,15 @@
 package com.safa.cabezon_backend.Controladores;
 
+import com.safa.cabezon_backend.Dto.BuscarPedidoAdminDTO;
 import com.safa.cabezon_backend.Dto.BuscarPedidoDTO;
 import com.safa.cabezon_backend.Dto.PedidoDTO;
 import com.safa.cabezon_backend.Modelos.Pedido;
 import com.safa.cabezon_backend.Servicios.PedidoService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +26,17 @@ public class PedidoController {
     //Solicitar todos los pedidos(BuscarPedidoDTO)
     @GetMapping("/all")
     public List<BuscarPedidoDTO> getPedidos(){return pedidoService.BuscarPedidos();}
+
+    // Solicitar pedidos paginados de 5 en 5 (BuscarPedidoAdminDTO)
+    @GetMapping("/admin")
+    public ResponseEntity<Page<BuscarPedidoAdminDTO>> getPedidosAdmin(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<BuscarPedidoAdminDTO> pagina = pedidoService.BuscarPedidosAdminPaginados(pageable);
+        return  ResponseEntity.ok(pagina);
+    }
 
     //Solicitar pedido segun id que se pase por url(BuscarPedidoDTO)
     @GetMapping("/{id}")
