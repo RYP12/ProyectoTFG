@@ -21,6 +21,7 @@ export class Catalogo implements OnInit {
   listaProductos: Producto[] = [];
 
   paginaActual: number = 0;
+  tamanyoPagina: number = 20;
   esUltimaPagina: boolean = false;
   cargando: boolean = false;
 
@@ -82,14 +83,14 @@ export class Catalogo implements OnInit {
   }
 
   cargarProductos(){
+    if (this.cargando) return;
     this.cargando = true;
     // Llamamos al servicio pasando la pagina actual
-    this.productoService.obtenerProductos(this.paginaActual).subscribe({
-      next: (respuesta) => {
-        // Concatenamos lo que ya teniamos con lo nuevo
-        this.listaProductos = [...this.listaProductos, ...respuesta.content];
-        // Actualizamos si es la ultima pagina par esconder el boton
+    this.productoService.obtenerProductos(this.paginaActual, this.tamanyoPagina).subscribe({
+      next: (respuesta: any) => {
+        const nuevosProductos = respuesta.content;
         this.esUltimaPagina = respuesta.last;
+        this.listaProductos.push(...nuevosProductos);
         this.cargando = false;
       },
       error: (error) => {
@@ -100,7 +101,7 @@ export class Catalogo implements OnInit {
   }
 
   verMas(){
-    if (!this.esUltimaPagina && !this.cargando) {
+    if (!this.esUltimaPagina) {
       this.paginaActual++;
       this.cargarProductos();
     }
