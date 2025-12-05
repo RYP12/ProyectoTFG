@@ -8,7 +8,6 @@ import {RouterLink} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {Coleccion, ColeccionService} from '../../../../SERVICES/coleccion-service';
 import {CarritoService} from '../../../../SERVICES/carrito-service';
-import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-catalogo',
@@ -47,7 +46,7 @@ export class Catalogo implements OnInit {
               private carritoService: CarritoService,
               private coleccionService: ColeccionService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     // 1. CARGA INICIAL: Usamos solo la función de paginación
     this.cargarProductos();
 

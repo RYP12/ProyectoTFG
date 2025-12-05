@@ -35,6 +35,18 @@ public class ProductoController {
         return  ResponseEntity.ok(paginaProductos);
     }
 
+    //SOLICITAR PRODCUTOS EXCLUSIVOS PAGINADOS
+    @GetMapping("/exclusivo")
+    public ResponseEntity<Page<BuscarProductoDTO>> getProductosExclusivos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<BuscarProductoDTO> paginaProductos = productoService.BuscarProductosExclusivos(pageable);
+        return  ResponseEntity.ok(paginaProductos);
+    }
+
+
     @GetMapping("/admin")
     public ResponseEntity<Page<BuscarProductoAdminDTO>> getProductosAdmins(
             @RequestParam(defaultValue = "0") int page,
@@ -79,10 +91,7 @@ public class ProductoController {
         return productoService.BuscarPorductosNormales();
     }
 
-    @GetMapping("/exclusivo")
-    public List<BuscarProductoDTO> getExclusivo() {
-        return productoService.BuscarPorductosExclusivos();
-    }
+
 
     @GetMapping("/coleccion/{id}")
     public List<BuscarProductoDTO> getProductoPorColeccion(@PathVariable Integer id) {

@@ -1,18 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {Producto, ProductoService} from '../../../../SERVICES/productoService';
-import {Pedido, PedidoService} from '../../../../SERVICES/pedido-service';
-import {ClienteService} from '../../../../SERVICES/cliente-service';
+import {CarritoService} from '../../../../SERVICES/carrito-service';
+import {Coleccion, ColeccionService} from '../../../../SERVICES/coleccion-service';
 import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
-import {CarritoService} from '../../../../SERVICES/carrito-service';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {CommonModule} from '@angular/common';
-import {Coleccion, ColeccionService} from '../../../../SERVICES/coleccion-service';
 import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-edicion-limitada',
+  standalone: true, // Asegúrate de que esto coincide con tu configuración (imports indica standalone)
   imports: [
     Header,
     Footer,
@@ -24,14 +23,21 @@ import {Observable, of} from 'rxjs';
   styleUrl: './edicion-limitada.css',
 })
 export class EdicionLimitada implements OnInit {
+  // Listas de datos
   listaProductos: Producto[] = [];
-  productosOriginales: Producto[] = [];
+  productosOriginales: Producto[] = []; // "Master" para los filtros
   colecciones: Coleccion[] = [];
 
-// URL de reserva si el producto no tiene imagen (ajusta la ruta si es necesario)
+  // Configuración de imagenes
   private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
 
-  // RECIBE LOS FILTROS DEL HTML
+  // Variables de Paginación (Nuevas)
+  paginaActual: number = 0;
+  tamanyoPagina: number = 20;
+  esUltimaPagina: boolean = false;
+  cargando: boolean = false;
+
+  // Filtros del HTML
   filtros = {
     orden: '',
     rangoPrecio: '',
@@ -42,54 +48,77 @@ export class EdicionLimitada implements OnInit {
               private carritoService: CarritoService,
               private coleccionService: ColeccionService) { }
 
-  ngOnInit() {
-    // 1. CARGAR SOLO PRODUCTOS EXCLUSIVOS
-    // (Asegúrate de que este método en el servicio llame a un endpoint que filtre por 'exclusivo = true')
-    this.productoService.getExclusivos().subscribe({
-      next: (datos) => {
-        this.listaProductos = datos;
-        this.productosOriginales = datos; // La copia de seguridad solo contiene exclusivas
-        console.log("Productos Exclusivos cargados:", datos.length);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
+  async ngOnInit() {
+    // 1. CARGA INICIAL PAGINADA DE EXCLUSIVOS
+    this.cargarProductos();
 
-    // 2. CARGAR SOLO COLECCIONES CON EXCLUSIVAS (¡CAMBIO IMPORTANTE!)
-    // Usamos el método nuevo que creamos antes para que el desplegable
-    // solo muestre opciones que darán resultados.
+    // 2. CARGAR SOLO COLECCIONES CON EXCLUSIVAS
     this.coleccionService.obtenerColeccionesExclusivas().subscribe({
       next: (datos) => {
         this.colecciones = datos;
         console.log("Colecciones VIP cargadas:", datos.length);
       },
       error: (err) => {
-        console.log(err);
+        console.error('Error al cargar colecciones:', err);
       }
     });
   }
 
+  // --- LÓGICA DE PAGINACIÓN ADAPTADA ---
+
+  cargarProductos() {
+    if (this.cargando) return;
+    this.cargando = true;
+
+    // NOTA: Asegúrate de que tu servicio tenga este método aceptando paginación.
+    // Si tu backend '/exclusivo' aun devuelve una List<> simple,
+    // deberás actualizar el Controller para devolver Page<> o slicear aquí (no recomendado).
+    this.productoService.getExclusivos(this.paginaActual, this.tamanyoPagina).subscribe({
+      next: (respuesta: any) => {
+        const nuevosProductos = respuesta.content; // Asumiendo estructura Spring Page
+        this.esUltimaPagina = respuesta.last;
+
+        // Añadimos a la lista visible
+        this.listaProductos.push(...nuevosProductos);
+
+        // IMPORTANTE: Añadimos también a la lista "backup" para que los filtros funcionen
+        // sobre los nuevos productos cargados
+        this.productosOriginales.push(...nuevosProductos);
+
+        this.cargando = false;
+        console.log(`Cargados ${nuevosProductos.length} productos exclusivos. Pagina: ${this.paginaActual}`);
+      },
+      error: (error) => {
+        console.error('Error al cargar productos exclusivos: ', error);
+        this.cargando = false;
+      }
+    });
+  }
+
+  // BOTON PARA AMPLIAR LA PAGINA CON LOS SIGUIENTES 20
+  verMas() {
+    if (!this.esUltimaPagina) {
+      this.paginaActual++;
+      this.cargarProductos();
+    }
+  }
+
+  // --- LÓGICA DE VISTA Y FILTROS ---
+
   obtenerImagenUrl(funko: Producto, index: number): string {
-    // 1. Verifica si el array 'imagenes' existe
-    // 2. Verifica si el array es lo suficientemente largo para el índice solicitado
-    // 3. Verifica si el elemento en ese índice tiene una 'url'
     if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
       return funko.imagenes[index].url;
     }
-    // Si falla, devuelve la URL de reserva
     return this.PLACEHOLDER_IMG_URL;
   }
 
   aplicarFiltros() {
-    // PASO 1: DEFINIR EL ORIGEN DE LOS DATOS
+    // 1. Origen: Usamos productosOriginales que contiene TODO lo cargado hasta ahora
     let fuenteDatos$: Observable<Producto[]>;
 
-    // Verificamos si el usuario seleccionó una colección
     if (this.filtros.colaboracion && this.filtros.colaboracion !== '') {
       const idColeccionSeleccionada = parseInt(this.filtros.colaboracion);
 
-      // Filtramos en memoria buscando dentro de la LISTA de colecciones del producto
       const filtrados = this.productosOriginales.filter(p => {
         if (!p.colecciones || p.colecciones.length === 0) {
           return false;
@@ -98,18 +127,16 @@ export class EdicionLimitada implements OnInit {
       });
 
       fuenteDatos$ = of(filtrados);
-
     } else {
-      // Si no hay filtro de colección, la fuente son todos los originales (que ya son solo exclusivas)
       fuenteDatos$ = of(this.productosOriginales);
     }
 
-    // PASO 2: SUSCRIBIRSE Y PROCESAR
+    // 2. Procesamiento
     fuenteDatos$.subscribe({
       next: (productosBase) => {
         let resultado = [...productosBase];
 
-        // --- FILTRO 1: RANGO DE PRECIO ---
+        // Filtro Precio
         if (this.filtros.rangoPrecio) {
           const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
           const min = parseFloat(minStr);
@@ -120,7 +147,7 @@ export class EdicionLimitada implements OnInit {
           );
         }
 
-        // --- FILTRO 2: ORDENACIÓN ---
+        // Filtro Orden
         if (this.filtros.orden) {
           resultado.sort((a, b) => {
             const precioA = a.precio || 0;
@@ -129,7 +156,7 @@ export class EdicionLimitada implements OnInit {
           });
         }
 
-        // PASO 3: ACTUALIZAR LA VISTA
+        // 3. Actualización
         this.listaProductos = resultado;
       },
       error: (err) => {
@@ -140,7 +167,7 @@ export class EdicionLimitada implements OnInit {
 
   protected agregarAlCarrito(funko: Producto) {
     this.carritoService.agregarProducto(funko);
-    // Idealmente usa un Toast o notificación en lugar de alert
     alert('¡Funko añadido al carrito!');
   }
 }
+
