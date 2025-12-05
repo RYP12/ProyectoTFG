@@ -10,6 +10,7 @@
   justify-content: center;
   align-items: center;
   justify-items: center;
+  height: 100vh;
 }
 
 #global {
@@ -19,7 +20,7 @@
   gap: 5%;
 
   align-items: center;
-
+  height: 100vh;
 }
 
 #primeraParte {
@@ -53,7 +54,7 @@
   background-color: #f9f9f9;
 
   margin-bottom: 5%;
-  width: 50%;
+  width: 70%;
 
   font-size: 20px;
 
@@ -69,6 +70,7 @@
   grid-template-rows: 0.1fr 0.1fr 0.1fr;
 
   margin-right: 20%;
+  height: 90vh;
 }
 
 #primeraParteForm {
@@ -132,11 +134,17 @@
   background-color: #f9f9f9;
   border-radius: 20px;
   border: 1px solid black;
-  padding-left: 10%;
-  padding-right: 10%;
   font-size: 20px;
-  height: 50%;
-  align-content: center;
+  height: 60%;
+  width: 80%;
   box-shadow: 3px 3px black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+h3{
+  margin-top: 0.5rem;
 }
 
