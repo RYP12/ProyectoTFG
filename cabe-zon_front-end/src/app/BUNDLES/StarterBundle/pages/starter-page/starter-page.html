@@ -1,22 +1,75 @@
 <main>
   <app-header></app-header>
 
-  <div class="sliderInicio">
-    <section class="sliderLetrasBoton">
-      <div class="sliderLetras">
+  <div id="carouselExample" class="carousel slide carousel-dark" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="sliderInicio">
+          <section class="sliderLetrasBoton">
+            <div class="sliderLetras">
 
-        <h1>HOMECOMING</h1>
-        <h2>SPIDERMAN EDITION</h2>
-      </div>
-      <div class="sliderBoton">
-        <button>EDICIÓN LIMITADA</button>
-      </div>
-    </section>
+              <h1>HOMECOMING</h1>
+              <h2>SPIDERMAN EDITION</h2>
+            </div>
+            <div class="sliderBoton">
+              <button routerLink="/catalogo">EDICIÓN LIMITADA</button>
+            </div>
+          </section>
 
-    <section class="sliderImagen">
-      <img src="/ASSETS/IMAGES/funkoSpidermanHC+Caja.png" alt="">
-    </section>
+          <section class="sliderImagen">
+            <img src="/ASSETS/IMAGES/funkoSpidermanHC+Caja.png" alt="">
+          </section>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="sliderInicio fondo2">
+          <section class="sliderLetrasBoton">
+            <div class="sliderLetras">
+
+              <h1>ONCE</h1>
+              <h2>STRANGER THINGS EDITION</h2>
+            </div>
+            <div class="sliderBoton">
+              <button routerLink="/catalogo">EDICIÓN LIMITADA</button>
+            </div>
+          </section>
+
+          <section class="sliderImagen">
+            <img src="/ASSETS/IMAGES/once%20-%20Editada.png" alt="">
+          </section>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="sliderInicio fondo1">
+          <section class="sliderLetrasBoton">
+            <div class="sliderLetras">
+
+              <h1>WODDY</h1>
+              <h2>TOY STORY EDITION</h2>
+            </div>
+            <div class="sliderBoton azul">
+              <button routerLink="/catalogo">EDICIÓN LIMITADA</button>
+            </div>
+          </section>
+
+          <section class="sliderImagen">
+            <img src="/ASSETS/IMAGES/funkoWoddy.png" alt="">
+          </section>
+        </div>
+      </div>
+    </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
   </div>
+
+
 
   <section class="top-sales">
     <h2 class="top-sales-title">TOP VENTAS</h2>
@@ -72,7 +125,7 @@
     <div class="springRight">
       <h1>Haz un viaje a Springfield</h1>
       <p>¡Colecciona las figuras POP! de Homer, Bart y el resto de la familia Simpson!</p>
-      <button class="springBtn">START COLLECTION !</button>
+      <button routerLink="/catalogo" class="springBtn">START COLLECTION !</button>
     </div>
 
   </section>
@@ -84,7 +137,7 @@
       <div class="harryText">
         <h1>Adéntrate en el mundo mágico</h1>
         <p>Colecciona las figuras POP! de Harry Potter y Lord Voldemort.</p>
-        <button class="harryBtn">DISCOVER THE MAGIC !</button>
+        <button routerLink="/catalogo" class="harryBtn">DISCOVER THE MAGIC !</button>
       </div>
     </div>
 
@@ -92,7 +145,7 @@
       <div class="vaderText">
         <h1>Únete al lado oscuro</h1>
         <p>y colecciona el Darth Vader dorado!</p>
-        <button class="vaderBtn">EMBRACE THE POWER !</button>
+        <button routerLink="/catalogo" class="vaderBtn">EMBRACE THE POWER !</button>
       </div>
     </div>
 
