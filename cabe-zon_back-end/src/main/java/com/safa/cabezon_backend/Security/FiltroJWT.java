@@ -52,7 +52,7 @@ public class FiltroJWT extends OncePerRequestFilter {
 
             Usuario usuario = (Usuario) usuarioService.loadUserByUsername(tokenDTO.getUsername());
 
-            if(usuario!=null && !jwtService.validateToken(token)){
+            if(usuario!=null){
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         usuario.getUsername(),
                         usuario.getPassword(),
