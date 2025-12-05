@@ -10,15 +10,47 @@
   </div>
 
   <div class="right">
-    <div class="search">
-      <input type="text" placeholder="Buscar">
-      <img src="/ASSETS/IMAGES/LogoLupa.png" alt="logo" class="icon">
+
+    <div class="search-container">
+
+      <div class="search">
+        <input type="text"
+               placeholder="Buscar Funko..."
+               [(ngModel)]="textoBusqueda"
+               (input)="buscarProducto()">
+        <img src="/ASSETS/IMAGES/LogoLupa.png" alt="logo" class="icon">
+      </div>
+
+      @if (textoBusqueda.length > 0 && resultadosBusqueda.length > 0) {
+        <div class="search-results">
+
+          @for (prod of resultadosBusqueda; track prod.id) {
+            <div class="search-item"
+                 [routerLink]="['/funko', prod.id]"
+                 (click)="limpiarBusqueda()">
+
+              <div class="info-producto">
+                <span class="nombre">{{ prod.nombre }}</span>
+                <span class="precio">{{ prod.precio }} €</span>
+              </div>
+            </div>
+          }
+
+        </div>
+      }
+      @if (textoBusqueda.length > 0 && resultadosBusqueda.length === 0) {
+        <div class="search-results empty">
+          <p>No se encontraron Funkos :(</p>
+        </div>
+      }
+
     </div>
+
     <div class="client">
       <img src="/ASSETS/IMAGES/LogoCabezaFunko.png" alt="cliente" class="icon">
       <div>CLIENTE</div>
     </div>
-    <img (click)="openModal()" src="/ASSETS/IMAGES/LogoCarrito.png" alt="carrito" class="icon">
+    <img (click)="openModal()" src="/ASSETS/IMAGES/LogoCarrito.png" alt="carrito" class="icon" style="cursor: pointer">
   </div>
 
 </div>

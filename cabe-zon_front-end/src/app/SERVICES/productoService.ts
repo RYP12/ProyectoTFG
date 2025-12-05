@@ -101,7 +101,11 @@ export class ProductoService {
     return this.http.get<any>(`${this.apiUrl}/producto/exclusivo?page=${page}&size=${size}`);
   }
 
-
+  buscarPorTermino(termino: string): Observable<Producto[]> {
+    const params = new HttpParams().set('nombre', termino);
+    // Llamada al endpoint nuevo /producto/buscar?nombre=...
+    return this.http.get<Producto[]>(`${this.apiUrl}/producto/buscar`, { params });
+  }
 
 
 }

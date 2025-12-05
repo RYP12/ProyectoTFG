@@ -85,16 +85,8 @@
           </div>
           <div class="card-body">
             <p class="categoria">Funko Pop</p>
-
-
-            <!-- NOMBRE DINÁMICO: Viene de la base de datos -->
             <p class="nombre">{{ prod.nombre }}</p>
-
-
-            <!-- PRECIO DINÁMICO -->
             <p class="precio">{{ prod.precio | currency:'EUR':'symbol':'1.2-2' }}</p>
-
-
             <button class="btn-add">AÑADIR</button>
           </div>
         </article>
