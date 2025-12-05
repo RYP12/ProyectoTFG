@@ -34,14 +34,14 @@ main {
 .fondo1{
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('/ASSETS/IMAGES/fondotoystory.webp') !important;!important;
+    url('/ASSETS/IMAGES/fondotoystory.webp') !important;
   box-shadow: 6px 6px #2B59FF;
 }
 
 .fondo2{
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('/ASSETS/IMAGES/fondoStrangerThings.jpg') !important;!important;
+    url('/ASSETS/IMAGES/fondoStrangerThings.jpg') !important;
   box-shadow: 6px 6px #E71D36;
 }
 .sliderLetrasBoton {

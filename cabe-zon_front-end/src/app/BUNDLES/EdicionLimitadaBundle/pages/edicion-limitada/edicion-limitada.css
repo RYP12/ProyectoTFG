@@ -133,7 +133,7 @@
 .grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4,1fr);
   gap: 2rem;
   padding: 2rem;
   max-width: 1200px;
@@ -144,7 +144,7 @@
   font-family: "League Spartan", sans-serif;
 }
 
-.card {
+.card1 {
   background-color: rgb(255, 255, 204);
   border-radius: 15px;
   padding: 1rem;
@@ -155,7 +155,7 @@
   box-shadow: 3px 3px 0px black;
 }
 
-.card img {
+.card1 img {
   width: 50%;
   height: 210px;
   border-radius: 10px;
@@ -166,7 +166,7 @@
   transition: opacity 0.5s ease;
 }
 
-.card img.hover{
+.card1 img.hover{
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -175,40 +175,40 @@
   border: none;
 }
 
-.card:hover img.hover {
+.card1:hover img.hover {
   opacity: 1;
 }
 
-.card:hover img.og {
+.card1:hover img.og {
   opacity: 0;
 }
 
-.card:hover {
+.card1:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
-.card h3 {
+.card1 h3 {
   text-align: left;
   font-size: 0.9rem;
   color: #0080f8;
   margin: 10px 0 5px;
 }
 
-.card h2 {
+.card1 h2 {
   text-align: left;
   font-size: 1.3rem;
   margin: 0;
 }
 
-.card .precio {
+.card1 .precio {
   text-align: left;
   font-weight: bold;
   color: #333;
   margin: 8px 0;
 }
 
-.card button {
+.card1 button {
   background-color: #E0AC00;
   color: white;
   border: none;

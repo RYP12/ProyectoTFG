@@ -49,7 +49,7 @@
     <!-- Zona donde se mostrarán todos los funkos -->
     <!-- Con Angular usaremos @for para recorrer el array "funkos" -->
     @for (funko of listaProductos; track funko.id) {
-      <div class="card">
+      <div class="card1">
         <div [routerLink]="['/funko', funko.id]" style="cursor: pointer">
           <div id="imgenes">
             <img [src]="obtenerImagenUrl(funko, 0)" alt="{{ funko.nombre }}" class="og">
