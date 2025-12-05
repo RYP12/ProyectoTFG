@@ -12,7 +12,6 @@ import {CarritoService} from '../../../../SERVICES/carrito-service';
   imports: [
     Header,
     Footer,
-    NgOptimizedImage
   ],
   templateUrl: './funko.html',
   styleUrl: './funko.css',
