@@ -27,12 +27,7 @@
           </div>
 
           <div id="buscador">
-            <input type="text" placeholder="Buscar">
-            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
-                    stroke="#4C97FF" stroke-width="2"/>
-              <path d="M21 21L16.65 16.65" stroke="#4C97FF" stroke-width="2"/>
-            </svg>
+            <input type="text" placeholder="Buscar por Nombre o ID" [(ngModel)]="textoBusqueda" (ngModelChange)="buscarProducto()">
           </div>
 
           <div id="botonAnyadirAlFinal">
@@ -50,7 +45,7 @@
           </div>
 
           <div id="datosGlobal">
-            @for (producto of productos(); track producto.id) {
+            @for (producto of listaProductosFiltrada; track producto.id) {
               <div class="datos">
                 <span class="producto-nombre">{{ producto.nombre }}</span>
                 <span class="producto-valoracion">{{ producto.valoracion }}</span>
