@@ -19,11 +19,12 @@ import {RouterLink} from '@angular/router';
 })
 export class StarterPage implements OnInit {
 
-// Aqui lo que hacemos es crear una copia del ProductoService para usar aqui una funcion
   private productoService = inject(ProductoService);
 
-
   topProductos: Producto[] = [];
+
+  // URL del placeholder si no hay imagen
+  private readonly PLACEHOLDER_IMG_URL: string = '/ASSETS/IMAGES/placeholder.png';
 
 
   ngOnInit(): void {
@@ -35,5 +36,14 @@ export class StarterPage implements OnInit {
       },
       error: (err) => console.error(err)
     });
+  }
+
+  obtenerImagenUrl(funko: Producto, index: number): string {
+
+    if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
+      // Retorna la URL del backend (que ya debería ser completa si viene de tu servicio)
+      return funko.imagenes[index].url;
+    }
+    return this.PLACEHOLDER_IMG_URL;
   }
 }

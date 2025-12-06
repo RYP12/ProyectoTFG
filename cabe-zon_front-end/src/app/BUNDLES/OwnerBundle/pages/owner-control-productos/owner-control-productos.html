@@ -1,51 +1,73 @@
 <div id="background">
   <div id="global">
+
     <div id="primeraParte">
-      <button style="background-color: #4C97FF; color: #f9f9f9" routerLink="/admin/productos">PRODUCTOS</button>
-      <button routerLink="/admin/clientes">CLIENTES</button>
-      <button routerLink="/admin/pedidos">PEDIDOS</button>
-      <img src="/ASSETS/IMAGES/LogoCabezon.png" alt="">
+      <button class="menu-button active" routerLink="/admin/productos">PRODUCTOS</button>
+      <button class="menu-button" routerLink="/admin/clientes">CLIENTES</button>
+      <button class="menu-button" routerLink="/admin/pedidos">PEDIDOS</button>
+      <img src="/ASSETS/IMAGES/LogoCabezon.png" alt="Logo Cabe-zon">
     </div>
 
     <div id="segundaParte">
-      <h1 style="text-align: center; font-size: 43px">PRODUCTOS</h1>
+
+      <h1>PRODUCTOS</h1>
 
       <div id="todoJunto">
+
         <div id="primeraParteForm">
+
           <div id="botones">
-            <button (click)="paginaAnterior()"><img src="/ASSETS/IMAGES/iconoFlechaIzquierda.png"></button>
-            <button style="background-color: #4C97FF; color: #f9f9f9" (click)="paginaPosterior()" ><img src="/ASSETS/IMAGES/iconoFlechaDerecha.png"></button>
+            <button class="nav-arrow left" (click)="paginaAnterior()">
+              <img src="/ASSETS/IMAGES/iconoFlechaIzquierda.png" class="flechas" alt="Anterior">
+            </button>
+
+            <button class="nav-arrow right" (click)="paginaPosterior()">
+              <img src="/ASSETS/IMAGES/iconoFlechaDerecha.png" class="flechas" alt="Siguiente">
+            </button>
           </div>
+
           <div id="buscador">
-            <input type="text" placeholder="Buscar" style="border-radius: 20px; height: 100%;">
+            <input type="text" placeholder="Buscar">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
+                    stroke="#4C97FF" stroke-width="2"/>
+              <path d="M21 21L16.65 16.65" stroke="#4C97FF" stroke-width="2"/>
+            </svg>
           </div>
+
           <div id="botonAnyadirAlFinal">
             <button id="botonAnyadir" routerLink="/admin/productos/agregar">AÑADIR</button>
           </div>
         </div>
 
         <div id="segundaParteForm">
+
           <div id="titulos">
             <p>NOMBRE</p>
-            <p>⭐</p>
+            <p>VALORACIONES</p>
             <p>STOCK</p>
             <p>PRECIO</p>
           </div>
 
           <div id="datosGlobal">
-
             @for (producto of productos(); track producto.id) {
-             <div class="datos">
-              <h3>{{ producto.nombre }}</h3>
-              <h3>{{ producto.valoracion }}</h3>
-              <h3>{{ producto.stock }}</h3>
-              <h3>{{producto.precio}}€</h3>
-            </div>
+              <div class="datos">
+                <span class="producto-nombre">{{ producto.nombre }}</span>
+                <span class="producto-valoracion">{{ producto.valoracion }}</span>
+                <span class="producto-stock">{{ producto.stock }}</span>
+                <span class="producto-precio">{{ producto.precio }}€</span>
+              </div>
             }
-
           </div>
+
         </div>
       </div>
+
     </div>
+
   </div>
 </div>
+
+
+
+

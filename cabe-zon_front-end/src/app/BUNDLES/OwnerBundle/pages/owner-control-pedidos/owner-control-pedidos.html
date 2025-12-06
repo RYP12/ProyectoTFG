@@ -1,28 +1,39 @@
 <div id="background">
   <div id="global">
+
     <div id="primeraParte">
-      <button routerLink="/admin/productos">PRODUCTOS</button>
-      <button routerLink="/admin/clientes">CLIENTES</button>
-      <button style="background-color: #4C97FF; color: #f9f9f9" routerLink="/admin/pedidos">PEDIDOS</button>
-      <img src="/ASSETS/IMAGES/LogoCabezon.png" alt="">
+      <button class="menu-button" routerLink="/admin/productos">PRODUCTOS</button>
+      <button class="menu-button" routerLink="/admin/clientes">CLIENTES</button>
+      <button class="menu-button active" routerLink="/admin/pedidos">PEDIDOS</button>
+      <img src="/ASSETS/IMAGES/LogoCabezon.png" alt="Logo Cabezon">
     </div>
 
     <div id="segundaParte">
-      <h1 style="text-align: center; font-size: 43px">PEDIDOS</h1>
+
+      <h1>PEDIDOS</h1>
 
       <div id="todoJunto">
+
         <div id="primeraParteForm">
+
           <div id="botones">
-            <button (click)="paginaAnterior()"><--</button>
-            <button style="background-color: #4C97FF; color: #f9f9f9" (click)="paginaPosterior()">--></button>
+            <button class="nav-arrow left" (click)="paginaAnterior()">
+              <img src="/ASSETS/IMAGES/iconoFlechaIzquierda.png" class="flechas" alt="Anterior">
+            </button>
+
+            <button class="nav-arrow right" (click)="paginaPosterior()">
+              <img src="/ASSETS/IMAGES/iconoFlechaDerecha.png" class="flechas" alt="Siguiente">
+            </button>
           </div>
-          <input type="text"
-                 placeholder="Buscar por Estado o ID"
-                 style="border-radius: 20px; height: 100%; padding:4px"
-                 (input)="filtrar($event)">
+
+          <div id="buscadorPedidos">
+            <input type="text" placeholder="Buscar por Estado o ID" (input)="filtrar($event)">
+          </div>
+
         </div>
 
         <div id="segundaParteForm">
+
           <div id="titulos">
             <p>ESTADO</p>
             <p>NÚMERO</p>
@@ -33,24 +44,32 @@
           <div id="datosGlobal">
 
             @for (pedido of pedidos(); track pedido.id) {
-             <div class="datos">
-               @if (pedido.estado === 'EN_PREPARACION') {
-                 <h3 style="color: gold ">Pendiente</h3>
-               } @else if (pedido.estado === 'ENVIADO') {
-                 <h3 style="color: #4C97FF ">Enviado</h3>
-               } @else if (pedido.estado === 'ENTREGADO') {
-                 <h3 style="color: #00DE16 ">Recibido</h3>
-               } @else if (pedido.estado === 'CANCELADO') {
-                 <h3 style="color: #FF0004 ">Cancelado</h3>
-               }
-              <h3>{{ pedido.id }}</h3>
-              <h3>{{ pedido.cliente?.nombre }}</h3>
-              <h3>{{ pedido.precioTotal }}$</h3>
-            </div>
+              <div class="datos">
+
+                @if (pedido.estado === 'EN_PREPARACION') {
+                  <h3 style="color: gold;">Pendiente</h3>
+                } @else if (pedido.estado === 'ENVIADO') {
+                  <h3 style="color: #4C97FF;">Enviado</h3>
+                } @else if (pedido.estado === 'ENTREGADO') {
+                  <h3 style="color: #00DE16;">Recibido</h3>
+                } @else if (pedido.estado === 'CANCELADO') {
+                  <h3 style="color: #FF0004;">Cancelado</h3>
+                }
+
+                <h3>{{ pedido.id }}</h3>
+                <h3>{{ pedido.cliente?.nombre }}</h3>
+                <h3>{{ pedido.precioTotal }}$</h3>
+
+              </div>
             }
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
 </div>

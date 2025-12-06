@@ -195,6 +195,48 @@ main {
   align-items: center;
 }
 
+.image-hover-container {
+  position: relative;
+  height: 180px;
+  width: 100%;
+  max-width: 180px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+  border: solid 1px black;
+  border-radius: 20px;
+  background-color: white;
+  padding: 5px 20px;
+  box-sizing: border-box;
+}
+
+.image-hover-container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  height: auto;
+  object-fit: contain;
+  transition: opacity 0.3s ease-in-out;
+  display: block;
+}
+
+.image-hover-container .og-image {
+  opacity: 1;
+}
+
+.image-hover-container .hover-image {
+  opacity: 0;
+}
+
+.product-card-small:hover .og-image {
+  opacity: 0;
+}
+
+.product-card-small:hover .hover-image {
+  opacity: 1;
+}
+
 .categoria {
   color: #2aa6a0;
   font-weight: 700;

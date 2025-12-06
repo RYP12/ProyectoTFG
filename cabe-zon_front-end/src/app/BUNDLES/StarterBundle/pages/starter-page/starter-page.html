@@ -74,14 +74,14 @@
   <section class="top-sales">
     <h2 class="top-sales-title">TOP VENTAS</h2>
 
-
     <div class="product-grid">
-      <!-- Bucle: Repite esto por cada producto que venga del backend -->
       @for (prod of topProductos; track prod.id; let i = $index) {
         <article class="product-card-small">
           <div class="top-tag">TOP {{ i + 1 }}</div>
-          <div class="card-image">
-            <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="Imagen producto">
+
+          <div class="card-image image-hover-container">
+            <img [src]="obtenerImagenUrl(prod, 0)" alt="{{ prod.nombre }}" class="og-image">
+            <img [src]="obtenerImagenUrl(prod, 1)" alt="{{ prod.nombre }}" class="hover-image">
           </div>
           <div class="card-body">
             <p class="categoria">Funko Pop</p>
