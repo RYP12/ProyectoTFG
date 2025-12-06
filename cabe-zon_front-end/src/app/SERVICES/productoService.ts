@@ -31,6 +31,7 @@ export interface Producto {
 
   colecciones?: Coleccion[];
   imagenes?: Imagenes[];
+  cantidad?: number;
 }
 
 export interface PageResponse<T> {
