@@ -20,6 +20,9 @@ export class Carrito implements OnInit, OnDestroy {
   carrito: Producto[] = [];
   private carritoSubscription: Subscription | undefined;
 
+  // URL del placeholder si no hay imagen (ajusta la ruta si es necesario)
+  private readonly PLACEHOLDER_IMG_URL: string = '/ASSETS/IMAGES/placeholder.png';
+
   constructor(private carritoService: CarritoService) {}
 
   ngOnInit() {
@@ -39,15 +42,23 @@ export class Carrito implements OnInit, OnDestroy {
     }
   }
 
-  protected restarCantidad(producto: Producto) {
-
+  protected sumarCantidad(producto: Producto) {
+    this.carritoService.aumentarCantidadProducto(producto);
   }
 
-  protected sumarCantidad(producto: Producto) {
-
+  protected restarCantidad(producto: Producto) {
+    this.carritoService.disminuirCantidadProducto(producto);
   }
 
   protected eliminarDelCarrito(producto: Producto) {
-
+    this.carritoService.eliminarProducto(producto);
   }
+
+  protected obtenerImagenUrl(funko: Producto): string {
+    if (funko.imagenes && funko.imagenes.length > 0 && funko.imagenes[0].url) {
+      return funko.imagenes[0].url;
+    }
+    return this.PLACEHOLDER_IMG_URL;
+  }
+
 }
