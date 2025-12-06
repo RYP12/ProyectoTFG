@@ -48,4 +48,8 @@ public interface IProductoRepository extends JpaRepository<Producto, Integer> {
             "JOIN cabezon.producto p ON p.id = g.id_producto " +
             "WHERE c.id = :clienteId", nativeQuery = true)
     List<Producto> findGustosCliente(@Param("clienteId") Integer clienteId);
+
+    // OPTIMIZACION QUE TRAE TODO LO RELACIONADO A CADA PRODUCTO
+    @Query("SELECT DISTINCT p FROM Producto p LEFT JOIN FETCH p.colecciones LEFT JOIN FETCH p.imagenes")
+    List<Producto> findAllWithOptimizadoCache();
 }

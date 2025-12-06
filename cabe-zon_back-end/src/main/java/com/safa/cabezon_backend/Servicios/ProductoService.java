@@ -5,7 +5,8 @@ import com.safa.cabezon_backend.Mapper.ProductoMapper;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IProductoPedidoRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,60 @@ public class ProductoService {
     // IMPLEMENTACION DE CACHE
 
     // FUNCION PRINCIPAL QUE GUARDA LOS PRODUCTOS AL ARRANCAR
-    @Transactional
+
+
+    @Transactional(readOnly = true)
     @Cacheable("productos")
-    public List<BuscarProductoDTO>BuscarProductosCache (){
-        System.out.println("--- ACCEDIENDO A BASE DE DATOS PARA BUSCAR PRODUCTOS ---");
-        return mapper.listToBuscarDTO(productoRepository.findAll());
+    public List<BuscarProductoDTO> buscarTodoLosProductosDelCache() {
+
+        System.out.println("--- ACCEDIENDO A BASE DE DATOS ---");
+
+        return mapper.listToBuscarDTO(productoRepository.findAllWithOptimizadoCache());
     }
+
+
+    // En ProductoService.java
+
+    public Page<BuscarProductoDTO> paginarListaMemoria(List<BuscarProductoDTO> listaCompleta, Pageable pageable, Integer coleccionId) {
+
+        // 1. Filtrado en Memoria (Stream)
+        List<BuscarProductoDTO> listaFiltrada = listaCompleta;
+
+        if (coleccionId != null) {
+            listaFiltrada = listaCompleta.stream()
+                    .filter(p -> p.getColecciones().stream()
+                            .anyMatch(c -> c.getId().equals(coleccionId)))
+                    .toList();
+        }
+
+        // 2. Paginación sobre la lista (ya filtrada o no)
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), listaFiltrada.size());
+
+        List<BuscarProductoDTO> paginaContenido;
+        if (start > listaFiltrada.size()) {
+            paginaContenido = new ArrayList<>();
+        } else {
+            paginaContenido = listaFiltrada.subList(start, end);
+        }
+
+        return new PageImpl<>(paginaContenido, pageable, listaFiltrada.size());
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // IMPORTANTE: SI CREAMOS UN PRODUCTO NUEVO HAY QUE BORRA CACHE ANTIGUA
 

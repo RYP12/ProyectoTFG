@@ -62,7 +62,7 @@ export class ProductoService {
       params = params.set('coleccionId', coleccionId.toString());
     }
 
-    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/all2`, { params });
+    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/all`, { params });
   }
 
   obtenerProductosAdmin(page: number, size: number): Observable<PageResponse<Producto>>{

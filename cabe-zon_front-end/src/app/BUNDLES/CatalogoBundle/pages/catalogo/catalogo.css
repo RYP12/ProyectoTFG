@@ -144,7 +144,7 @@
   font-family: "League Spartan", sans-serif;
 }
 
-.card1 {
+.tarjeta {
   background-color: #C6FFFF;
   border-radius: 15px;
   padding: 1rem;
@@ -156,8 +156,8 @@
 }
 
 
-.card1 img {
-  width: 50%;
+.tarjeta img {
+  width: 100%;
   height: 210px;
   border-radius: 10px;
   object-fit: cover;
@@ -166,8 +166,9 @@
   transition: opacity 0.5s ease;
 }
 
-.card1 img.hover{
+.tarjeta img.hover{
   position: absolute;
+  width: 100%;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
@@ -177,40 +178,40 @@
 
 
 
-.card1:hover img.hover {
+.tarjeta:hover img.hover {
   opacity: 1;
 }
 
-.card1:hover img.og {
+.tarjeta:hover img.og {
   opacity: 0;
 }
 
-.card1:hover {
+.tarjeta:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
-.card1 h3 {
+.tarjeta h3 {
   text-align: left;
   font-size: 0.9rem;
   color: #0080f8;
   margin: 10px 0 5px;
 }
 
-.card1 h2 {
+.tarjeta h2 {
   text-align: left;
   font-size: 1.3rem;
   margin: 0;
 }
 
-.card1 .precio {
+.tarjeta .precio {
   text-align: left;
   font-weight: bold;
   color: #333;
   margin: 8px 0;
 }
 
-.card1 button {
+.tarjeta button {
   background-color: #2EC4B6;
   color: white;
   border: none;
