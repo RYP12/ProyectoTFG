@@ -87,7 +87,7 @@
             <p class="categoria">Funko Pop</p>
             <p class="nombre">{{ prod.nombre }}</p>
             <p class="precio">{{ prod.precio | currency:'EUR':'symbol':'1.2-2' }}</p>
-            <button class="btn-add">AÑADIR</button>
+            <button (click)="agregarAlCarrito(prod)" class="btn-add">AÑADIR</button>
           </div>
         </article>
       }
