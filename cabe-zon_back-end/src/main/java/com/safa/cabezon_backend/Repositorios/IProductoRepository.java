@@ -50,6 +50,11 @@ public interface IProductoRepository extends JpaRepository<Producto, Integer> {
     List<Producto> findGustosCliente(@Param("clienteId") Integer clienteId);
 
     // OPTIMIZACION QUE TRAE TODO LO RELACIONADO A CADA PRODUCTO
-    @Query("SELECT DISTINCT p FROM Producto p LEFT JOIN FETCH p.colecciones LEFT JOIN FETCH p.imagenes")
+    @Query("""
+        SELECT DISTINCT p 
+        FROM Producto p 
+        LEFT JOIN FETCH p.colecciones 
+        LEFT JOIN FETCH p.imagenes
+    """)
     List<Producto> findAllWithOptimizadoCache();
 }
