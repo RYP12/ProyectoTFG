@@ -30,7 +30,7 @@ export class UsuarioService {
 
   // Login
   login(loginData: LoginDTO): Observable<string> {
-    return this.http.post(this.baseUrl + 'login', loginData, { responseType: 'text' });
+    return this.http.post(this.baseUrl + '/login', loginData, { responseType: 'text' });
   }
 
   // Registro
