@@ -128,4 +128,9 @@ export class ProductoService {
     return this.http.get<Resenya[]>(`${this.apiUrl}/resenya_cliente/producto/${idProducto}`);
   }
 
+  crearResenya(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/resenya_cliente/post`, data);
+  }
+
+
 }

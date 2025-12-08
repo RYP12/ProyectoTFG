@@ -3,8 +3,9 @@ import {Header} from '../../../../SHARED/header/header';
 import {Footer} from '../../../../SHARED/footer/footer';
 import {ActivatedRoute} from '@angular/router';
 import {Producto, ProductoService, Resenya} from '../../../../SERVICES/productoService';
-import {NgOptimizedImage} from '@angular/common';
+import {NgFor, NgIf, NgOptimizedImage} from '@angular/common';
 import {CarritoService} from '../../../../SERVICES/carrito-service';
+import {FormComentario} from '../../../ResenyaBundle/pages/form-comentario/form-comentario';
 
 @Component({
   selector: 'app-funko',
@@ -12,6 +13,9 @@ import {CarritoService} from '../../../../SERVICES/carrito-service';
   imports: [
     Header,
     Footer,
+    FormComentario,
+    NgIf,
+    NgFor
   ],
   templateUrl: './funko.html',
   styleUrl: './funko.css',
@@ -19,54 +23,61 @@ import {CarritoService} from '../../../../SERVICES/carrito-service';
 export class Funko implements OnInit {
   private route = inject(ActivatedRoute);
   private productoService = inject(ProductoService);
-
-  // URL de reserva si el producto no tiene imagen (ajusta la ruta si es necesario)
-  private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
-
+  private carritoService = inject(CarritoService);
 
   producto: Producto | undefined;
-  resenyas: Resenya[] = []
+  resenyas: any[] = [];
+
+  mostrarFormulario = false;
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
-
-      if (id) {
-        this.cargarProducto(id);
-      }
+      if (id) this.cargarProducto(id);
     });
   }
 
-  private cargarProducto(id : number) {
+  cargarProducto(id: number) {
     this.productoService.obtenerProductoPorID(id).subscribe({
-      next: (data) => {
-        this.producto = data;
-        console.log('Producto cargado:', this.producto);
-      },
-      error: (error) => {
-        console.log('Error cargando producto', error);
-      }
+      next: (data) => this.producto = data,
+      error: (err) => console.error(err)
     });
 
     this.productoService.obtenerResenyasPorProducto(id).subscribe({
-      next: (data) => {
-        this.resenyas = data;
-        console.log('Reseñas cargadas:', this.resenyas);
-      },
-      error: (error) => {
-        console.log('Error cargando reseñas', error)
-      }
-    })
+      next: (data) => this.resenyas = data,
+      error: (err) => console.error(err)
+    });
   }
 
   obtenerImagenUrl(funko: Producto, index: number): string {
-    // 1. Verifica si el array 'imagenes' existe
-    // 2. Verifica si el array es lo suficientemente largo para el índice solicitado
-    // 3. Verifica si el elemento en ese índice tiene una 'url'
     if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
       return funko.imagenes[index].url;
     }
-    // Si falla, devuelve la URL de reserva
-    return this.PLACEHOLDER_IMG_URL;
+    return 'assets/img/placeholder.png';
   }
+
+  trackById(index: number, item: any) {
+    return item.id;
+  }
+
+  handleComentarioEnviado(resenya: any) {
+
+    this.resenyas.unshift(resenya);
+    this.mostrarFormulario = false;
+
+  }
+
+  abrirFormulario() {
+    this.mostrarFormulario = true;
+  }
+
+  cerrarFormulario() {
+    this.mostrarFormulario = false;
+  }
+
+  protected agregarAlCarrito(funko: Producto) {
+    this.carritoService.agregarProducto(funko);
+    alert('¡Funko añadido al carrito!');
+  }
+
 }

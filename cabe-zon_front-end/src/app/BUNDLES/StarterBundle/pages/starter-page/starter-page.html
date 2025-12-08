@@ -79,13 +79,13 @@
         <article class="product-card-small">
           <div class="top-tag">TOP {{ i + 1 }}</div>
 
-          <div class="card-image image-hover-container">
+          <div [routerLink]="['/funko', prod.id]" class="card-image image-hover-container">
             <img [src]="obtenerImagenUrl(prod, 0)" alt="{{ prod.nombre }}" class="og-image">
             <img [src]="obtenerImagenUrl(prod, 1)" alt="{{ prod.nombre }}" class="hover-image">
           </div>
           <div class="card-body">
-            <p class="categoria">Funko Pop</p>
-            <p class="nombre">{{ prod.nombre }}</p>
+            <p class="categoria">{{ prod.colecciones?.[0]?.nombre }}</p>
+            <p [routerLink]="['/funko', prod.id]" class="nombre">{{ prod.nombre }}</p>
             <p class="precio">{{ prod.precio | currency:'EUR':'symbol':'1.2-2' }}</p>
             <button (click)="agregarAlCarrito(prod)" class="btn-add">AÑADIR</button>
           </div>

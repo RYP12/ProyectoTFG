@@ -46,7 +46,7 @@
 
           <div id="datosGlobal">
 
-            @for (cliente of clientes(); track cliente.id) {
+            @for (cliente of listaClientesFiltrada; track cliente.id) {
               <div class="datos">
                 <h3 class="normal">{{ cliente.nombre }}</h3>
 

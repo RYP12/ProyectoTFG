@@ -4,6 +4,7 @@ import com.safa.cabezon_backend.Modelos.Estado;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class BuscarPedidoDTO {
@@ -14,4 +15,5 @@ public class BuscarPedidoDTO {
     private Date fecha;
     private Double precioTotal;
     private BuscarClienteDTO Cliente;
+    private List<ProductoPedidoDTO> productosPedidos;
 }

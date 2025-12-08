@@ -151,4 +151,11 @@
   border-radius: 15px;
   padding: 10px 0;
   text-align: center;
+  transition: box-shadow 0.2s ease;
+}
+
+.datos:hover{
+  background-color: #ededed;
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 black;
 }
