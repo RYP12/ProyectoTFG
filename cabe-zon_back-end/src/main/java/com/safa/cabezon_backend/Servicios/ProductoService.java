@@ -100,22 +100,34 @@ public class ProductoService {
 
     // IMPORTANTE: SI CREAMOS UN PRODUCTO NUEVO HAY QUE BORRA CACHE ANTIGUA
 
+    // ELIMINA O COMENTA LOS MÉTODOS VACÍOS "Cache" (CrearProductoCache, etc.)
+    // APLICA LA EVICCIÓN DIRECTAMENTE A LA LÓGICA REAL:
+
     @Transactional
-    @CacheEvict(value = "productos", allEntries = true)
+    @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
     public void CrearProductoCache(CrearProductoDTO dto) {
         productoRepository.save(mapper.toProducto(dto));
     }
 
     @Transactional
-    @CacheEvict(value = "productos", allEntries = true)
+    @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
     public void EditarProductoCache(Integer id, CrearProductoDTO dto) {
-
+        Producto producto = productoRepository.findById(id).orElse(null);
+        // Es buena práctica verificar si es null antes de mapear
+        if (producto != null) {
+            mapper.actualizarEntityFromDTO(dto, producto);
+            productoRepository.save(producto);
+        }
     }
 
     @Transactional
-    @CacheEvict(value = "productos", allEntries = true)
+    @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
     public void EliminarProductoCache(Integer id) {
-
+        Producto producto = productoRepository.findById(id).orElse(null);
+        if (producto != null) {
+            producto.getColecciones().clear();
+            productoRepository.deleteById(id);
+        }
     }
     // ------------- FIN -----------------
 
