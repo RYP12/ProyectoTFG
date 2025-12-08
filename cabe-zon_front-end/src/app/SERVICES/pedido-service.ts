@@ -70,4 +70,10 @@ export class PedidoService {
   eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/pedido/delete/${id}`);
   }
+
+  actualizarEstadoPedido(id: number, nuevoEstado: string): Observable<void> {
+    const body = { estado: nuevoEstado };
+    return this.http.put<void>(`${this.apiUrl}/pedido/put/estado/${id}`, body);
+  }
+
 }

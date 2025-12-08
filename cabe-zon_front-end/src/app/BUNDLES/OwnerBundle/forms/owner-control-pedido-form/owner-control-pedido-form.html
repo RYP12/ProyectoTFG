@@ -68,8 +68,32 @@
     </div>
 
     <div id="botones">
-      <button class="botonProcesar">PROCESAR</button>
-      <button class="botonCancelar">CANCELAR</button>
+      @if (p.estado === 'EN_PREPARACION') {
+        <button
+          class="botonProcesar"
+          (click)="procesarPedido()"
+        >
+          PROCESAR (ENVIAR)
+        </button>
+        <button
+          class="botonCancelar"
+          (click)="cancelarPedido()"
+        >
+          CANCELAR
+        </button>
+      } @else if (p.estado === 'ENVIADO') {
+        <button
+          class="botonProcesar"
+          style="background-color: #4C97FF;"
+          (click)="marcarComoEntregado()"
+        >
+          MARCAR COMO ENTREGADO
+        </button>
+      } @else {
+        <p style="grid-column: 1 / span 2; text-align: center; font-style: italic;">
+          No hay acciones disponibles para el estado: {{ obtenerEstadoVisual(p.estado).nombre }}.
+        </p>
+      }
     </div>
   </div>
 } @else {

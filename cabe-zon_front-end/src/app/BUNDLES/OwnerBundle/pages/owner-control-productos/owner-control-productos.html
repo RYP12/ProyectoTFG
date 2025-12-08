@@ -46,7 +46,7 @@
 
           <div id="datosGlobal">
             @for (producto of listaProductosFiltrada; track producto.id) {
-              <div class="datos">
+              <div class="datos" (click)="irAEditar(producto.id)">
                 <span class="producto-nombre">{{ producto.nombre }}</span>
                 <span class="producto-valoracion">{{ producto.valoracion }}</span>
                 <span class="producto-stock">{{ producto.stock }}</span>

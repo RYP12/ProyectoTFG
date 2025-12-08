@@ -1,8 +1,8 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
-import {ActivatedRoute} from '@angular/router';
-import {Pedido, PedidoService, ProductoPedido} from '../../../../SERVICES/pedido-service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Estado, Pedido, PedidoService, ProductoPedido} from '../../../../SERVICES/pedido-service';
 import {CurrencyPipe, DatePipe} from '@angular/common';
 
 @Component({
@@ -15,6 +15,7 @@ export class OwnerControlPedidoForm implements OnInit {
 
   private route = inject(ActivatedRoute);
   private pedidoService = inject(PedidoService);
+  private router = inject(Router);
 
   // Señal para almacenar el pedido cargado
   pedido = signal<Pedido | undefined>(undefined);
@@ -69,4 +70,50 @@ export class OwnerControlPedidoForm implements OnInit {
     }
     return this.PLACEHOLDER_IMG_URL;
   }
+
+  cambiarEstado(nuevoEstado: Estado): void {
+    const pedidoActual = this.pedido();
+    if (!pedidoActual || !pedidoActual.id) {
+      console.error('No se puede cambiar el estado: Pedido no cargado o sin ID.');
+      return;
+    }
+
+    // 🚨 LOG 1: Confirma que la función se ejecuta con los datos correctos
+    console.log(`[DEBUG] Intentando cambiar el pedido ${pedidoActual.id} a estado: ${nuevoEstado}`);
+
+
+    // 🚨 LOG 2: Verifica que el método del servicio se está llamando
+    this.pedidoService.actualizarEstadoPedido(pedidoActual.id, nuevoEstado.toString()).subscribe({
+      next: () => {
+        // La actualización fue exitosa
+        console.log(`[DEBUG] API RESPONSE SUCCESS. Redirigiendo...`);
+
+        // Redirigir al usuario a la lista de pedidos
+        this.router.navigate(['/admin/pedidos']);
+      },
+      error: (err) => {
+        // 🚨 LOG 3: Si hay un error, lo registramos.
+        console.error('[ERROR] Error al actualizar el estado:', err);
+      },
+      // 🚨 LOG 4: Finaliza el observable (útil para ver si el observable se cierra)
+      complete: () => {
+        console.log('[DEBUG] Petición HTTP completada.');
+      }
+    });
+  }
+
+  procesarPedido(): void {
+    this.cambiarEstado(Estado.ENVIADO); // De EN_PREPARACION a ENVIADO
+  }
+
+  marcarComoEntregado(): void {
+    this.cambiarEstado(Estado.ENTREGADO); // De ENVIADO a ENTREGADO
+  }
+
+  cancelarPedido(): void {
+    if (confirm('¿Estás seguro que deseas cancelar este pedido?')) {
+      this.cambiarEstado(Estado.CANCELADO);
+    }
+  }
+
 }

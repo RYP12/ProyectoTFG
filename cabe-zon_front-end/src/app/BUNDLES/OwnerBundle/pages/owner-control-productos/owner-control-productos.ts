@@ -1,5 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {PageResponse, Producto, ProductoService} from '../../../../SERVICES/productoService';
 import {FormsModule} from '@angular/forms';
 
@@ -27,7 +27,7 @@ export class OwnerControlProductos implements OnInit {
   // Propiedad para enlazar al campo de texto del buscador
   textoBusqueda: string = '';
 
-  constructor(private productoService: ProductoService) {}
+  constructor(private productoService: ProductoService, private router: Router) {}
 
   ngOnInit() {
     this.cargarProductos();
@@ -111,6 +111,12 @@ export class OwnerControlProductos implements OnInit {
     if (this.textoBusqueda.trim().length === 0 && this.paginaActual() < this.totalPaginas()) {
       this.paginaActual.set(this.paginaActual() + 1);
       this.cargarProductos();
+    }
+  }
+
+  irAEditar(id: number | undefined) {
+    if (id) {
+      this.router.navigate(['admin/productos', id]);
     }
   }
 

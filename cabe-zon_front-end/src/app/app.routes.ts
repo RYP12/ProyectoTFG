@@ -67,6 +67,10 @@ export const routes: Routes = [
     component: OwnerControlProductoForm,
   },
   {
+    path: 'admin/productos/:id',
+    component: OwnerControlProductoForm,
+  },
+  {
     path: 'admin/clientes',
     component: OwnerControlClientes,
   },
