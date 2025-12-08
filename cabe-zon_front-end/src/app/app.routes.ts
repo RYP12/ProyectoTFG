@@ -20,6 +20,8 @@ import {CustomerControl} from './BUNDLES/CustomerBundle/pages/customer-control/c
 import {HtmlTagDefinition} from '@angular/compiler';
 import {Finalizar} from './BUNDLES/FinalizarPedidoBundle/pages/finalizar/finalizar';
 import {OwnerControlClientes} from './BUNDLES/OwnerBundle/pages/owner-control-clientes/owner-control-clientes';
+import {ConfirmarCuenta} from './BUNDLES/LoginBundle/pages/confirmar-cuenta/confirmar-cuenta';
+import {RestablecerPassword} from './BUNDLES/LoginBundle/pages/restablecer-password/restablecer-password';
 
 export const routes: Routes = [
   {
@@ -33,6 +35,14 @@ export const routes: Routes = [
   {
     path: 'login',
     component: Login,
+  },
+  {
+    path: 'verificar-cuenta',
+    component: ConfirmarCuenta,
+  },
+  {
+    path: 'reset-password',
+    component: RestablecerPassword,
   },
   {
     path: 'sobre-nosotros',
