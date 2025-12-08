@@ -35,11 +35,6 @@ public class FiltroJWT extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
-        if (request.getServletPath().contains("/auth")){
-            filterChain.doFilter(request,response);
-            return;
-        }
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
