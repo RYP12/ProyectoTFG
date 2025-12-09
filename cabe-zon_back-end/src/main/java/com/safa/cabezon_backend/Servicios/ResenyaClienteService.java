@@ -2,6 +2,7 @@ package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.CrearResenyaClienteDTO;
 import com.safa.cabezon_backend.Dto.ResenyaClienteDTO;
+import com.safa.cabezon_backend.Exception.RecursoNoEncontradoException;
 import com.safa.cabezon_backend.Mapper.ResenyaClienteMapper;
 import com.safa.cabezon_backend.Modelos.Cliente;
 import com.safa.cabezon_backend.Modelos.Producto;
@@ -42,7 +43,7 @@ public class ResenyaClienteService {
 
     @Transactional
     public ResenyaClienteDTO BuscarResenyaClientePorId(Integer id) {
-        return resenyaClienteMapper.toResenyaClienteDTO(resenyaClienteRepository.findById(id).orElse(null));
+        return resenyaClienteMapper.toResenyaClienteDTO(resenyaClienteRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la reseña con ID: " + id)));
     }
 
     public void CrearResenyaCliente(CrearResenyaClienteDTO dto) {
@@ -50,7 +51,7 @@ public class ResenyaClienteService {
     }
 
     public void EditarResenyaCliente(Integer id, CrearResenyaClienteDTO dto) {
-        ResenyaCliente resenyaCliente = resenyaClienteRepository.findById(id).orElse(null);
+        ResenyaCliente resenyaCliente = resenyaClienteRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la reseña con ID: " + id));
         resenyaClienteMapper.actualizarEntityFromDto(dto, resenyaCliente);
         assert resenyaCliente != null;
         resenyaClienteRepository.save(resenyaCliente);

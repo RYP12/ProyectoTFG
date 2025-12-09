@@ -3,6 +3,7 @@ package com.safa.cabezon_backend.Servicios;
 import com.safa.cabezon_backend.Dto.BuscarClienteDTO;
 import com.safa.cabezon_backend.Dto.BuscarDireccionDTO;
 import com.safa.cabezon_backend.Dto.DireccionDTO;
+import com.safa.cabezon_backend.Exception.RecursoNoEncontradoException;
 import com.safa.cabezon_backend.Mapper.DireccionMapper;
 import com.safa.cabezon_backend.Mapper.ImagenMapper;
 import com.safa.cabezon_backend.Modelos.Direccion;
@@ -32,7 +33,7 @@ public class DireccionService {
     }
 
     public BuscarDireccionDTO BuscarDireccionPorId(Integer id){
-        return direccionMapper.toDTO(direccionRepository.findById(id).orElse(null));
+        return direccionMapper.toDTO(direccionRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la dirección con ID: " + id)));
     }
 
     public void EliminarDireccionPorId(Integer id){ direccionRepository.deleteById(id);}
@@ -43,7 +44,7 @@ public class DireccionService {
     }
 
     public void EditarDireccionPorId(Integer id, DireccionDTO direccionDto){
-        Direccion nuevaDireccion = direccionRepository.findById(id).orElse(null);
+        Direccion nuevaDireccion = direccionRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la dirección con ID: " + id));
         direccionMapper.actualizarDireccion(direccionDto, nuevaDireccion);
         direccionRepository.save(nuevaDireccion);
 

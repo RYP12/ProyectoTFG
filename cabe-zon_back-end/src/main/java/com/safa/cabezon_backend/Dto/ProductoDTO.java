@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Dto;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -16,6 +17,8 @@ public class ProductoDTO {
     private Integer stock;
     private Boolean exclusivo;
     private Double valoracion;
+    @Valid
     private Set<BuscarColeccionDTO> colecciones;
+    @Valid
     private Set<BuscarImagenDTO> imagenes;
 }

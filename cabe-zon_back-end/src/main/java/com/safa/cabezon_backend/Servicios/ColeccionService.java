@@ -3,6 +3,8 @@ package com.safa.cabezon_backend.Servicios;
 import com.safa.cabezon_backend.Dto.BuscarColeccionDTO;
 import com.safa.cabezon_backend.Dto.ColeccionDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoDTO;
+import com.safa.cabezon_backend.Exception.EliminarNoExistenteException;
+import com.safa.cabezon_backend.Exception.RecursoNoEncontradoException;
 import com.safa.cabezon_backend.Mapper.ColeccionMapper;
 import com.safa.cabezon_backend.Modelos.Coleccion;
 import com.safa.cabezon_backend.Modelos.Producto;
@@ -47,13 +49,13 @@ public class ColeccionService {
 
     @Transactional
     public BuscarColeccionDTO BuscarColeccionPorId(Integer id){
-        return coleccionMapper.toDTO( coleccionRepository.findById(id).orElse(null));
+        return coleccionMapper.toDTO( coleccionRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la colección con ID: " + id)));
     }
 
     @Transactional
     public void borrarColeccionPorId(Integer id) {
         Coleccion coleccion = coleccionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Coleccion no encontrada"));
+                .orElseThrow(() -> new EliminarNoExistenteException("No se pudo borrar la colección con ID: " + id));
 
         // Limpiar relaciones ManyToMany en clientes
         clienteRepository.findAll().forEach(cliente -> {

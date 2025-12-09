@@ -4,6 +4,7 @@ import com.safa.cabezon_backend.Dto.BuscarClienteDTO;
 import com.safa.cabezon_backend.Dto.BuscarPedidoAdminDTO;
 import com.safa.cabezon_backend.Dto.BuscarPedidoDTO;
 import com.safa.cabezon_backend.Dto.PedidoDTO;
+import com.safa.cabezon_backend.Exception.RecursoNoEncontradoException;
 import com.safa.cabezon_backend.Mapper.PedidoMapper;
 import com.safa.cabezon_backend.Modelos.Cliente;
 import com.safa.cabezon_backend.Modelos.Estado;
@@ -49,7 +50,7 @@ public class PedidoService {
 
     @Transactional
     public BuscarPedidoDTO BuscarPedidoPorId(Integer id) {
-        return mapper.toDTO(pedidoRepository.findById(id).orElse(null));
+        return mapper.toDTO(pedidoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el pedido con ID: " + id)));
     }
 
     @Transactional
@@ -60,7 +61,7 @@ public class PedidoService {
 
     @Transactional
     public void EditarPedido(Integer id, PedidoDTO dto) {
-        Pedido pedido = pedidoRepository.findById(id).orElse(null);
+        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el pedido con ID: " + id));
         mapper.actualizarPedido(dto, pedido);
         pedidoRepository.save(pedido);
     }
@@ -76,7 +77,7 @@ public class PedidoService {
     @Transactional
     public void ActualizarEstado(Integer id, String nuevoEstadoString) {
         Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID: " + id)); // Manejo de error básico
+                .orElseThrow(() -> new RecursoNoEncontradoException("Pedido no encontrado con ID: " + id)); // Manejo de error básico
 
         // Convertir el String recibido al enum Estado
         Estado nuevoEstado = Estado.valueOf(nuevoEstadoString);
