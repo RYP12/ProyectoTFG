@@ -137,13 +137,13 @@ public class ProductoController {
     //Editar producto segun id que se pase por url(CrearProductoDTO)
     @PutMapping("/put/{id}")
     public void putProducto(@PathVariable Integer id, @RequestBody CrearProductoDTO dto) {
-        productoService.EditarProducto(id, dto);
+        productoService.EditarProductoCache(id, dto);
     }
 
     //Borrar producto segub id que se pase por url
     @DeleteMapping("/delete/{id}")
     public void deleteProducto(@PathVariable Integer id){
-        productoService.EliminarProducto(id);
+        productoService.EliminarProductoCache(id);
     }
 
     
