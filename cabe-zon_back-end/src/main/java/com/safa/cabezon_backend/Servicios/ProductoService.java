@@ -43,7 +43,7 @@ public class ProductoService {
     @Autowired
     private CacheEvictHelper cacheEvictHelper;
 
-    // Código Final y Limpio en ProductoService
+
     @Transactional
     public void forzarVaciadoCacheProductos() { // Renombrado a la versión final
         // 1. VACIADO: Delegación al helper (CacheEvictHelper)
@@ -72,9 +72,17 @@ public class ProductoService {
 
     // EXTRACCION DE PRODUCTOS DE LA CACHE Y PAGINADO
 
+    @Transactional(readOnly = true)
+    @Cacheable(value = "busquedasProductos", key = "#nombre.toLowerCase()")
+    public List<BuscarProductoDTO> buscarPorNombreCache(String nombre) {
+
+        List<Producto> lista = productoRepository.findByNombreContainingIgnoreCase(nombre);
+        return mapper.listToBuscarDTO(lista);
+    }
+
     public Page<BuscarProductoDTO> paginarListaMemoria(List<BuscarProductoDTO> listaCompleta, Pageable pageable, Integer coleccionId) {
 
-        //
+
         List<BuscarProductoDTO> listaFiltrada = listaCompleta;
 
         if (coleccionId != null) {
@@ -104,7 +112,7 @@ public class ProductoService {
 
         // 1. FILTRADO INICIAL: Solo productos NO exclusivos
         List<BuscarProductoDTO> listaNoExclusiva = listaCompleta.stream()
-                .filter(p -> p.isExclusivo() == false || !p.isExclusivo()) // <--- NUEVO FILTRO DE NO EXCLUSIVOS
+                .filter(p -> p.isExclusivo() == false || !p.isExclusivo()) // FILTRO DE NO EXCLUSIVOS
                 .toList();
 
         List<BuscarProductoDTO> listaFiltrada = listaNoExclusiva;
@@ -166,14 +174,7 @@ public class ProductoService {
 
 
 
-
-
-
-
     // IMPORTANTE: SI CREAMOS UN PRODUCTO NUEVO HAY QUE BORRA CACHE ANTIGUA
-
-    // ELIMINA O COMENTA LOS MÉTODOS VACÍOS "Cache" (CrearProductoCache, etc.)
-    // APLICA LA EVICCIÓN DIRECTAMENTE A LA LÓGICA REAL:
 
     @Transactional
     @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
@@ -201,15 +202,6 @@ public class ProductoService {
             productoRepository.deleteById(id);
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 

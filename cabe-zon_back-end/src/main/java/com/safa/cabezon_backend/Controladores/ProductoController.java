@@ -180,6 +180,6 @@ public class ProductoController {
         if (nombre == null || nombre.trim().isEmpty()) {
             return ResponseEntity.ok(List.of());
         }
-        return ResponseEntity.ok(productoService.buscarPorNombre(nombre));
+        return ResponseEntity.ok(productoService.buscarPorNombreCache(nombre));
     }
 }
