@@ -3,7 +3,7 @@ import {Catalogo} from './BUNDLES/CatalogoBundle/pages/catalogo/catalogo';
 import {Login} from './BUNDLES/LoginBundle/pages/login/login';
 import {AboutUs} from './BUNDLES/SobreNosotrosBundle/pages/about-us/about-us';
 import {Funko} from './BUNDLES/FunkoBundle/pages/funko/funko';
-import {Confirmar} from './BUNDLES/ConfirmacionPedidoBundle/pages/confirmar/confirmar';
+import {Confirmar} from './SHARED/ConfirmacionPedidoBundle/pages/confirmar/confirmar';
 import {EdicionLimitada} from './BUNDLES/EdicionLimitadaBundle/pages/edicion-limitada/edicion-limitada';
 import {OwnerControlPedidos} from './BUNDLES/OwnerBundle/pages/owner-control-pedidos/owner-control-pedidos';
 import {OwnerControlProductos} from './BUNDLES/OwnerBundle/pages/owner-control-productos/owner-control-productos';

@@ -1,4 +1,5 @@
 <app-header></app-header>
+
 <div class="main">
   <div class="all">
     <h1 class="title">FINALIZAR PEDIDO</h1>
@@ -18,7 +19,7 @@
               <div class="datos">
                 <div class="name">{{ funko.nombre }}</div>
                 <div class="price">
-                   {{ (funko.precio! * (funko.cantidad || 1)) | currency:'EUR':'symbol':'1.2-2' }}
+                  {{ (funko.precio! * (funko.cantidad || 1)) | currency:'EUR':'symbol':'1.2-2' }}
                 </div>
 
                 <div class="cont">
@@ -34,9 +35,8 @@
           @if (!(productosPedido$ | async)?.length) {
             <p style="text-align: center; margin: 20px;">No hay productos en el pedido.</p>
           }
-
+        </div>
       </div>
-    </div>
 
       <div class="row">
         <div class="box mediana">
@@ -46,14 +46,24 @@
           </div>
 
           <div class="dir">
-            <div class="table">
-              <p>Plaza Collao nº10<br>
-                Número 10 Piso 8<br>
-                41019<br>
-                Sevilla, Sevilla<br>
-                España</p>
-              <button class="sel">SELECCIONAR</button>
-            </div>
+            @for (dir of direcciones(); track dir.id) {
+              <div class="table" [class.selected]="direccionSeleccionada()?.id === dir.id">
+                <p>
+                  {{ dir.calle }} nº {{ dir.numero }}
+                  @if (dir.piso) { Piso {{ dir.piso }} }
+                  @if (dir.letra) { - {{ dir.letra }} }
+                  <br>
+                  {{ dir.codigoPostal }}<br>
+                  {{ dir.municipio }}, {{ dir.provincia }}<br>
+                  {{ dir.pais }}
+                </p>
+                <button class="sel" (click)="seleccionarDireccion(dir)">
+                  {{ direccionSeleccionada()?.id === dir.id ? 'SELECCIONADO' : 'SELECCIONAR' }}
+                </button>
+              </div>
+            } @empty {
+              <p style="padding: 10px;">No hay direcciones.</p>
+            }
 
             <button class="add-dir">AGREGAR DIRECCIÓN</button>
           </div>
@@ -64,7 +74,6 @@
             <img class="icon-box" src="/ASSETS/IMAGES/LogoTarjeta.png" alt="funko">
             <strong>Forma de pago</strong>
           </div>
-
           <div class="pay">
             <div class="visa">
               <label class="radio"><input type="radio" name="pago" checked> Pagar con tarjeta</label>
@@ -80,18 +89,6 @@
                 <input placeholder="CVC">
               </div>
             </div>
-            <div class="visa">
-              <label class="radio"><input type="radio" name="pago"> Pagar con PayPal</label>
-              <img class="icon-pay" src="/ASSETS/IMAGES/LogoPaypal.png" alt="visa">
-
-            </div>
-            <div class="visa">
-              <label class="radio"><input type="radio" name="pago"> Pagar con Bizum</label>
-              <img class="icon-pay" src="/ASSETS/IMAGES/LogoBizum.png" alt="visa">
-
-            </div>
-
-            <label class="cup"> Código de descuento<input class="cupon" placeholder="Introduce tu código aquí"></label>
           </div>
         </div>
       </div>
@@ -106,10 +103,12 @@
         <div class="line"><span>Envio</span><span>{{ envio | currency:'EUR':'symbol':'1.2-2' }}</span></div>
         <div class="line"><span>Descuento</span><span>- {{ descuento | currency:'EUR':'symbol':'1.2-2' }}</span></div>
         <div class="line total"><span>Total</span><span>{{ total | currency:'EUR':'symbol':'1.2-2' }}</span></div>
+
         <button class="btn-pay" (click)="confirmarPedido()">PAGAR Y REALIZAR PEDIDO</button>
       </div>
 
     </div>
   </div>
 </div>
+
 <app-footer></app-footer>

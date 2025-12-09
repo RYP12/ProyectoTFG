@@ -109,4 +109,18 @@ export class ClienteService {
   subirFoto(id: number, formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}/cliente/${id}/foto`, formData);
   }
+
+  obtenerIdClienteLogueado(): number | null {
+    const json = localStorage.getItem('token');
+    if (!json) return null;
+
+    try {
+      const datos = JSON.parse(json);
+      // Intentamos buscar el ID en varios lugares comunes según cómo responda tu backend
+      return datos.id || (datos.cliente && datos.cliente.id) || (datos.usuario && datos.usuario.id) || null;
+    } catch (e) {
+      console.error('Error al leer sesión:', e);
+      return null;
+    }
+  }
 }
