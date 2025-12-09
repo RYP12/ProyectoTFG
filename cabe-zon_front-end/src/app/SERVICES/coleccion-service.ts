@@ -16,7 +16,7 @@ export class ColeccionService {
   constructor(private http: HttpClient) { }
    //Obtener todas las colecciones
   obtenerColecciones(): Observable<Coleccion[]>{
-    return this.http.get<Coleccion[]>(`${this.apiUrl}/coleccion/all`);
+    return this.http.get<Coleccion[]>(`${this.apiUrl}/coleccion/no-exclusivas`);
   }
   //Obtene coleccion por id
   obtenerProductoPorID(id:number):Observable<Coleccion>{

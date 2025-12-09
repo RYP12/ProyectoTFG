@@ -51,4 +51,11 @@ public class ColeccionController {
 
         return coleccionMapper.listTODTO(listaEntidad);
     }
+
+    @GetMapping("/no-exclusivas")
+    public List<BuscarColeccionDTO> getNoExclusivas() {
+        List<Coleccion> listaEntidad = coleccionService.obtenerColeccionesNoExclusivas();
+
+        return coleccionMapper.listTODTO(listaEntidad);
+    }
 }

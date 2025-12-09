@@ -41,6 +41,11 @@ public class ColeccionService {
     }
 
     @Transactional
+    public List<Coleccion> obtenerColeccionesNoExclusivas() {
+        return coleccionRepository.findColeccionesConProductosNoExclusivos();
+    }
+
+    @Transactional
     public List<BuscarColeccionDTO> crearColeccion(){
         return coleccionMapper.listTODTO(coleccionRepository.findAll());
     }

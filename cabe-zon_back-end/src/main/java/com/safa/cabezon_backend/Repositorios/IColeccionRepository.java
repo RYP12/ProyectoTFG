@@ -17,4 +17,12 @@ public interface IColeccionRepository extends JpaRepository<Coleccion, Integer> 
             "GROUP BY c.id",
             nativeQuery = true)
     List<Coleccion> findColeccionesConProductosExclusivos();
+
+    @Query(value = "SELECT c.* FROM cabezon.producto p " +
+            "JOIN cabezon.coleccion_producto cp ON p.id = cp.id_producto " +
+            "JOIN cabezon.coleccion c ON c.id = cp.id_coleccion " +
+            "WHERE p.exclusivo = false " +
+            "GROUP BY c.id",
+            nativeQuery = true)
+    List<Coleccion> findColeccionesConProductosNoExclusivos();
 }

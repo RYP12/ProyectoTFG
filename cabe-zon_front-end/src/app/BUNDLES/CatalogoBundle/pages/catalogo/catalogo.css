@@ -250,13 +250,13 @@
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.card1 button:hover {
+.tarjeta button:hover {
   background-color: #25a498;
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(46, 196, 182, 0.4);
 }
 
-.card1 button:active {
+.tarjeta button:active {
   transform: translateY(1px);
   box-shadow: none;
 }
@@ -277,6 +277,8 @@
   border-radius: 12px;
   letter-spacing: 1px;
   cursor: pointer;
+
+
 }
 
 
