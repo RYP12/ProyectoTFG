@@ -3,7 +3,9 @@ package com.safa.cabezon_backend.Modelos;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,4 +42,7 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ProductoPedido> productosPedidos = new ArrayList<>();
 }

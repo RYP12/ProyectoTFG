@@ -86,6 +86,32 @@
   text-shadow: 1px 1px 0px #00000033;
 }
 
+.dropdown-filtro.select-style select option {
+  font-family: "League Spartan", sans-serif;
+  font-size: 1rem;
+  padding: 8px 15px;
+  background-color: #f0f0f0;
+  color: #1a1a1a;
+  border-bottom: 1px solid #ddd;
+}
+
+.dropdown-filtro.select-style select option:first-child {
+  font-weight: 600;
+  color: #666;
+  background-color: #e0e0e0;
+}
+
+.dropdown-filtro.select-style select option:hover {
+  background-color: #2EC4B6;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.dropdown-filtro.select-style select option:checked {
+  background-color: #2EC4B6;
+  color: white;
+  font-weight: 700;
+}
 
 .btn-aplicar {
   background-color: #D2203F;
@@ -221,6 +247,18 @@
   cursor: pointer;
   font-weight: 600;
   font-family: "League Spartan", sans-serif;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.card1 button:hover {
+  background-color: #25a498;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(46, 196, 182, 0.4);
+}
+
+.card1 button:active {
+  transform: translateY(1px);
+  box-shadow: none;
 }
 
 .btn-mas {
@@ -233,7 +271,6 @@
   box-shadow: 3px 3px 0px black;
   font-family: "League Spartan", sans-serif;
   font-weight: 700;
-  padding: 6px 20px;
   width: 150px;
   height: 20px;
   border: none;

@@ -31,6 +31,7 @@ export interface Producto {
 
   colecciones?: Coleccion[];
   imagenes?: Imagenes[];
+  cantidad?: number;
 }
 
 export interface PageResponse<T> {
@@ -139,5 +140,10 @@ export class ProductoService {
   obtenerResenyasPorProducto(idProducto: number): Observable<Resenya[]> {
     return this.http.get<Resenya[]>(`${this.apiUrl}/resenya_cliente/producto/${idProducto}`);
   }
+
+  crearResenya(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/resenya_cliente/post`, data);
+  }
+
 
 }

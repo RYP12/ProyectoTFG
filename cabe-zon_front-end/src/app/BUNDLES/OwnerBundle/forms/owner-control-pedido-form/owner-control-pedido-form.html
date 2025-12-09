@@ -1,113 +1,101 @@
-<div id="background">
-  <div class="titulo">
-    <h1>
-      PEDIDO 26
-    </h1>
-  </div>
-  <div id="formularioPrincipal">
-    <div id="primeraParteForm">
-      <div class="tamanyo">
-        <h3>Total</h3>
-        <p>
-          85$
-        </p>
+@if (pedido(); as p) {
+  <div id="background">
+    <div class="titulo">
+      <h1>
+        PEDIDO {{ p.id }}
+      </h1>
+    </div>
+    <div id="formularioPrincipal">
+      <div id="primeraParteForm">
+
+        <div class="tamanyo">
+          <h3>Total</h3>
+          <p>
+            {{ p.precioTotal | currency:'USD':'symbol':'1.2-2' }}
+          </p>
+        </div>
+
+        <div>
+          <h3>Fecha pedido</h3>
+          <p>
+            {{ p.fecha | date:'dd/MM/yyyy' }}
+          </p>
+        </div>
+
+        <div>
+          <h3>Fecha entrega</h3>
+          <p>
+            {{ p.fechaEntrega | date:'dd/MM/yyyy' }}
+          </p>
+        </div>
+
+        <div>
+          <h3>Estado</h3>
+          <p [style.color]="obtenerEstadoVisual(p.estado).color">
+            {{ obtenerEstadoVisual(p.estado).nombre }}
+          </p>
+        </div>
+
+        <div>
+          <h3>Dirección</h3>
+
+        </div>
       </div>
+
       <div>
-        <h3>
-          Fecha pedido
-        </h3>
-        <p>
-          04/11/2025
-        </p>
-      </div>
-      <div>
-        <h3>
-          Fecha entrega
-        </h3>
-        <p>
-          25/11/2025
-        </p>
-      </div>
-      <div>
-        <h3>
-          Estado
-        </h3>
-        <p style="color: #45EA32">
-          Recibido
-        </p>
-      </div>
-      <div>
-        <h3>
-          Dirección
-        </h3>
-        <p>
-          Calle plata n 30
-        </p>
+        <div>
+          <h3 style="font-size: 25px">
+            Productos
+          </h3>
+        </div>
+
+        <div id="segundaParteForm">
+          @for (item of p.productosPedidos || []; track item.id) {
+            <div class="producto">
+              <img [src]="obtenerImagenUrl(item)" [alt]="item.producto?.nombre || 'Producto'">
+              <div class="statsForm">
+                <p class="nombre-producto">
+                  x{{ item.cantidad }} **{{ item.producto?.nombre }}**
+                </p>
+                <p class="precio-producto">
+                  {{ (item.cantidad * item.producto?.precio!) | currency:'USD':'symbol':'1.2-2' }}
+                </p>
+              </div>
+            </div>
+          }
+        </div>
       </div>
     </div>
-    <div>
-      <div>
-        <h3 style="font-size: 25px">
-          Productos
-        </h3>
-      </div>
-      <!-- @for () {} -->
-      <div id="segundaParteForm">
-        <div class="producto">
-          <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="">
-          <div class="statsForm">
-            <p>
-              x1 Deadpool
-            </p>
-            <p style="color: #2EC4B6">
-              00$
-            </p>
-          </div>
-        </div>
-        <div class="producto">
-          <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="">
-          <div class="statsForm">
-            <p>
-              x1 Deadpool
-            </p>
-            <p style="color: #2EC4B6">
-              00$
-            </p>
-          </div>
-        </div>
-        <div class="producto">
-          <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="">
-          <div class="statsForm">
-            <p>
-              x1 Deadpool
-            </p>
-            <p style="color: #2EC4B6">
-              00$
-            </p>
-          </div>
-        </div>
-        <div class="producto">
-          <img src="/ASSETS/IMAGES/DeadpoolRey.png" alt="">
-          <div class="statsForm">
-            <p>
-              x1 Deadpool
-            </p>
-            <p style="color: #2EC4B6">
-              00$
-            </p>
-          </div>
-        </div>
-      </div>
-      <!--
-         @if () {
 
-            }
-      -->
+    <div id="botones">
+      @if (p.estado === 'EN_PREPARACION') {
+        <button
+          class="botonProcesar"
+          (click)="procesarPedido()"
+        >
+          PROCESAR (ENVIAR)
+        </button>
+        <button
+          class="botonCancelar"
+          (click)="cancelarPedido()"
+        >
+          CANCELAR
+        </button>
+      } @else if (p.estado === 'ENVIADO') {
+        <button
+          class="botonProcesar"
+          style="background-color: #4C97FF;"
+          (click)="marcarComoEntregado()"
+        >
+          MARCAR COMO ENTREGADO
+        </button>
+      } @else {
+        <p style="grid-column: 1 / span 2; text-align: center; font-style: italic;">
+          No hay acciones disponibles para el estado: {{ obtenerEstadoVisual(p.estado).nombre }}.
+        </p>
+      }
     </div>
   </div>
-  <div id="botones">
-    <button class="botonProcesar">PROCESAR</button>
-    <button class="botonCancelar">CANCELAR</button>
-  </div>
-</div>
-
+} @else {
+  <p>Cargando detalles del pedido...</p>
+}

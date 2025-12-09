@@ -42,7 +42,7 @@
     <div class="left">
       <img src="/ASSETS/IMAGES/LogoCorazon.png" alt="foto" class="heart">
       <img [src]="obtenerImagenUrl(producto, 0)" alt="Foto {{producto.nombre}}" class="imagen-funko">
-      <button class="add-card">AÑADIR AL CARRITO</button>
+      <button (click)="agregarAlCarrito(producto)" class="add-card">AÑADIR AL CARRITO</button>
     </div>
     <div class="right">
       <h1 style="text-transform: uppercase">{{producto.nombre}}</h1>
@@ -53,8 +53,7 @@
         <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
         <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
         <img src="/ASSETS/IMAGES/Estrella.png" alt="foto" class="star">
-        <img src="/ASSETS/IMAGES/LogoChat.png" alt="foto" class="chat">
-      </div>
+        <img src="/ASSETS/IMAGES/LogoChat.png" alt="comentarios" class="chat" (click)="abrirFormulario()"></div>
       <p class="price">{{producto.precio}}€</p>
       <p class="stock">EN STOCK: {{producto.stock}} unidades</p>
       <p class="description">{{producto.descripcion}}</p>
@@ -66,33 +65,39 @@
   }
 </div>
 
+@if (mostrarFormulario) {
+  <div class="modal-backdrop" (click)="cerrarFormulario()"></div>
+
+  <div class="modal-content">
+    <button class="close-btn" (click)="cerrarFormulario()">X</button>
+    <app-form-comentario
+      [idProducto]="producto?.id ?? 0"
+      [idCliente]="33"
+      (comentarioEnviado)="handleComentarioEnviado($event)">
+    </app-form-comentario>
+  </div>
+}
+
 <div class="reviews-section">
   <p class="title-r">Valoraciones y reseñas</p>
+
   <div class="reviews-container">
-    <!--
-      Recorremos todas las reseñas del funko.
-      Cada review contiene autor, puntuación y comentario.
-    -->
+    <p *ngIf="resenyas.length === 0" style="text-align: center; width: 100%;">No hay reseñas para este producto aún.</p>
 
-    <div class="reviews">
-      @if (resenyas.length === 0) {
-        <p style="text-align: center; width: 100%;">No hay reseñas para este producto aún.</p>
-      }
+    <div *ngFor="let review of resenyas" class="reviews">
 
-      @for (review of resenyas; track review.id) {
-        <div class="reviews">
-          <p class="name">{{ review.cliente.nombre }} {{review.cliente.apellidos }}</p>
-          <div class="stars-r">
-            @for (i of [].constructor(review.valoracion); track i) {
-              <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
-            }
-          </div>
-          <p class="comment">{{ review.texto }}</p>
+      <div class="review-header">
+        <p class="name">{{ review.cliente?.nombre }} {{ review.cliente?.apellidos }}</p>
+        <div class="stars-r">
+          <img *ngFor="let i of [].constructor(review.valoracion)" src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star-r">
         </div>
-      }
+      </div>
+
+      <p class="comment">{{ review.texto }}</p>
     </div>
   </div>
 
   <button class="show-more">Ver más reseñas</button>
 </div>
+
 <app-footer></app-footer>

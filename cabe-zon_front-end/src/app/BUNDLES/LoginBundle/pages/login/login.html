@@ -1,6 +1,11 @@
 <app-header></app-header>
 <section class="user">
   <div class="user_options-container">
+    @if (mensajeAlerta) {
+      <div class="alert-box" [ngClass]="tipoAlerta">
+        {{mensajeAlerta}}
+      </div>
+    }
     <div class="funkos-decoration left">
       <img src="/ASSETS/IMAGES/funko-SG1.png" class="funko-img">
       <img src="/ASSETS/IMAGES/funko-SG2.png" class="funko-img">
@@ -32,22 +37,22 @@
       <!-- Formulario de login -->
       <div class="user_forms-login">
         <h2 class="forms_title">Iniciar Sesión</h2>
-        <form method="post" class="forms_form-login">
+        <form (ngSubmit)="onLogin()" method="post" class="forms_form-login">
           <input type="hidden" name="action" value="login">
           <fieldset class="forms_fieldset">
             <div class="forms_field">
               <img class="field-icon" src="/ASSETS/IMAGES/LogoCabezaFunko.png">
-              <input type="text" id="email-input" class="forms_field-input" placeholder=" " autofocus="autofocus" required>
+              <input type="text" name="username" id="email-input" [(ngModel)]="loginData.username" class="forms_field-input" placeholder=" " autofocus="autofocus" required>
               <label for="email-input" class="forms_field-label">USUARIO</label>
             </div>
             <div class="forms_field">
               <img class="field-icon" src="/ASSETS/IMAGES/mdi--password.png">
-              <input type="password" id="password-input" class="forms_field-input" placeholder=" " required>
+              <input type="password" name="password" id="password-input" [(ngModel)]="loginData.password" class="forms_field-input" placeholder=" " required>
               <label for="password-input" class="forms_field-label">CONTRASEÑA</label>
             </div>
           </fieldset>
           <div class="forms_buttons">
-            <button type="button" class="forms_buttons-forgot">¿Has olvidado la contraseña?</button>
+            <button type="button" class="forms_buttons-forgot" (click)="abrirModal()">¿Has olvidado la contraseña?</button>
             <input type="submit" value="Entrar" class="forms_buttons-action">
           </div>
         </form>
@@ -56,29 +61,29 @@
       <!-- Formulario de registro -->
       <div class="user_forms-signup">
         <h2 class="forms_title">Registro</h2>
-        <form method="post" class="forms_form-register">
+        <form (ngSubmit)="onRegistro()" method="post" class="forms_form-register">
           <input type="hidden" name="action" value="register">
           <fieldset class="forms_fieldset">
             <div class="forms_field">
               <img class="field-icon" src="/ASSETS/IMAGES/LogoCabezaFunko.png">
-              <input type="text" id="name-input" class="forms_field-input" placeholder=" " required>
-              <label for="name-input" class="forms_field-label">NOMBRE</label>
+              <input type="text" name="nombre" id="nombre-input" [(ngModel)]="registroData.nombre" class="forms_field-input" placeholder=" " required>
+              <label for="nombre-input" class="forms_field-label">NOMBRE</label>
             </div>
             <div class="forms_field">
               <img class="field-icon" src="/ASSETS/IMAGES/LogoCabezaFunko.png">
-              <input type="text" id="name-input" class="forms_field-input" placeholder=" " required>
-              <label for="name-input" class="forms_field-label">APELLIDOS</label>
+              <input type="text" name="apellidos" id="apellidos-input" [(ngModel)]="registroData.apellidos" class="forms_field-input" placeholder=" " required>
+              <label for="apellidos-input" class="forms_field-label">APELLIDOS</label>
             </div>
             <div class="forms_field">
               <img class="field-icon" src="/ASSETS/IMAGES/material-symbols--mail.png">
-              <input type="text" id="name-input" class="forms_field-input" placeholder=" " required>
-              <label for="name-input" class="forms_field-label">EMAIL</label>
+              <input type="text" name="regUsername" id="reg-email-input" [(ngModel)]="registroData.username" class="forms_field-input" placeholder=" " required>
+              <label for="reg-email-input" class="forms_field-label">EMAIL</label>
             </div>
 
             <div class="forms_field">
               <img class="field-icon" src="/ASSETS/IMAGES/mdi--password.png">
-              <input type="password" id="password-input" class="forms_field-input" placeholder=" " required>
-              <label for="password-input" class="forms_field-label">CONTRASEÑA</label>
+              <input type="password" name="regPassword" id="reg-password-input" [(ngModel)]="registroData.password" class="forms_field-input" placeholder=" " required>
+              <label for="reg-password-input" class="forms_field-label">CONTRASEÑA</label>
             </div>
           </fieldset>
           <div class="forms_buttons">
@@ -89,4 +94,20 @@
     </div>
   </div>
 </section>
+@if (isModalOpen) {
+  <div class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-btn" (click)="cerrarModal()">&times;</span>
+      <h2>Recuperar Contraseña</h2>
+      <p>Introduce tu correo electrónico para restablecer tu contraseña.</p>
+
+      <input type="email" [(ngModel)]="emailRecuperacion" placeholder="tuemail@ejemplo.com" class="modal-input">
+
+      <button (click)="enviarCorreoRecuperacion()" class="forms_buttons-action">Enviar</button>
+      @if (mensajeRecuperacion) {
+        <p class="modal-msg">{{ mensajeRecuperacion }}</p>
+      }
+    </div>
+  </div>
+}
 <app-footer></app-footer>

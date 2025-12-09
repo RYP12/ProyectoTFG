@@ -7,5 +7,4 @@ import org.springframework.security.access.method.P;
 public class ProductoPedidoDTO {
     private Integer cantidad;
     private BuscarProductoDTO producto;
-    private BuscarPedidoDTO pedido;
 }
