@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -66,6 +67,20 @@ public class AuthController {
         } else {
             return ResponseEntity.badRequest().body("Token inválido o expirado");
         }
+    }
+
+    //Obtener usuario logueado
+    @GetMapping("/me")
+    public ResponseEntity<RegistroDTO> obtenerPerfil(Principal principal){
+        if (principal == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        String username = principal.getName();
+
+        RegistroDTO usuarioDTO = usuarioService.buscarPorUsername(username);
+
+        return ResponseEntity.ok(usuarioDTO);
     }
 
 }

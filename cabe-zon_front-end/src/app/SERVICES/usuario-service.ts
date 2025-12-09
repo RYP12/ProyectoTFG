@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {BehaviorSubject, Observable, tap} from 'rxjs';
+import {isPlatformBrowser} from '@angular/common';
 
 export interface LoginDTO {
   username?: string,
@@ -26,11 +27,81 @@ export class UsuarioService {
 
   private baseUrl = 'http://localhost:8080/auth';
 
-  constructor(private http: HttpClient) {}
+  private nombreUsuarioSubject = new BehaviorSubject<string>('CLIENTE');
+
+  nombreUsuario$ = this.nombreUsuarioSubject.asObservable();
+
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.recuperarUsuarioDeToken();
+  }
+
+  private guardarToken(token: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('token', token);
+    }
+  }
+
+  private leerToken(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token');
+    }
+    return null;
+  }
+
+  private eliminarToken() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+    }
+  }
 
   // Login
   login(loginData: LoginDTO): Observable<string> {
-    return this.http.post(this.baseUrl + '/login', loginData, { responseType: 'text' });
+    return this.http.post(this.baseUrl + '/login', loginData, { responseType: 'text' })
+    .pipe(
+      tap((token) => {
+        this.guardarToken(token);
+        this.obtenerDatosUsuario();
+        }
+      )
+    )
+  }
+
+  // Cerrar sesión
+  logout() {
+    this.eliminarToken();
+    this.nombreUsuarioSubject.next('CLIENTE');
+  }
+
+  // Método para pedir los datos del backend usando el token
+  obtenerDatosUsuario() {
+    const token = this.leerToken();
+    if (!token) {
+      console.warn('No hay token para obtener datos');
+      return;
+    }
+
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+
+    this.http.get<any>(this.baseUrl + '/me', {headers}).subscribe({
+      next: (usuario) => {
+        this.nombreUsuarioSubject.next(usuario.nombre);
+      },
+      error: (error) => {
+        console.error('Error al obtener perfil:', error);
+        this.logout();
+      }
+    })
+  }
+
+  // Recuperar datos si se recarga la página
+  private recuperarUsuarioDeToken() {
+    const token = this.leerToken();
+    if (token) {
+      this.obtenerDatosUsuario();
+    }
   }
 
   // Registro

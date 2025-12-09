@@ -10,4 +10,6 @@ public class PedidoSimpleDTO {
     private Date fecha;
     private Double precioTotal;
     private Integer estado;
+    private Date fechaEstimada;
+    private Date fechaEntrega;
 }

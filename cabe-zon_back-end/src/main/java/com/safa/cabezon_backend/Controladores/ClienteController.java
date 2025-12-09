@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -48,7 +49,6 @@ public class ClienteController {
     @GetMapping("/{id}")
     public BuscarClienteDTO getClienteById(@PathVariable Integer id){return clienteMapper.toDTO(clienteRepository.findById(id).orElse(null));}
 
-
     //Guardar cliente en base de datos(ClienteDTO)
     @PostMapping("/post")
     public void postCliente(@RequestBody CrearClienteDTO dto){
@@ -61,10 +61,18 @@ public class ClienteController {
         clienteService.EditarClientePorId(id, dto);
     }
 
-
     //Borrar cliente segun id
     @DeleteMapping("/delete/{id}")
     public void deleteCliente(@PathVariable Integer id){
         clienteService.EliminarClientePorId(id);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<BuscarClienteDTO> obtenerMiPerfil(Authentication authentication) {
+        String username = authentication.getName();
+
+        BuscarClienteDTO clienteDTO = clienteService.obtenerClientePorUsername(username);
+
+        return ResponseEntity.ok(clienteDTO);
     }
 }

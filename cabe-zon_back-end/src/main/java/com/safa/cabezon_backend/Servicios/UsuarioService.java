@@ -158,4 +158,10 @@ public class UsuarioService implements UserDetailsService {
     public List<RegistroDTO> buscarUsuarios(){
         return usuarioMapper.listToDTO(usuarioRepository.findAll());
     }
+
+    public RegistroDTO buscarPorUsername(String username){
+        Usuario usuario = usuarioRepository.findTopByUsername(username);
+
+        return usuarioMapper.toDTO(usuario);
+    }
 }
