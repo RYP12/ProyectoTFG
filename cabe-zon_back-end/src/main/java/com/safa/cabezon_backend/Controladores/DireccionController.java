@@ -42,4 +42,10 @@ public class DireccionController {
     public void deleteDireccion(@PathVariable Integer id){
         direccionService.EliminarDireccionPorId(id);
     }
+
+    //Obtener direcciones de un cliente
+    @GetMapping("/cliente/{idCliente}")
+    public List<BuscarDireccionDTO> getDireccionesByCliente(@PathVariable Integer idCliente){
+        return direccionService.BuscarDireccionesPorCliente(idCliente);
+    }
 }
