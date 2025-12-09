@@ -22,7 +22,7 @@ public class CacheWarmer implements CommandLineRunner {
 
         // ESTE METODO DETECTA QUE LA CACHE ESTA VACIA
         // LUEGO VA A LA BD Y GUARDA LOS DATOS
-        productoService.buscarTodoLosProductosDelCache();
+        productoService.forzarVaciadoCacheProductos();
 
         long fin = System.currentTimeMillis();
 

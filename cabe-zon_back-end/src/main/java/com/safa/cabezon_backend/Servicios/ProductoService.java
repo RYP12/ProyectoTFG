@@ -5,6 +5,7 @@ import com.safa.cabezon_backend.Mapper.ProductoMapper;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IProductoPedidoRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoRepository;
+import com.safa.cabezon_backend.config.CacheEvictHelper;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,18 @@ public class ProductoService {
     @Autowired
     private ProductoMapper productoMapper;
 
+    @Autowired
+    private CacheEvictHelper cacheEvictHelper;
+
+    // Código Final y Limpio en ProductoService
+    @Transactional
+    public void forzarVaciadoCacheProductos() { // Renombrado a la versión final
+        // 1. VACIADO: Delegación al helper (CacheEvictHelper)
+        cacheEvictHelper.vaciarCacheProductos();
+
+        // 2. RECARGA/WARMING:
+        buscarTodoLosProductosDelCache();
+    }
 
     // IMPLEMENTACION DE CACHE
 
@@ -55,11 +68,13 @@ public class ProductoService {
     }
 
 
-    // En ProductoService.java
+
+
+    // EXTRACCION DE PRODUCTOS DE LA CACHE Y PAGINADO
 
     public Page<BuscarProductoDTO> paginarListaMemoria(List<BuscarProductoDTO> listaCompleta, Pageable pageable, Integer coleccionId) {
 
-        // 1. Filtrado en Memoria (Stream)
+        //
         List<BuscarProductoDTO> listaFiltrada = listaCompleta;
 
         if (coleccionId != null) {
@@ -84,13 +99,70 @@ public class ProductoService {
     }
 
 
+    // EXTRACCION DE PRODUCTOS NO EXCLUSIVOS DE LA CACHE Y PAGINADOS
+    public Page<BuscarProductoDTO> paginarListaMemoriaNoExclusivo(List<BuscarProductoDTO> listaCompleta, Pageable pageable, Integer coleccionId) {
 
+        // 1. FILTRADO INICIAL: Solo productos NO exclusivos
+        List<BuscarProductoDTO> listaNoExclusiva = listaCompleta.stream()
+                .filter(p -> p.isExclusivo() == false || !p.isExclusivo()) // <--- NUEVO FILTRO DE NO EXCLUSIVOS
+                .toList();
 
+        List<BuscarProductoDTO> listaFiltrada = listaNoExclusiva;
 
+        // 2. FILTRADO ADICIONAL: Por Colección (sobre la lista no exclusiva)
+        if (coleccionId != null) {
+            listaFiltrada = listaNoExclusiva.stream()
+                    .filter(p -> p.getColecciones().stream()
+                            .anyMatch(c -> c.getId().equals(coleccionId)))
+                    .toList();
+        }
 
+        // 3. Paginación sobre la lista (ya filtrada o no)
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), listaFiltrada.size());
 
+        List<BuscarProductoDTO> paginaContenido;
+        if (start > listaFiltrada.size()) {
+            paginaContenido = new ArrayList<>();
+        } else {
+            paginaContenido = listaFiltrada.subList(start, end);
+        }
 
+        return new PageImpl<>(paginaContenido, pageable, listaFiltrada.size());
+    }
 
+// PRODCUTOS EXCLUSIVOS
+
+    public Page<BuscarProductoDTO> paginarListaMemoriaExclusivo(List<BuscarProductoDTO> listaCompleta, Pageable pageable, Integer coleccionId) {
+
+        // 1. FILTRADO INICIAL: Solo productos NO exclusivos
+        List<BuscarProductoDTO> listaNoExclusiva = listaCompleta.stream()
+                .filter(p -> p.isExclusivo() == true || !p.isExclusivo() ==  false) // <--- NUEVO FILTRO DE NO EXCLUSIVOS
+                .toList();
+
+        List<BuscarProductoDTO> listaFiltrada = listaNoExclusiva;
+
+        // 2. FILTRADO ADICIONAL: Por Colección (sobre la lista no exclusiva)
+        if (coleccionId != null) {
+            listaFiltrada = listaNoExclusiva.stream()
+                    .filter(p -> p.getColecciones().stream()
+                            .anyMatch(c -> c.getId().equals(coleccionId)))
+                    .toList();
+        }
+
+        // 3. Paginación sobre la lista (ya filtrada o no)
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), listaFiltrada.size());
+
+        List<BuscarProductoDTO> paginaContenido;
+        if (start > listaFiltrada.size()) {
+            paginaContenido = new ArrayList<>();
+        } else {
+            paginaContenido = listaFiltrada.subList(start, end);
+        }
+
+        return new PageImpl<>(paginaContenido, pageable, listaFiltrada.size());
+    }
 
 
 
@@ -113,7 +185,7 @@ public class ProductoService {
     @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
     public void EditarProductoCache(Integer id, CrearProductoDTO dto) {
         Producto producto = productoRepository.findById(id).orElse(null);
-        // Es buena práctica verificar si es null antes de mapear
+        // verificar si es null antes de mapear
         if (producto != null) {
             mapper.actualizarEntityFromDTO(dto, producto);
             productoRepository.save(producto);
@@ -129,6 +201,18 @@ public class ProductoService {
             productoRepository.deleteById(id);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
     // ------------- FIN -----------------
 
     @Transactional

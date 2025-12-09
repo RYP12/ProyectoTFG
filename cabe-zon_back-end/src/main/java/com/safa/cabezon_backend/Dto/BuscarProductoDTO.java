@@ -9,7 +9,10 @@ import java.util.Set;
 public class BuscarProductoDTO {
     private Integer id;
     private String nombre;
+    private boolean exclusivo;
     private Double precio;
     private Set<BuscarColeccionDTO> colecciones;
     private Set<BuscarImagenDTO> imagenes;
+
+
 }
