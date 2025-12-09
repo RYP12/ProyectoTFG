@@ -9,13 +9,39 @@ export interface Nivel{
   descuento?:number;
 }
 
-export interface Pedido {
+export interface Direccion{
   id?:number;
-  fecha?:number;
-  precio_total?: number;
+  calle?: string;
+  numero?: number;
+  piso?: string;
+  letra?: string;
+  codigoPostal?: string;
+  adicional?: string;
+  pais?: string;
+  provincia?: string;
+  municipio?: string;
+}
+
+export interface ProductoPedido {
+  id?: number;
+  cantidad?: number;
+  subtotal?: number;
+  producto?: {
+    id?: number;
+    nombre?: string;
+    precio?: number;
+    imagenes?: Array<{ url?: string }>;
+  };
+}
+
+export interface Pedido {
+  id?: number;
+  fecha?: Date;
+  fechaEstimada?: Date;
+  fechaEntrega?: Date;
+  precioTotal?: number;
   estado?: string;
-  fechaEstimada?: string;
-  fechaEntrega?: string;
+  productosPedidos?: ProductoPedido[];
 }
 
 export interface Cliente {
@@ -78,5 +104,9 @@ export class ClienteService {
     const headers = { Authorization: `Bearer ${token}` };
 
     return this.http.get<Cliente>(`${this.apiUrl}/cliente/me`, { headers });
+  }
+
+  subirFoto(id: number, formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/cliente/${id}/foto`, formData);
   }
 }

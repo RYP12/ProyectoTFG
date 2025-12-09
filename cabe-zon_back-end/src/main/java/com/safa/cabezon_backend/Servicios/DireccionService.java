@@ -48,4 +48,9 @@ public class DireccionService {
         direccionRepository.save(nuevaDireccion);
 
     }
+
+    public List<BuscarDireccionDTO> BuscarDireccionesPorCliente(Integer idCliente) {
+        List<Direccion> direcciones = direccionRepository.findByClienteId(idCliente);
+        return direccionMapper.listToDTO(direcciones);
+    }
 }
