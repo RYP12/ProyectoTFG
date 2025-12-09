@@ -40,4 +40,6 @@ public abstract class ProductoMapper {
 
     @Mapping(source = "idColecciones",target="colecciones")
     public abstract Producto actualizarEntityFromDTO(CrearProductoDTO productodto,@MappingTarget Producto producto);
+
+
 }

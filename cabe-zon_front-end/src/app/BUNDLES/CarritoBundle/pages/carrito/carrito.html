@@ -27,7 +27,11 @@
           <div class="lista-scroll">
             @for (producto of carrito; track producto.id) {
               <div class="product">
-                <!-- <img class="img-product" [src]="producto.imagen" [alt]="producto.nombre"> -->
+                <img
+                  class="img-product"
+                  [src]="obtenerImagenUrl(producto)"
+                  [alt]="producto.nombre"
+                >
 
                 <div class="info">
                   <h3 class="title">{{ producto.nombre }}</h3>
@@ -35,7 +39,7 @@
 
                   <div class="cont">
                     <button class="btn-cont" (click)="restarCantidad(producto)">-</button>
-                    <!-- <span class="num">{{ producto.cantidad || 1 }}</span> -->
+                    <span class="num">{{ producto.cantidad }}</span>
                     <button class="btn-cont" (click)="sumarCantidad(producto)">+</button>
                   </div>
                 </div>
@@ -47,7 +51,6 @@
             }
           </div>
 
-          <!-- Botones de acción (Solo si hay productos) -->
           <div class="btns">
             <button class="btn-verde" mat-dialog-close>SEGUIR COMPRANDO</button>
             <button class="btn-blanco" routerLink="/finalizar-pedido" [mat-dialog-close]="true">TERMINAR PEDIDO</button>

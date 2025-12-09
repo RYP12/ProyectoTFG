@@ -12,6 +12,7 @@ public class BuscarClienteDTO {
     private String apellidos;
     private String foto;
     private Integer cabecoins;
+    private String email;
     private Nivel nivel;
     private List<PedidoSimpleDTO> pedidos;
 }

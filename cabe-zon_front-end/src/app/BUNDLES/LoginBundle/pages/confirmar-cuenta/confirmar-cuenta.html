@@ -1,0 +1,23 @@
+<div class="confirmacion-container">
+  <h2>Verificación de Cuenta</h2>
+
+  @if (loading) {
+    <p>Verificando tu cuenta, por favor espera...</p>
+  }
+
+  @if (!loading && exito) {
+    <div>
+      <h3>¡Cuenta Verificada!</h3>
+      <p>{{ mensaje }}</p>
+      <button (click)="irLogin()">Ir a Iniciar Sesión</button>
+    </div>
+  }
+
+  @if (!loading && !exito) {
+    <div>
+      <h3>Error de Verificación</h3>
+      <p>{{ mensaje }}</p>
+      <p>El enlace puede haber expirado o ser inválido.</p>
+    </div>
+  }
+</div>

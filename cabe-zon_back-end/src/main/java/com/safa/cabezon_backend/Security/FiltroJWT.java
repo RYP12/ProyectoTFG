@@ -35,11 +35,6 @@ public class FiltroJWT extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
-        if (request.getServletPath().contains("/auth")){
-            filterChain.doFilter(request,response);
-            return;
-        }
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -52,7 +47,7 @@ public class FiltroJWT extends OncePerRequestFilter {
 
             Usuario usuario = (Usuario) usuarioService.loadUserByUsername(tokenDTO.getUsername());
 
-            if(usuario!=null && !jwtService.validateToken(token)){
+            if(usuario!=null){
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         usuario.getUsername(),
                         usuario.getPassword(),

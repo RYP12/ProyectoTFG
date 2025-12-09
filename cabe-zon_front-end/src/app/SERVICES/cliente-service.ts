@@ -9,6 +9,15 @@ export interface Nivel{
   descuento?:number;
 }
 
+export interface Pedido {
+  id?:number;
+  fecha?:number;
+  precio_total?: number;
+  estado?: string;
+  fechaEstimada?: string;
+  fechaEntrega?: string;
+}
+
 export interface Cliente {
   id?: number;
   nombre?: string;
@@ -16,8 +25,8 @@ export interface Cliente {
   foto?: string;
   cabecoins?: number;
   nivel?: Nivel;
-  pedidos?: any[];
-  // usuario?: Usuario
+  pedidos?: Pedido[];
+  email?: string;
 }
 
 export interface PageResponse<T> {
@@ -37,7 +46,7 @@ export class ClienteService {
   private apiUrl: string = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {}
-  // OBTENER TODOS LOS PRODUCTOS
+  // OBTENER TODOS LOS CLIENTES
   obtenerClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.apiUrl}/cliente/all`);
   }
@@ -47,20 +56,27 @@ export class ClienteService {
     return this.http.get<any>(`${this.apiUrl}/cliente/admin?page=${page}&size=${size}`);
   }
 
-  // OBTENER PRODUCTO POR ID
+  // OBTENER CLIENTE POR ID
   obtenerClientesPorID(id: number): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.apiUrl}/cliente/${id}`);
   }
-  // CREAR PRODUCTO
+  // CREAR CLIENTE
   crearCliente(cliente: Cliente): Observable<Cliente>{
     return this.http.post<Cliente>(`${this.apiUrl}/cliente/post`, cliente);
   }
-  // ACTUALIZAR PRODUCTO
+  // ACTUALIZAR CLIENTE
   actualizarCliente(id: number, cliente: Cliente): Observable<Cliente> {
     return this.http.put<Cliente>(`${this.apiUrl}/cliente/put/${id}`, cliente);
   }
-  // ELIMINAR PRODUCTO
+  // ELIMINAR CLIENTE
   eliminarCliente(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/cliente/delete/${id}`);
+  }
+
+  obtenerMiPerfil(): Observable<Cliente> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    return this.http.get<Cliente>(`${this.apiUrl}/cliente/me`, { headers });
   }
 }

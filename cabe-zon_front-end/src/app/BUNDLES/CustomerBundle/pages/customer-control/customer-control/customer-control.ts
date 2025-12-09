@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Header} from '../../../../../SHARED/header/header';
 import {CommonModule, NgClass} from '@angular/common';
 import {Footer} from '../../../../../SHARED/footer/footer';
+import {Cliente, ClienteService} from '../../../../../SERVICES/cliente-service';
+import {Router} from '@angular/router';
 
 interface Producto {
   id: number;
@@ -21,13 +23,50 @@ interface Nivel {
   selector: 'app-customer-control',
   standalone: true,
   imports: [
+    CommonModule,
     Header,
     Footer,
   ],
   templateUrl: './customer-control.html',
   styleUrl: './customer-control.css',
 })
-export class CustomerControl {
+export class CustomerControl implements OnInit {
+
+  cliente: Cliente | null = null;
+  cargando: boolean = false;
+  errorMsg: string = '';
+
+  constructor(
+    private clienteService: ClienteService,
+    private router: Router,
+  ) {}
+
+  ngOnInit() {
+    this.cargarDatos();
+  }
+
+  cargarDatos() {
+    this.cargando = true;
+    this.clienteService.obtenerMiPerfil().subscribe({
+      next: data => {
+        this.cliente = data;
+        this.cargando = false;
+        console.log('Datos recibidos:', this.cliente);
+      },
+      error: error => {
+        console.error('Error cargando perfil:', error);
+        this.errorMsg = 'No se pudo cargar tu perfil. ¿Has iniciado sesión?'
+        this.cargando = false;
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
+
   // Lógica del carrusel
   currentIndex: number = 0;
   itemsPerView: number = 4;

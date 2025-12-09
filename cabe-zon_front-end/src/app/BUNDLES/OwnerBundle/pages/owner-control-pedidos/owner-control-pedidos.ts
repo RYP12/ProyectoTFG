@@ -34,6 +34,7 @@ export class OwnerControlPedidos implements OnInit {
     this.pedidoService.obtenerPedidosAdmin(pagina - 1, this.itemsPorPagina).subscribe({
       next: (data: any) => {
         if (Array.isArray(data)) {
+          // Lógica de paginación manual
           const totalItems = data.length;
           const paginasCalculadas = Math.ceil(totalItems / this.itemsPorPagina);
           this.totalPaginas.set(paginasCalculadas || 1);
@@ -45,9 +46,13 @@ export class OwnerControlPedidos implements OnInit {
           this.pedidos.set(pedidosRecortados);
         }
         else if (data.content) {
+          // Lógica de paginación del backend
           this.pedidos.set(data.content);
           this.totalPaginas.set(data.totalPages);
         }
+
+        // Inicializar la lista visible con los datos paginados
+        this.listaPedidosFiltrada = this.pedidos();
       },
       error: (error) => console.log('Error al cargar productos Admin:', error)
     });
@@ -57,18 +62,18 @@ export class OwnerControlPedidos implements OnInit {
   filtrar(event: any) {
     const texto = event.target.value.toLowerCase().trim();
 
-    // Si borran, mostramos todo
+    // Si borran, mostramos la lista paginada original
     if (texto === '') {
       this.listaPedidosFiltrada = this.pedidos();
       return;
     }
 
+    // Filtramos sobre la lista paginada actual (pedidos())
     this.listaPedidosFiltrada = this.pedidos().filter(pedido => {
       // Buscamos por ID
       const id = pedido.id ? String(pedido.id) : '';
 
-      // Buscamos por Estado (Traducimos lo técnico a lo visual)
-      // Esto permite que si buscan "Recibido", encuentre "ENTREGADO"
+      // Buscamos por Estado (Traducción de lo técnico a lo visual)
       let nombreVisualEstado = '';
       const estadoInterno = pedido.estado ? String(pedido.estado) : '';
 
@@ -77,7 +82,7 @@ export class OwnerControlPedidos implements OnInit {
       else if (estadoInterno === 'ENTREGADO') nombreVisualEstado = 'recibido';
       else if (estadoInterno === 'CANCELADO') nombreVisualEstado = 'cancelado';
 
-      // También permitimos buscar por el código interno por si acaso
+      // También permitimos buscar por el código interno
       const coincideEstado = nombreVisualEstado.includes(texto) || estadoInterno.toLowerCase().includes(texto);
       const coincideId = id.includes(texto);
 

@@ -31,6 +31,7 @@ export interface Producto {
 
   colecciones?: Coleccion[];
   imagenes?: Imagenes[];
+  cantidad?: number;
 }
 
 export interface PageResponse<T> {
@@ -62,7 +63,20 @@ export class ProductoService {
       params = params.set('coleccionId', coleccionId.toString());
     }
 
-    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/all2`, { params });
+    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/all/noExclusivos`, { params });
+  }
+
+  getExclusivos(page: number = 0, size: number = 20, coleccionId?: number): Observable<PageResponse<Producto>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    // Si nos pasan una colección, la añadimos a la URL
+    if (coleccionId) {
+      params = params.set('coleccionId', coleccionId.toString());
+    }
+
+    return this.http.get<PageResponse<Producto>>(`${this.apiUrl}/producto/all/Exclusivos`, { params });
   }
 
   obtenerProductosAdmin(page: number, size: number): Observable<PageResponse<Producto>>{
@@ -111,10 +125,10 @@ export class ProductoService {
   //}
 
   // OBTENER TODOS LOS PRODUCTOS
-  getExclusivos(page: number = 0, size: number = 20): Observable<any> {
-    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
-    return this.http.get<any>(`${this.apiUrl}/producto/exclusivo?page=${page}&size=${size}`);
-  }
+  //getExclusivos(page: number = 0, size: number = 20): Observable<any> {
+    //let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    //return this.http.get<any>(`${this.apiUrl}/producto/all/Exclusivo?page=${page}&size=${size}`);
+  //}
 
   buscarPorTermino(termino: string): Observable<Producto[]> {
     const params = new HttpParams().set('nombre', termino);
@@ -126,5 +140,10 @@ export class ProductoService {
   obtenerResenyasPorProducto(idProducto: number): Observable<Resenya[]> {
     return this.http.get<Resenya[]>(`${this.apiUrl}/resenya_cliente/producto/${idProducto}`);
   }
+
+  crearResenya(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/resenya_cliente/post`, data);
+  }
+
 
 }

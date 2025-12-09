@@ -24,16 +24,15 @@ public class ProductoController {
     private ProductoService productoService;
 
     //Solicita todos los productos(ProductoDTO)
-    @GetMapping("/all")
-    public ResponseEntity<Page<BuscarProductoDTO>> getProductos(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
-    ){
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        Page<BuscarProductoDTO> paginaProductos = productoService.buscarPorPagina(pageable);
-        return  ResponseEntity.ok(paginaProductos);
-    }
-
+    //@GetMapping("/all")
+    //public ResponseEntity<Page<BuscarProductoDTO>> getProductos(
+    //        @RequestParam(defaultValue = "0") int page,
+    //        @RequestParam(defaultValue = "20") int size
+    //){
+    //    Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+    //    Page<BuscarProductoDTO> paginaProductos = productoService.buscarPorPagina(pageable);
+    //    return  ResponseEntity.ok(paginaProductos);
+    //}
 
 
     @GetMapping("/all2")
@@ -50,6 +49,56 @@ public class ProductoController {
         return ResponseEntity.ok(paginaProductos);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<Page<BuscarProductoDTO>> getProductos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) Integer coleccionId // Recibimos el param
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+
+        // Obtenemos todo de caché
+        List<BuscarProductoDTO> listaCompleta = productoService.buscarTodoLosProductosDelCache();
+
+        // Paginamos (y filtramos) en memoria
+        Page<BuscarProductoDTO> paginaProductos = productoService.paginarListaMemoria(listaCompleta, pageable, coleccionId);
+
+        return ResponseEntity.ok(paginaProductos);
+    }
+
+    @GetMapping("/all/noExclusivos")
+    public ResponseEntity<Page<BuscarProductoDTO>> getProductosNoExclusivos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) Integer coleccionId // Recibimos el param
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+
+        // Obtenemos todo de caché
+        List<BuscarProductoDTO> listaCompleta = productoService.buscarTodoLosProductosDelCache();
+
+        // Paginamos (y filtramos) en memoria
+        Page<BuscarProductoDTO> paginaProductos = productoService.paginarListaMemoriaNoExclusivo(listaCompleta, pageable, coleccionId);
+
+        return ResponseEntity.ok(paginaProductos);
+    }
+
+    @GetMapping("/all/Exclusivos")
+    public ResponseEntity<Page<BuscarProductoDTO>> getProductosExclusivos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) Integer coleccionId // Recibimos el param
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+
+        // Obtenemos todo de caché
+        List<BuscarProductoDTO> listaCompleta = productoService.buscarTodoLosProductosDelCache();
+
+        // Paginamos (y filtramos) en memoria
+        Page<BuscarProductoDTO> paginaProductos = productoService.paginarListaMemoriaExclusivo(listaCompleta, pageable, coleccionId);
+
+        return ResponseEntity.ok(paginaProductos);
+    }
 
 
 

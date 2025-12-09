@@ -1,9 +1,6 @@
 package com.safa.cabezon_backend.Controladores;
 
-import com.safa.cabezon_backend.Dto.CambiarPasswordDTO;
-import com.safa.cabezon_backend.Dto.LoginDTO;
-import com.safa.cabezon_backend.Dto.RecuperarPasswordDTO;
-import com.safa.cabezon_backend.Dto.RegistroDTO;
+import com.safa.cabezon_backend.Dto.*;
 import com.safa.cabezon_backend.Modelos.Usuario;
 import com.safa.cabezon_backend.Security.LoginService;
 import com.safa.cabezon_backend.Servicios.UsuarioService;
@@ -12,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -55,8 +53,8 @@ public class AuthController {
 
     //Recuperar contraseña
     @PostMapping("/solicitar-recuperacion")
-    public ResponseEntity<String> solicitarRecuperacion(@RequestBody String email){
-        usuarioService.solicitarRecuperacionPassword(email);
+    public ResponseEntity<String> solicitarRecuperacion(@RequestBody SolicitudRecuperacionDTO solicitudRecuperacionDTO){
+        usuarioService.solicitarRecuperacionPassword(solicitudRecuperacionDTO.getEmail());
         return ResponseEntity.ok("Si el correo es correcto, se ha enviado un enlace de recuperación.");
     }
 
@@ -69,6 +67,20 @@ public class AuthController {
         } else {
             return ResponseEntity.badRequest().body("Token inválido o expirado");
         }
+    }
+
+    //Obtener usuario logueado
+    @GetMapping("/me")
+    public ResponseEntity<RegistroDTO> obtenerPerfil(Principal principal){
+        if (principal == null) {
+            return ResponseEntity.status(401).build();
+        }
+
+        String username = principal.getName();
+
+        RegistroDTO usuarioDTO = usuarioService.buscarPorUsername(username);
+
+        return ResponseEntity.ok(usuarioDTO);
     }
 
 }

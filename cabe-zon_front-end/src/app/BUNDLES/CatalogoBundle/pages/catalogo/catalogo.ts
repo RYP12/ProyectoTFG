@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { Coleccion, ColeccionService } from '../../../../SERVICES/coleccion-service';
 import { CarritoService } from '../../../../SERVICES/carrito-service';
 
+
 @Component({
   selector: 'app-catalogo',
   imports: [
@@ -55,11 +56,13 @@ export class Catalogo implements OnInit {
     });
   }
 
-  obtenerImagenUrl(funko: Producto, index: number): string {
-    if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
-      return funko.imagenes[index].url;
-    }
-    return this.PLACEHOLDER_IMG_URL;
+
+  obtenerImagenUrl(funko: Producto, index: number = 0): string {
+    // EXPLICACIÓN:
+    // 1. funko.imagenes?.[index] -> Intenta acceder al array y al índice. Si no existe, devuelve undefined.
+    // 2. ?.url -> Si el objeto imagen existe, intenta acceder a la propiedad url.
+    // 3. ?? this.PLACEHOLDER -> Si todo lo anterior resulta en null/undefined, devuelve el placeholder.
+    return funko.imagenes?.[index]?.url ?? this.PLACEHOLDER_IMG_URL;
   }
 
   /**

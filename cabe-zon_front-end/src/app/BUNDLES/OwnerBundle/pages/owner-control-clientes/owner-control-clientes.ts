@@ -30,41 +30,26 @@ export class OwnerControlClientes implements OnInit {
 
     this.clienteService.obtenerClientesAdmin(pagina - 1, this.itemsPorPagina).subscribe({
       next: (data: any) => {
-        if (Array.isArray(data)) {
-          const totalItems = data.length;
-          const paginasCalculadas = Math.ceil(totalItems / this.itemsPorPagina);
-          this.totalPaginas.set(paginasCalculadas || 1);
-
-          const inicio = (pagina - 1) * this.itemsPorPagina;
-          const fin = inicio + this.itemsPorPagina;
-          const clientesRecortados = data.slice(inicio, fin);
-
-          this.clientes.set(clientesRecortados);
-        }
-        else if (data.content) {
+        if (data.content) {
           this.clientes.set(data.content);
           this.totalPaginas.set(data.totalPages);
         }
+        this.listaClientesFiltrada = this.clientes();
       },
       error: (error) => console.log('Error al cargar productos Admin:', error)
     });
   }
 
   filtrar(event: any) {
-    const texto = event.target.value.toLowerCase().trim(); // quitamos espacios sobrantes
+    const texto = event.target.value.toLowerCase().trim();
 
-    // Si está vacío, reseteamos
     if (!texto) {
       this.listaClientesFiltrada = this.clientes();
       return;
     }
 
-    // Filtramos
     this.listaClientesFiltrada = this.clientes().filter(cliente => {
-      // Si nombre es null, usamos cadena vacía
       const nombre = cliente.nombre ? cliente.nombre.toLowerCase() : '';
-
-      // Convertimos el ID (número) a String. Si no tiene ID, cadena vacía.
       const id = cliente.id !== undefined && cliente.id !== null ? String(cliente.id) : '';
 
       return nombre.includes(texto) || id.includes(texto);

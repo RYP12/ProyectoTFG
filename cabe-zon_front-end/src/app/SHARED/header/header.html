@@ -46,9 +46,9 @@
 
     </div>
 
-    <div class="client">
+    <div (click)="irLogin()" class="client">
       <img src="/ASSETS/IMAGES/LogoCabezaFunko.png" alt="cliente" class="icon">
-      <div>CLIENTE</div>
+      <div class="nombre-usuario">{{ nombreUsuario }}</div>
     </div>
     <img (click)="openModal()" src="/ASSETS/IMAGES/LogoCarrito.png" alt="carrito" class="icon" style="cursor: pointer">
   </div>
