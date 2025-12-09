@@ -61,7 +61,6 @@ public class ClienteController {
         clienteService.EditarClientePorId(id, dto);
     }
 
-    //Borrar cliente segun id
     @DeleteMapping("/delete/{id}")
     public void deleteCliente(@PathVariable Integer id){
         clienteService.EliminarClientePorId(id);

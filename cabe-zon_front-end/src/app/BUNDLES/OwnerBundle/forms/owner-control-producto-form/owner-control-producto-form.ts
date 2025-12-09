@@ -37,7 +37,6 @@ export class OwnerControlProductoForm implements OnInit {
     this.iniciarFormulario();
     this.cargarColecciones();
 
-    // 🚨 1. Detectar el modo (Crear vs. Editar)
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam) {

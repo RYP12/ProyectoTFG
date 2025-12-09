@@ -16,6 +16,7 @@ export interface Pedido {
   estado?: string;
   fechaEstimada?: string;
   fechaEntrega?: string;
+
 }
 
 export interface Cliente {
@@ -27,6 +28,7 @@ export interface Cliente {
   nivel?: Nivel;
   pedidos?: Pedido[];
   email?: string;
+  fotoURL?: string;
 }
 
 export interface PageResponse<T> {

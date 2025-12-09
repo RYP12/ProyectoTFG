@@ -76,4 +76,8 @@ export class PedidoService {
     return this.http.put<void>(`${this.apiUrl}/pedido/put/estado/${id}`, body);
   }
 
+  obtenerPedidosPorClienteId(clienteId: number): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(`${this.apiUrl}/pedido/cliente/${clienteId}`);
+  }
+
 }

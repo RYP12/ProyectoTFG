@@ -47,7 +47,7 @@
           <div id="datosGlobal">
 
             @for (cliente of listaClientesFiltrada; track cliente.id) {
-              <div class="datos">
+              <div class="datos" (click)="irADetalle(cliente.id)" >
                 <h3 class="normal">{{ cliente.nombre }}</h3>
 
                 @if(cliente.nivel?.nivel === 'BRONCE'){

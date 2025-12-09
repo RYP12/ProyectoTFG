@@ -475,7 +475,7 @@ main {
 
 .bannerVader {
   height: 100%;
-  background-image: url('/public/ASSETS/IMAGES/DartLord.png');
+  background-image: url('/ASSETS/IMAGES/DarthVader.png');
   background-size: cover;
   background-position: center;
   display: flex;
