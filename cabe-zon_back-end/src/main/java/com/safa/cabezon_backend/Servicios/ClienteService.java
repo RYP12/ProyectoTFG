@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +42,13 @@ public class ClienteService {
         Cliente cliente = clienteRepository.findById(id).orElse(null);
         clienteMapper.actualizar(clienteDto, cliente);
         clienteRepository.save(cliente);
+    }
+
+    public BuscarClienteDTO obtenerClientePorUsername(String username) {
+        Cliente cliente = clienteRepository.findByUsuarioUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("No se encontró un cliente asociado al usuario: " + username));
+
+        return clienteMapper.toDTO(cliente);
     }
 
 
