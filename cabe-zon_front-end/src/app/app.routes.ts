@@ -22,7 +22,6 @@ import {Finalizar} from './BUNDLES/FinalizarPedidoBundle/pages/finalizar/finaliz
 import {OwnerControlClientes} from './BUNDLES/OwnerBundle/pages/owner-control-clientes/owner-control-clientes';
 import {ConfirmarCuenta} from './BUNDLES/LoginBundle/pages/confirmar-cuenta/confirmar-cuenta';
 import {RestablecerPassword} from './BUNDLES/LoginBundle/pages/restablecer-password/restablecer-password';
-import {adminGuard} from './CORE/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -64,37 +63,31 @@ export const routes: Routes = [
   {
     path: 'admin/pedidos',
     component: OwnerControlPedidos,
-    canActivate: [adminGuard]
   },
   {
     path: 'admin/pedidos/:id',
     component: OwnerControlPedidoForm,
-    canActivate: [adminGuard]
   },
   {
     path: 'admin/productos',
     component: OwnerControlProductos,
-    canActivate: [adminGuard]
   },
   {
     path: 'admin/productos/agregar',
     component: OwnerControlProductoForm,
-    canActivate: [adminGuard]
   },
   {
     path: 'admin/productos/:id',
     component: OwnerControlProductoForm,
-    canActivate: [adminGuard]
   },
   {
     path: 'admin/clientes',
     component: OwnerControlClientes,
-    canActivate: [adminGuard]
   },
   {
     path: 'admin/clientes/agregar',
     component: OwnerControlClienteForm,
-    canActivate: [adminGuard]
+
   },
   {
     path: 'admin/clientes/:id',

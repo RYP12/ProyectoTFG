@@ -119,10 +119,10 @@ export class Finalizar implements OnInit {
       console.log('Procesando pedido. Total:', this.total);
 
       // Validación de dirección
-      if (!this.direccionSeleccionada()) {
-        alert('Por favor, selecciona una dirección de envío.');
-        return;
-      }
+      //if (!this.direccionSeleccionada()) {
+        //alert('Por favor, selecciona una dirección de envío.');
+        //return;
+      //}
 
 
       this.mostrarModal = true;

@@ -39,13 +39,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/me").authenticated()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/cliente/post").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/producto/**").permitAll()
-                        .requestMatchers("/producto/admin/**", "/producto/post", "/producto/put/**", "/producto/delete/**").hasAuthority("ADMINISTRADOR")
-                        .requestMatchers("/cliente/admin/**", "/cliente/all", "/cliente/delete/**").hasAuthority("ADMINISTRADOR")
-                        .requestMatchers("/pedido/admin/**", "/pedido/all").hasAuthority("ADMINISTRADOR")
-                        .requestMatchers("/pedido/**").authenticated()
-                        .requestMatchers("/cliente/**").authenticated()
                         .anyRequest().permitAll())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
