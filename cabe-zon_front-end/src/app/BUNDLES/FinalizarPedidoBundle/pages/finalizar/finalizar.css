@@ -352,3 +352,37 @@ input, button, select, textarea {
   font-family: inherit;
   font-size: 14px;
 }
+
+/* EL FONDO OSCURO (BACKDROP) */
+.modal-overlay {
+  position: fixed;       /* Se queda fijo en la pantalla aunque hagas scroll */
+  top: 0;
+  left: 0;
+  width: 100vw;          /* Ancho total de la ventana */
+  height: 100vh;         /* Alto total de la ventana */
+  background-color: rgba(0, 0, 0, 0); /* Negro al 60% de opacidad */
+  display: flex;         /* Usamos Flexbox para centrar */
+  justify-content: center; /* Centrado horizontal */
+  align-items: center;     /* Centrado vertical */
+  z-index: 9999;         /* Asegura que esté ENCIMA de todo (header, footer, etc) */
+  backdrop-filter: blur(4px); /* (Opcional) Efecto borroso en el fondo */
+}
+
+/* LA CAJA DEL CONTENIDO */
+.modal-content {
+  position: relative;
+  /* La animación hace que aparezca suavemente */
+  animation: aparecer 0.3s ease-out;
+}
+
+/* ANIMACIÓN DE ENTRADA */
+@keyframes aparecer {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { DireccionService, Direccion } from '../../../../SERVICES/direccion-service';
 import {ClienteService} from '../../../../SERVICES/cliente-service';
-
+import {Confirmar} from '../../../../SHARED/ConfirmacionPedidoBundle/pages/confirmar/confirmar';
 @Component({
   selector: 'app-finalizar',
   standalone: true,
@@ -15,7 +15,8 @@ import {ClienteService} from '../../../../SERVICES/cliente-service';
     Header,
     Footer,
     AsyncPipe,
-    CurrencyPipe
+    CurrencyPipe,
+    Confirmar
   ],
   templateUrl: './finalizar.html',
   styleUrl: './finalizar.css',
@@ -111,19 +112,33 @@ export class Finalizar implements OnInit {
     this.total = this.subtotal + this.envio - this.descuento;
   }
 
+  mostrarModal: boolean = false;
+
   confirmarPedido() {
     if (this.total > 0) {
       console.log('Procesando pedido. Total:', this.total);
 
-      // Aquí validaremos si hay una dirección seleccionada antes de pagar
+      // Validación de dirección
       if (!this.direccionSeleccionada()) {
         alert('Por favor, selecciona una dirección de envío.');
         return;
       }
 
-      alert('Funcionalidad de pago en construcción');
+      // 1. Activas el modal
+      this.mostrarModal = true;
+
+      // 2. ELIMINA ESTA LÍNEA:
+      // alert('Funcionalidad de pago en construcción');
+
+      // (Opcional) Aquí podrías limpiar el carrito
+      // this.carritoService.limpiarCarrito();
+
     } else {
       alert('No hay productos en el pedido.');
     }
+  }
+
+  volverAlCatalogo() {
+    this.router.navigate(['/catalogo']);
   }
 }

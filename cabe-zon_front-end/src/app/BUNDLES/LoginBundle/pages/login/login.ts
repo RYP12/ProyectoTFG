@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
     Header,
     FormsModule,
     NgClass,
-    Footer
+
   ],
   templateUrl: './login.html',
   styleUrl: './login.css',
