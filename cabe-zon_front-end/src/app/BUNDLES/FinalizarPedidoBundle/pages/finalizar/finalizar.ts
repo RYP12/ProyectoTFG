@@ -138,7 +138,5 @@ export class Finalizar implements OnInit {
     }
   }
 
-  volverAlCatalogo() {
-    this.router.navigate(['/catalogo']);
-  }
+
 }
