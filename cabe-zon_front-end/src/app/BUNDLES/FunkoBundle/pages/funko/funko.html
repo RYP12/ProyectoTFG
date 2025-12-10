@@ -5,7 +5,7 @@
   <div class="product-card">
     <div class="left">
       <img src="/ASSETS/IMAGES/LogoCorazon.png" alt="foto" class="heart">
-      <img [src]="obtenerImagenUrl(producto, 0)" alt="Foto {{producto.nombre}}" class="imagen-funko">
+      <img [src]="obtenerImagenUrl(producto)" alt="Foto {{producto.nombre}}" class="imagen-funko">
       <button (click)="agregarAlCarrito(producto)" class="add-card">AÑADIR AL CARRITO</button>
     </div>
     <div class="right">

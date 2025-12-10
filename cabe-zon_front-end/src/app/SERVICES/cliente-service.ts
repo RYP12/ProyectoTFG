@@ -3,6 +3,13 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 // import {Usuario} from './usuario-service';
 
+export enum Estado {
+  EN_PREPARACION = 'EN_PREPARACION',
+  ENVIADO = 'ENVIADO',
+  ENTREGADO = 'ENTREGADO',
+  CANCELADO = 'CANCELADO',
+}
+
 export interface Nivel{
   id?:number;
   nivel?:string;
@@ -40,7 +47,7 @@ export interface Pedido {
   fechaEstimada?: Date;
   fechaEntrega?: Date;
   precioTotal?: number;
-  estado?: string;
+  estado?: Estado;
   productosPedidos?: ProductoPedido[];
 }
 

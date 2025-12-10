@@ -2,22 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {Header} from '../../../../../SHARED/header/header';
 import {CommonModule, NgClass} from '@angular/common';
 import {Footer} from '../../../../../SHARED/footer/footer';
-import {Cliente, ClienteService} from '../../../../../SERVICES/cliente-service';
+import {Cliente, ClienteService, Pedido, ProductoPedido} from '../../../../../SERVICES/cliente-service';
 import {Router} from '@angular/router';
-
-interface Producto {
-  id: number;
-  nombre: string;
-  cantidad: number;
-  precio: string;
-  imagen: string;
-}
-
-interface Nivel {
-  points: number;
-  class: string;
-  label: string;
-}
+import {FormsModule} from '@angular/forms';
+import {Direccion, DireccionService} from '../../../../../SERVICES/direccion-service';
+import {GustosService} from '../../../../../SERVICES/gustos-service';
+import {InteresesService} from '../../../../../SERVICES/intereses-service';
+import {ColeccionService, Coleccion} from '../../../../../SERVICES/coleccion-service';
+import {Producto} from '../../../../../SERVICES/productoService';
+import {CarritoService} from '../../../../../SERVICES/carrito-service';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {FormComentario} from '../../../../ResenyaBundle/pages/form-comentario/form-comentario';
 
 @Component({
   selector: 'app-customer-control',
@@ -26,32 +21,79 @@ interface Nivel {
     CommonModule,
     Header,
     Footer,
+    FormsModule,
+    MatDialogModule,
   ],
   templateUrl: './customer-control.html',
   styleUrl: './customer-control.css',
 })
 export class CustomerControl implements OnInit {
 
+  // Datos principales
   cliente: Cliente | null = null;
+  direcciones: Direccion[] = [];
+  listaDeseos: Producto[] = [];
+  coleccionesSeguidas: Coleccion[] = [];
+  coleccionesDisponibles: Coleccion[] = [];
+
+  // Estado de carga
   cargando: boolean = false;
   errorMsg: string = '';
 
+  // Modales
+  mostrarModalEditar: boolean = false;
+  mostrarModalDireccion: boolean = false;
+  mostrarModalPassword: boolean = false;
+
+  // Formularios
+  formEditar = {
+    nombre: '',
+    apellidos: '',
+  };
+
+  formPassword = {
+    actual: '',
+    nueva: '',
+    confirmar: ''
+  };
+
+  direccionForm: Direccion = {};
+  direccionEditando: Direccion | null = null;
+
+  // Carrusel de productos en pedidos
+  currentIndex: number = 0;
+  itemsPerView: number = 4;
+  pedidoActualIndex: number = 0
+
+
   constructor(
     private clienteService: ClienteService,
+    private direccionService: DireccionService,
+    private gustosService: GustosService,
+    private interesesService: InteresesService,
+    private coleccionService: ColeccionService,
+    private carritoService: CarritoService,
     private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
     this.cargarDatos();
   }
 
+  // Carga de datos
   cargarDatos() {
     this.cargando = true;
     this.clienteService.obtenerMiPerfil().subscribe({
       next: data => {
         this.cliente = data;
+        if (this.cliente.id) {
+          this.cargarDirecciones();
+          this.cargarListaDeseos();
+          this.cargarIntereses();
+        }
         this.cargando = false;
-        console.log('Datos recibidos:', this.cliente);
+        this.cargando = false;
       },
       error: error => {
         console.error('Error cargando perfil:', error);
@@ -62,56 +104,226 @@ export class CustomerControl implements OnInit {
     });
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    window.location.href = '/';
+  cargarDirecciones() {
+    if (!this.cliente?.id) return;
+    this.direccionService.obtenerDireccionesCliente(this.cliente.id).subscribe({
+      next: (data) => this.direcciones = data,
+      error: (err) => console.error('Error cargando direcciones:', err)
+    });
   }
 
-  // Lógica del carrusel
-  currentIndex: number = 0;
-  itemsPerView: number = 4;
-
-  productos: Producto[] = [
-    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
-    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
-    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
-    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
-    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
-    { id: 1, nombre: 'Deadpool', cantidad: 1, precio: '10€', imagen: '/ASSETS/IMAGES/DeadpoolRey.png' },
-  ];
-
-  // Calcula el índice máximo
-  get maxIndex(): number {
-    return Math.max(0, this.productos.length - this.itemsPerView);
+  cargarListaDeseos() {
+    if (!this.cliente?.id) return;
+    this.gustosService.obtenerGustos(this.cliente.id).subscribe({
+      next: (data) => this.listaDeseos = data,
+      error: (err) => console.error('Error cargando lista de deseos:', err)
+    });
   }
 
-  // Obtiene los productos visibles
-  get productosVisibles() {
-    return this.productos.slice(this.currentIndex, this.currentIndex + this.itemsPerView);
+  cargarIntereses() {
+    if (!this.cliente?.id) return;
+
+    // Cargar colecciones seguidas
+    this.interesesService.obtenerIntereses(this.cliente.id).subscribe({
+      next: (data) => {
+        this.coleccionesSeguidas = data;
+        this.cargarColeccionesDisponibles();
+      },
+      error: (err) => console.error('Error cargando intereses:', err)
+    });
+  }
+
+  // Cargar resto de colecciones
+  cargarColeccionesDisponibles() {
+    this.coleccionService.obtenerColecciones().subscribe({
+      next: (data) => {
+        // Filtrar las que no sigue
+        const idsSegidas = this.coleccionesSeguidas.map(c => c.id);
+        this.coleccionesDisponibles = data.filter(c => !idsSegidas.includes(c.id));
+      },
+      error: (err) => console.error('Error cargando colecciones:', err)
+    });
+  }
+
+  // Editar datos cliente
+  abrirModalEditar() {
+    this.formEditar.nombre = this.cliente?.nombre || '';
+    this.formEditar.apellidos = this.cliente?.apellidos || '';
+    this.mostrarModalEditar = true;
+  }
+
+  guardarCambiosPerfil() {
+    if (!this.cliente?.id) return;
+
+    this.clienteService.actualizarCliente(this.cliente.id, this.formEditar).subscribe({
+      next: (data) => {
+        this.cliente = { ...this.cliente, ...data };
+        this.mostrarModalEditar = false;
+        alert('Perfil actualizado correctamente');
+      },
+      error: (err) => {
+        console.error('Error actualizando perfil:', err);
+        alert('Error al actualizar el perfil');
+      }
+    });
+  }
+
+  // Cambiar contraseña
+  abrirModalPassword() {
+    this.formPassword = { actual: '', nueva: '', confirmar: '' };
+    this.mostrarModalPassword = true;
+  }
+
+  guardarNuevaPassword() {
+    if (this.formPassword.nueva !== this.formPassword.confirmar) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+    // Implementar cambio de contraseña con el backend
+    console.log('Cambiar contraseña:', this.formPassword);
+    this.mostrarModalPassword = false;
+  }
+
+  //Foto de perfil
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && this.cliente?.id) {
+      const formData = new FormData();
+      formData.append('foto', file);
+
+      this.clienteService.subirFoto(this.cliente.id, formData).subscribe({
+        next: (response) => {
+          if (this.cliente) {
+            this.cliente.foto = response.url;
+          }
+          alert('Foto actualizada correctamente');
+        },
+        error: (err) => {
+          console.error('Error subiendo foto:', err);
+          alert('Error al subir la foto');
+        }
+      });
+    }
+  }
+
+  //Direcciones
+  abrirModalAgregarDireccion() {
+    this.direccionForm = { idCliente: this.cliente?.id };
+    this.direccionEditando = null;
+    this.mostrarModalDireccion = true;
+  }
+
+  abrirModalEditarDireccion(direccion: Direccion) {
+    this.direccionForm = { ...direccion };
+    this.direccionEditando = direccion;
+    this.mostrarModalDireccion = true;
+  }
+
+  guardarDireccion() {
+    if (this.direccionEditando?.id) {
+      // Editar
+      this.direccionService.actualizarDireccion(this.direccionEditando.id, this.direccionForm).subscribe({
+        next: () => {
+          this.cargarDirecciones();
+          this.mostrarModalDireccion = false;
+          alert('Dirección actualizada');
+        },
+        error: (err) => alert('Error al actualizar dirección')
+      });
+    } else {
+      // Crear
+      this.direccionForm.idCliente = this.cliente?.id;
+      this.direccionService.crearDireccion(this.direccionForm).subscribe({
+        next: () => {
+          this.cargarDirecciones();
+          this.mostrarModalDireccion = false;
+          alert('Dirección agregada');
+        },
+        error: (err) => alert('Error al agregar dirección')
+      });
+    }
+  }
+
+  eliminarDireccion(id: number | undefined) {
+    if (!id || !confirm('¿Eliminar esta dirección?')) return;
+
+    this.direccionService.eliminarDireccion(id).subscribe({
+      next: () => {
+        this.cargarDirecciones();
+        alert('Dirección eliminada');
+      },
+      error: (err) => alert('Error al eliminar dirección')
+    });
+  }
+
+  //Lista de deseos
+  quitarDeListaDeseos(producto: Producto) {
+    if (!this.cliente?.id || !producto.id) return;
+
+    this.gustosService.eliminarGusto(this.cliente.id, producto.id).subscribe({
+      next: () => {
+        this.cargarListaDeseos();
+        alert('Producto eliminado de la lista de deseos');
+      },
+      error: (err) => alert('Error al eliminar producto')
+    });
+  }
+
+  agregarAlCarrito(producto: Producto) {
+    this.carritoService.agregarProducto(producto);
+    alert('Producto añadido al carrito');
+  }
+
+  //Intereses
+  seguirColeccion(coleccion: Coleccion) {
+    if (!this.cliente?.id || !coleccion.id) return;
+
+    this.interesesService.agregarInteres(this.cliente.id, coleccion.id).subscribe({
+      next: () => {
+        this.cargarIntereses();
+      },
+      error: (err) => alert('Error al seguir colección')
+    });
+  }
+
+  dejarDeSeguirColeccion(coleccion: Coleccion) {
+    if (!this.cliente?.id || !coleccion.id) return;
+
+    this.interesesService.eliminarInteres(this.cliente.id, coleccion.id).subscribe({
+      next: () => {
+        this.cargarIntereses();
+      },
+      error: (err) => alert('Error al dejar de seguir colección')
+    });
+  }
+
+  //Carrusel de productos en pedidos
+  obtenerProductosVisibles(pedido: Pedido): ProductoPedido[] {
+    if (!pedido.productosPedidos) return [];
+    const start = this.currentIndex;
+    return pedido.productosPedidos.slice(start, start + this.itemsPerView);
   }
 
   // Muestra/oculta flecha izquierda
-  get mostrarFlechaIzquierda(): boolean {
+  mostrarFlechaIzquierda(): boolean {
     return this.currentIndex > 0;
   }
 
   // Muestra/oculta flecha derecha
-  get mostrarFlechaDerecha(): boolean {
-    return this.currentIndex < this.maxIndex;
+  mostrarFlechaDerecha(pedido: Pedido): boolean {
+    const total = pedido.productosPedidos?.length || 0;
+    return this.currentIndex < total - this.itemsPerView;
   }
 
   // Navegar a la izquierda
-  anterior(): void {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-    }
+  anterior() {
+    if (this.currentIndex > 0) this.currentIndex--;
   }
 
   // Navegar a la derecha
-  siguiente(): void {
-    if (this.currentIndex < this.maxIndex) {
-      this.currentIndex++;
-    }
+  siguiente(pedido: Pedido) {
+    const maxIndex = (pedido.productosPedidos?.length || 0) - this.itemsPerView;
+    if (this.currentIndex < maxIndex) this.currentIndex++;
   }
 
   // Ir a una página específica (para los indicadores)
@@ -119,19 +331,42 @@ export class CustomerControl implements OnInit {
     this.currentIndex = index;
   }
 
-  // Obtener array para los indicadores
-  get paginasIndicadores(): number[] {
-    return Array.from({ length: this.maxIndex + 1 }, (_, i) => i);
+  // Obtener array de indicadores
+  paginasIndicadores(pedido: Pedido): number[] {
+    const total = pedido.productosPedidos?.length || 0;
+    if (total === 0) return [];
+
+    const numPaginas = Math.ceil(total / this.itemsPerView);
+    return Array.from({ length: numPaginas }, (_, i) => i);
   }
 
-  onValorar(producto: Producto): void {
-    console.log('Valorar producto:', producto);
-    // Aquí puedes implementar la lógica de valoración
+  //Valorar producto
+  onValorar(productoPedido: ProductoPedido) {
+    if (!productoPedido.producto?.id || !this.cliente?.id) {
+      alert('No se puede valorar este producto');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(FormComentario, {
+      width: '500px',
+      data: {
+        idProducto: productoPedido.producto.id,
+        idCliente: this.cliente.id,
+        nombreProducto: productoPedido.producto.nombre
+      }
+    });
+
+    dialogRef.componentInstance.comentarioEnviado.subscribe((resenya: any) => {
+      console.log('Reseña enviada:', resenya);
+      alert('¡Gracias por tu valoración!');
+      dialogRef.close();
+    });
   }
 
   // Nivel
-  puntosUsuario: number = 1200;
-
+  get puntosUsuario(): number {
+    return this.cliente?.cabecoins || 0;
+  }
   // Calcula el nombre del nivel automáticamente según los puntos
   get nivelActual(): string {
     if (this.puntosUsuario >= 1200) return 'diamante';
@@ -154,5 +389,31 @@ export class CustomerControl implements OnInit {
     } else {
       return '0%'; // Aún no llegamos
     }
+  }
+
+  //Utilidades
+  obtenerImagenUrl(producto: Producto | undefined): string | null {
+    if (!producto?.imagenes || producto.imagenes.length === 0) {
+      return null;
+    }
+
+    // Buscar imagen cuyo nombre empiece por "Foto Funko"
+    const imagenFunko = producto.imagenes.find(
+      img => img.nombre?.startsWith('Foto Funko')
+    );
+
+    // Si la encuentra, devolver su URL
+    return imagenFunko?.url || null;
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
+
+  cerrarModal() {
+    this.mostrarModalEditar = false;
+    this.mostrarModalDireccion = false;
+    this.mostrarModalPassword = false;
   }
 }
