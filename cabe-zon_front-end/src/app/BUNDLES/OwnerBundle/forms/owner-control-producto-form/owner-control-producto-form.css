@@ -1,10 +1,25 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: "League Spartan", sans-serif;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 #background {
   background: linear-gradient(180deg, #A0F3E6 0%, #8FE7D9 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 40px;
+  padding: 40px 20px;
   font-family: "League Spartan", sans-serif;
 }
 
@@ -14,12 +29,19 @@
   color: white;
   text-shadow: 0px 3px 4px rgba(0,0,0,0.15);
   margin-bottom: 40px;
+  text-align: center;
 }
 
+.panel-externo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 #formularioPrincipal {
   background: white;
-  width: 950px;
+  width: 100%;
+  max-width: 950px;
   padding: 40px;
   border-radius: 25px;
   box-shadow: 0px 6px 0px #000000;
@@ -61,7 +83,8 @@
 }
 
 #formularioPrincipal > div:nth-child(2) input {
-  width: 350px;
+  width: 100%;
+  max-width: 350px;
   padding: 10px 20px;
   border: 2px solid #000;
   border-radius: 20px;
@@ -81,6 +104,11 @@
   font-size: 25px;
   font-weight: 800;
   margin-bottom: 8px;
+}
+
+.tamanyoTerceraParteForm textarea {
+  height: 120px;
+  resize: vertical;
 }
 
 .tamanyoTerceraParteForm input,
@@ -132,7 +160,6 @@ input:checked + .slider {
 input:checked + .slider::before {
   transform: translateX(27px);
 }
-
 
 #formularioPrincipal > div:nth-child(4) h3 {
   font-size: 25px;
@@ -211,6 +238,7 @@ input:checked + .slider::before {
   border: 3px solid #000;
   box-shadow: 0px 5px 0px #000;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .botonProcesar {
@@ -226,4 +254,103 @@ input:checked + .slider::before {
 #botones button:active {
   transform: translateY(4px);
   box-shadow: 0px 1px 0px #000;
+}
+
+@media (max-width: 992px) {
+  #formularioPrincipal {
+    padding: 30px;
+  }
+
+  #formularioPrincipal::after {
+    right: -10px;
+    width: 10px;
+  }
+
+  #terceraParteForm {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  #cuartaParteForm {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 15px;
+  }
+
+  #botones {
+    gap: 20px;
+  }
+
+  #botones button {
+    padding: 10px 30px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  #titulo h1 {
+    font-size: 56px;
+    margin-bottom: 30px;
+  }
+
+  #formularioPrincipal {
+    padding: 20px;
+    margin: 0 10px;
+  }
+
+  #formularioPrincipal::after {
+    display: none;
+  }
+
+  #terceraParteForm {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  #cuartaParteForm {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .imagenInput, #colaboracion {
+    height: auto;
+    min-height: 100px;
+  }
+
+  #botones {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  #botones button {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  #titulo h1 {
+    font-size: 40px;
+  }
+
+  #background {
+    padding: 20px 10px;
+  }
+
+  #primeraParteForm h3 {
+    font-size: 22px;
+  }
+
+  #formularioPrincipal > div:nth-child(2) h3 {
+    font-size: 20px;
+  }
+
+  #formularioPrincipal > div:nth-child(2) input {
+    font-size: 16px;
+  }
+
+  .tamanyoTerceraParteForm h3 {
+    font-size: 20px;
+  }
 }

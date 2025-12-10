@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-// Asegúrate de que esta interfaz incluya 'cantidad?: number;'
 import { Producto } from './productoService';
 
 @Injectable({
-  providedIn: 'root' // Singleton: Existe una única instancia para toda la app
+  providedIn: 'root'
 })
 export class CarritoService {
 
-  // Fuente de verdad privada. Iniciamos con un array vacío.
+  // Iniciamos con un array vacío.
   // El array guardará objetos Producto, donde cada uno representa una línea de item único en el carrito.
   private _productosEnCarrito = new BehaviorSubject<Producto[]>([]);
 
-  // Observable público. Los componentes se suscribirán a esto.
+  // Los componentes se suscribirán a esto.
   productosCarrito$ = this._productosEnCarrito.asObservable();
 
   constructor() { }
@@ -25,7 +24,7 @@ export class CarritoService {
     let nuevaLista: Producto[];
 
     if (productoExistente) {
-      // Si existe: Aumentamos la cantidad del producto existente
+      // Si existe aumentamos la cantidad del producto existente
       nuevaLista = listaActual.map(p => {
         if (p.id === producto.id) {
           // Usamos 'p.cantidad || 0' para manejar el caso inicial donde es undefined
@@ -34,12 +33,12 @@ export class CarritoService {
         return p;
       });
     } else {
-      // Si no existe: Añadimos el producto con cantidad 1
+      // Si no existe añadimos el producto con cantidad 1
       const nuevoProductoEnCarrito: Producto = {
         ...producto,
         cantidad: 1
       };
-      // Usamos el operador spread para crear un nuevo array (inmutabilidad)
+      // Usamos el operador spread para crear un nuevo array
       nuevaLista = [...listaActual, nuevoProductoEnCarrito];
     }
 
@@ -70,7 +69,7 @@ export class CarritoService {
       // Restar cantidad si es mayor que 1
       const nuevaLista = listaActual.map(p => {
         if (p.id === producto.id) {
-          return { ...p, cantidad: p.cantidad! - 1 }; // ! afirma que cantidad no es null/undefined
+          return { ...p, cantidad: p.cantidad! - 1 }; // ! afirma que cantidad no es null
         }
         return p;
       });

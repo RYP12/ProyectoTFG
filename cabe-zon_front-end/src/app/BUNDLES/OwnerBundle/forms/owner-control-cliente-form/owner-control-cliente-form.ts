@@ -34,9 +34,8 @@ export class OwnerControlClienteForm implements OnInit {
         this.cargarCliente(id);
         this.cargarPedidosCliente(id);
       } else {
-        // Modo Agregar (ID no presente en la URL)
+        // Modo Agregar
         this.modoDetalle.set(false);
-        // Aquí podrías iniciar un formulario vacío si fuera necesario
       }
     });
   }
@@ -45,8 +44,7 @@ export class OwnerControlClienteForm implements OnInit {
     this.clienteService.obtenerClientesPorID(id).subscribe({
       next: (data) => {
         this.cliente.set(data);
-        // Si los pedidos vinieran anidados en el objeto cliente:
-        // this.pedidos.set(data.pedidos || []);
+
       },
       error: (err) => {
         console.error('Error al cargar el cliente:', err);

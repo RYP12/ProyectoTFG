@@ -49,7 +49,7 @@ export class Header implements OnInit {
       return;
     }
 
-    // Llamada al backend usando tu nuevo método
+    // Llamada al backend usando el nuevo método
     this.productoService.buscarPorTermino(texto).subscribe({
       next: (data: Producto[]) => {
         this.resultadosBusqueda = data;

@@ -11,7 +11,7 @@ import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-edicion-limitada',
-  standalone: true, // Asegúrate de que esto coincide con tu configuración (imports indica standalone)
+  standalone: true,
   imports: [
     Header,
     Footer,
@@ -25,13 +25,12 @@ import {Observable, of} from 'rxjs';
 export class EdicionLimitada implements OnInit {
   // Listas de datos
   listaProductos: Producto[] = [];
-  productosOriginales: Producto[] = []; // "Master" para los filtros
+  productosOriginales: Producto[] = [];
   colecciones: Coleccion[] = [];
 
-  // Configuración de imagenes
   private readonly PLACEHOLDER_IMG_URL: string = 'assets/img/placeholder.png';
 
-  // Variables de Paginación (Nuevas)
+  // Variables de Paginación
   paginaActual: number = 0;
   tamanyoPagina: number = 20;
   esUltimaPagina: boolean = false;
@@ -49,10 +48,10 @@ export class EdicionLimitada implements OnInit {
               private coleccionService: ColeccionService) { }
 
   async ngOnInit() {
-    // 1. CARGA INICIAL PAGINADA DE EXCLUSIVOS
+    // CARGA INICIAL PAGINADA DE EXCLUSIVOS
     this.cargarProductos();
 
-    // 2. CARGAR SOLO COLECCIONES CON EXCLUSIVAS
+    // CARGAR SOLO COLECCIONES CON EXCLUSIVAS
     this.coleccionService.obtenerColeccionesExclusivas().subscribe({
       next: (datos) => {
         this.colecciones = datos;
@@ -64,18 +63,14 @@ export class EdicionLimitada implements OnInit {
     });
   }
 
-  // --- LÓGICA DE PAGINACIÓN ADAPTADA ---
 
   cargarProductos() {
     if (this.cargando) return;
     this.cargando = true;
 
-    // NOTA: Asegúrate de que tu servicio tenga este método aceptando paginación.
-    // Si tu backend '/exclusivo' aun devuelve una List<> simple,
-    // deberás actualizar el Controller para devolver Page<> o slicear aquí (no recomendado).
     this.productoService.getExclusivos(this.paginaActual, this.tamanyoPagina).subscribe({
       next: (respuesta: any) => {
-        const nuevosProductos = respuesta.content; // Asumiendo estructura Spring Page
+        const nuevosProductos = respuesta.content;
         this.esUltimaPagina = respuesta.last;
 
         // Añadimos a la lista visible
@@ -103,7 +98,6 @@ export class EdicionLimitada implements OnInit {
     }
   }
 
-  // --- LÓGICA DE VISTA Y FILTROS ---
 
   obtenerImagenUrl(funko: Producto, index: number): string {
     if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
@@ -113,7 +107,7 @@ export class EdicionLimitada implements OnInit {
   }
 
   aplicarFiltros() {
-    // 1. Origen: Usamos productosOriginales que contiene TODO lo cargado hasta ahora
+    // Usamos productosOriginales que contiene TODO lo cargado hasta ahora
     let fuenteDatos$: Observable<Producto[]>;
 
     if (this.filtros.colaboracion && this.filtros.colaboracion !== '') {
@@ -131,7 +125,7 @@ export class EdicionLimitada implements OnInit {
       fuenteDatos$ = of(this.productosOriginales);
     }
 
-    // 2. Procesamiento
+    // Procesamiento
     fuenteDatos$.subscribe({
       next: (productosBase) => {
         let resultado = [...productosBase];
@@ -156,7 +150,7 @@ export class EdicionLimitada implements OnInit {
           });
         }
 
-        // 3. Actualización
+        // Actualización
         this.listaProductos = resultado;
       },
       error: (err) => {

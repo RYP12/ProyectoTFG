@@ -37,7 +37,7 @@ export class Finalizar {
     });
   }
 
-  // Lógica del Carrito (Reutilizando el CarritoService) ---
+  // Lógica del Carrito
 
   protected decrementarCantidad(funko: Producto) {
     this.carritoService.disminuirCantidadProducto(funko);
@@ -59,13 +59,12 @@ export class Finalizar {
     return this.PLACEHOLDER_IMG_URL;
   }
 
-  // Lógica del Resumen y Pago ---
 
   private actualizarResumen(productos: Producto[]) {
     // Calcula el subtotal basándose en el precio y la cantidad de cada producto
     this.subtotal = productos.reduce((acc, p) => acc + (p.precio! * (p.cantidad || 1)), 0);
 
-    // Por simplicidad, el descuento es 0 aquí. Podrías añadir lógica de cupones.
+    // Por simplicidad, el descuento es 0 aquí.
     this.descuento = 0;
 
     this.total = this.subtotal + this.envio - this.descuento;

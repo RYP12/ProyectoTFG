@@ -1,47 +1,83 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "League Spartan", sans-serif;
+}
+
+body, html {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
 #background {
   background: radial-gradient(white, #A0F3E6 80%);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   font-family: "League Spartan", sans-serif;
   width: 100%;
-  height: 100%;
+  padding-bottom: 50px;
+  min-height: 100vh;
+}
+
+.titulo {
+  font-size: 40px;
+  color: black;
+  width: 100%;
 }
 
 .titulo h1{
   text-align: center;
   color: #ffffff;
-  margin: 15% 0 ;
+  margin: 40px 0;
+  font-size: 50px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-
 }
 
 #formularioPrincipal {
-  display: grid;
-  grid-template-rows: 0.1fr 1fr;
+  display: flex;
+  flex-direction: column;
   margin: 0%;
   padding: 3%;
-  width: 80%;
+  width: 90%;
+  max-width: 1000px;
   border: solid 1px black;
   border-radius: 20px;
   box-shadow: 5px 5px black;
-
   background-color: #f9f9f9;
 }
 
 
 #primeraParteForm {
   display: grid;
-  grid-template-columns: repeat(4, 0.15fr) 0.4fr;
+  grid-template-columns: repeat(4, minmax(100px, 1fr)) 1.5fr;
   width: 100%;
-  font-size: 25px;
-  gap: 10px;
+  font-size: 20px;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #ccc;
+  margin-bottom: 20px;
+}
+
+#primeraParteForm h3 {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+#primeraParteForm p {
+  font-size: 1.2em;
+  font-weight: 600;
 }
 
 #segundaParteForm {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
   width: 100%;
   font-weight: 500;
@@ -59,6 +95,7 @@
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  cursor: pointer;
 }
 
 .producto:hover {
@@ -71,9 +108,10 @@
   height: auto;
   padding: 0;
   margin-bottom: 10px;
-  border: none;
+  border: 1px solid #f0f0f0;
   box-shadow: none;
   border-radius: 5px;
+  object-fit: cover;
 }
 
 .statsForm {
@@ -85,14 +123,15 @@
 }
 
 .nombre-producto {
-  font-size: 16px;
+  font-size: 15px;
   color: #333;
   text-align: left;
   margin: 0;
+  font-weight: 600;
 }
 
 .precio-producto {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   color: #2EC4B6;
   text-align: right;
@@ -100,53 +139,149 @@
   border-top: 1px dashed #eee;
   padding-top: 5px;
 }
-.statsForm p {
-  margin: 0;
-  text-align: center;
-}
-.statsForm p:last-child {
-  text-align: right;
-}
 
 #botones {
-  display: grid;
-  grid-template-columns:1fr 1fr;
-  width: 30%;
-  margin: 5% 0 ;
-  gap: 25%;
-
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  justify-items: center;
-  box-sizing: border-box;
-
+  width: 90%;
+  max-width: 600px;
+  margin: 5% 0;
+  gap: 30px;
 }
 
 #botones button {
-  border: none;
+  border: 2px solid black;
   font-weight: bold;
   box-shadow: 3px 3px black;
   cursor: pointer;
-  padding: 3% 20%;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  transition: transform 0.1s;
+}
 
+#botones button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px black;
+}
+
+.botonProcesar, .botonCancelar {
+  transform: none !important;
+  border-radius: 20px;
 }
 
 .botonProcesar {
   background-color: #2EC4B6;
   color: #f9f9f9;
-  transform: scale(1.5);
-  border-radius: 20px;
 }
 
 .botonCancelar {
   background-color: #FF0000;
   color: #f9f9f9;
-  transform: scale(1.5);
-  border-radius: 20px;
 }
 
+@media (max-width: 992px) {
+  #formularioPrincipal {
+    padding: 20px;
+    width: 95%;
+  }
+}
 
-.titulo {
-  font-size: 40px;
-  color: black;
+@media (max-width: 768px) {
+  .titulo h1 {
+    font-size: 40px;
+    margin: 30px 0;
+  }
+
+  #primeraParteForm {
+    grid-template-columns: repeat(2, 1fr);
+    font-size: 18px;
+    gap: 20px;
+  }
+
+  #primeraParteForm > div:last-child {
+    grid-column: 1 / span 2;
+  }
+
+  #botones {
+    flex-direction: column;
+    width: 90%;
+    gap: 15px;
+  }
+
+  #botones button {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+  }
+
+  #segundaParteForm {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .titulo h1 {
+    font-size: 32px;
+    margin: 20px 0;
+  }
+
+  #formularioPrincipal {
+    padding: 15px;
+  }
+
+  #primeraParteForm {
+    grid-template-columns: 1fr;
+    font-size: 16px;
+    gap: 10px;
+  }
+
+  #primeraParteForm > div:last-child {
+    grid-column: 1 / 1;
+  }
+
+  #primeraParteForm h3 {
+    font-size: 1em;
+  }
+
+  #primeraParteForm p {
+    font-size: 1.1em;
+  }
+
+  #segundaParteForm {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    padding: 10px 0;
+    gap: 10px;
+  }
+
+  .nombre-producto, .precio-producto {
+    font-size: 14px;
+  }
+
+  #botones {
+    width: 95%;
+    gap: 10px;
+  }
+
+  #botones button {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 320px) {
+  .titulo h1 {
+    font-size: 28px;
+  }
+
+  #segundaParteForm {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .producto img {
+    max-width: 100px;
+  }
 }

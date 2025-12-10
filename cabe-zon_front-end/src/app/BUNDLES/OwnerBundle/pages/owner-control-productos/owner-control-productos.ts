@@ -36,8 +36,6 @@ export class OwnerControlProductos implements OnInit {
   cargarProductos() {
     // Si hay texto en la caja de búsqueda, no cargamos páginas, dejamos los resultados de la búsqueda
     if (this.textoBusqueda.trim()) {
-      // Si la búsqueda está activa, simplemente no hagas nada (mantén los resultados actuales)
-      // O llama a buscarProducto() si necesitas refrescar
       return;
     }
 
@@ -99,7 +97,6 @@ export class OwnerControlProductos implements OnInit {
   }
 
 
-  // Mantenemos la lógica de paginación, pero solo debe ejecutarse si no estamos buscando
   paginaAnterior(){
     if (this.textoBusqueda.trim().length === 0 && this.paginaActual() > 1) {
       this.paginaActual.set(this.paginaActual() - 1);

@@ -42,10 +42,10 @@ export class Catalogo implements OnInit {
               private coleccionService: ColeccionService) { }
 
   ngOnInit() {
-    // 1. Carga inicial de productos
+    // Carga inicial de productos
     this.cargarProductos();
 
-    // 2. Carga de colecciones para el select
+    // Carga de colecciones para el select
     this.coleccionService.obtenerColecciones().subscribe({
       next: (datos) => {
         this.colecciones = datos;
@@ -58,25 +58,17 @@ export class Catalogo implements OnInit {
 
 
   obtenerImagenUrl(funko: Producto, index: number = 0): string {
-    // EXPLICACIÓN:
-    // 1. funko.imagenes?.[index] -> Intenta acceder al array y al índice. Si no existe, devuelve undefined.
-    // 2. ?.url -> Si el objeto imagen existe, intenta acceder a la propiedad url.
-    // 3. ?? this.PLACEHOLDER -> Si todo lo anterior resulta en null/undefined, devuelve el placeholder.
+
+    // funko.imagenes?.[index] -> Intenta acceder al array y al índice. Si no existe, devuelve undefined.
+    // Si el objeto imagen existe, intenta acceder a la propiedad url.
+    // Si todo lo anterior resulta en null/undefined, devuelve el placeholder.
     return funko.imagenes?.[index]?.url ?? this.PLACEHOLDER_IMG_URL;
   }
 
-  /**
-   * Se ejecuta cuando el usuario cambia CUALQUIER filtro (Colección, Precio, Orden).
-   * Estrategia: "Reset & Reload". Reiniciamos la paginación para aplicar los criterios desde cero.
-   */
   aplicarFiltros() {
     this.cargarProductos(true);
   }
 
-  /**
-   * Carga productos del backend aplicando paginación y filtro de colección.
-   * @param resetear Si es true, borra la lista actual y empieza desde la página 0.
-   */
   cargarProductos(resetear: boolean = false) {
     if (this.cargando) return; // Evitar doble petición
     this.cargando = true;
@@ -86,22 +78,19 @@ export class Catalogo implements OnInit {
       this.listaProductos = [];
     }
 
-    // 1. Extraer ID de colección para enviarlo al Backend
+    // Extraer ID de colección para enviarlo al Backend
     let coleccionId: number | undefined = undefined;
     if (this.filtros.colaboracion && this.filtros.colaboracion !== '') {
       coleccionId = parseInt(this.filtros.colaboracion);
     }
 
-    // 2. Llamada al Servicio (Paginación + Filtro Server-Side)
-    // Nota: Asegúrate de haber actualizado tu servicio para aceptar el 3er parámetro 'coleccionId'
+    // Llamada al Servicio
     this.productoService.obtenerProductos(this.paginaActual, 20, coleccionId).subscribe({
       next: (respuesta: any) => {
         let nuevosProductos = respuesta.content;
 
-        // 3. Procesamiento Local (Precio y Orden)
         // Aplicamos estos filtros a los datos que acaban de llegar
 
-        // --- Filtro de Precio (Local) ---
         if (this.filtros.rangoPrecio) {
           const [minStr, maxStr] = this.filtros.rangoPrecio.split('-');
           const min = parseFloat(minStr);
@@ -112,11 +101,10 @@ export class Catalogo implements OnInit {
           );
         }
 
-        // 4. Actualizar la lista principal
+        // Actualizar la lista principal
         this.listaProductos = [...this.listaProductos, ...nuevosProductos];
 
-        // --- Ordenación (Local Global) ---
-        // Reordenamos TODA la lista (lo anterior + lo nuevo) para mantener coherencia visual
+        // Reordenamos TODA la lista (lo anterior + lo nuevo)
         if (this.filtros.orden) {
           this.listaProductos.sort((a, b) => {
             const precioA = a.precio || 0;

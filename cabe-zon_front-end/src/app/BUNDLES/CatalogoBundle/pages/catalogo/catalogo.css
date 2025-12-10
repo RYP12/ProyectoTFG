@@ -159,7 +159,7 @@
 .grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
   padding: 2rem;
   max-width: 1200px;
@@ -168,6 +168,7 @@
   border-radius: 20px;
   box-shadow: 3px 3px 0px black;
   font-family: "League Spartan", sans-serif;
+  justify-content: center;
 }
 
 .tarjeta {
@@ -250,13 +251,13 @@
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.card1 button:hover {
+.tarjeta button:hover {
   background-color: #25a498;
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(46, 196, 182, 0.4);
 }
 
-.card1 button:active {
+.tarjeta button:active {
   transform: translateY(1px);
   box-shadow: none;
 }

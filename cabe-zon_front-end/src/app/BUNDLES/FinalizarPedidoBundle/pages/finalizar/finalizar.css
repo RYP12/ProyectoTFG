@@ -1,6 +1,8 @@
-* {
-  box-sizing: border-box;
-  font-family: "League Spartan", sans-serif;
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .main {
@@ -8,8 +10,9 @@
     to bottom,
     #ffffff 0%,
     #AEEFE7 25%,
-    #AEEFE7 60%)
-  ;
+    #AEEFE7 60%,
+    #ffffff 100%
+  );
   display: flex;
   justify-content: center;
   padding: 28px 20px 60px;
@@ -68,6 +71,7 @@
 .icon-box {
   width: 3rem;
   height: auto;
+  transition: transform 0.3s ease;
 }
 
 .titles:hover .icon-box {
@@ -126,12 +130,14 @@
 .name {
   font-weight: 800;
   font-size: 14px;
+  min-width: 80px;
 }
 
 .price {
   font-weight: 700;
   font-size: 14px;
   color: #111;
+  min-width: 50px;
 }
 
 .cont {
@@ -181,6 +187,7 @@
   box-shadow: 3px 3px 0 #000;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  white-space: nowrap;
 }
 
 .delete:hover {
@@ -351,4 +358,146 @@
 input, button, select, textarea {
   font-family: inherit;
   font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .all {
+    max-width: 90%;
+  }
+  .title {
+    font-size: 48px;
+  }
+
+  .container {
+    align-items: stretch;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .box.mediana {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .box.pequeña {
+    max-width: 100%;
+  }
+
+  .product {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .datos {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .name, .price {
+    font-size: 13px;
+    min-width: 40px;
+  }
+
+  .cont {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 36px;
+  }
+  .main {
+    padding: 20px 10px 40px;
+  }
+
+  .box {
+    padding: 12px;
+  }
+  .titles {
+    font-size: 1.4rem;
+  }
+
+  .dir {
+    flex-direction: column;
+  }
+
+  .table {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .sel {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  .product {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .img-product {
+    width: 60px;
+    height: auto;
+    order: 1;
+  }
+
+  .datos {
+    order: 2;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    flex: 1 1 50%;
+  }
+
+  .name, .price {
+    font-size: 14px;
+    min-width: auto;
+  }
+
+  .cont {
+    order: 3;
+    margin: 0;
+  }
+
+  .delete {
+    order: 4;
+    padding: 6px 10px;
+    font-size: 12px;
+    align-self: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .product {
+    padding: 6px;
+  }
+
+  .img-product {
+    width: 50px;
+  }
+
+  .delete {
+    white-space: normal;
+    line-height: 1;
+    text-align: center;
+    padding: 4px 6px;
+  }
+
+  .cont {
+    padding: 4px 6px;
+  }
+
+  .cont button {
+    width: 20px;
+    height: 20px;
+  }
+
+  .num {
+    min-width: 10px;
+  }
 }
