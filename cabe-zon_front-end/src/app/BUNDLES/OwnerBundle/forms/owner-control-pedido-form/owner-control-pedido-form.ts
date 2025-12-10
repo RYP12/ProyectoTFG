@@ -78,11 +78,9 @@ export class OwnerControlPedidoForm implements OnInit {
       return;
     }
 
-    // 🚨 LOG 1: Confirma que la función se ejecuta con los datos correctos
     console.log(`[DEBUG] Intentando cambiar el pedido ${pedidoActual.id} a estado: ${nuevoEstado}`);
 
 
-    // 🚨 LOG 2: Verifica que el método del servicio se está llamando
     this.pedidoService.actualizarEstadoPedido(pedidoActual.id, nuevoEstado.toString()).subscribe({
       next: () => {
         // La actualización fue exitosa
@@ -92,10 +90,8 @@ export class OwnerControlPedidoForm implements OnInit {
         this.router.navigate(['/admin/pedidos']);
       },
       error: (err) => {
-        // 🚨 LOG 3: Si hay un error, lo registramos.
         console.error('[ERROR] Error al actualizar el estado:', err);
       },
-      // 🚨 LOG 4: Finaliza el observable (útil para ver si el observable se cierra)
       complete: () => {
         console.log('[DEBUG] Petición HTTP completada.');
       }

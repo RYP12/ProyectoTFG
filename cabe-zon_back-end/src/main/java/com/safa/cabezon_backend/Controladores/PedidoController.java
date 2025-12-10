@@ -72,4 +72,8 @@ public class PedidoController {
         return pedidoService.ContarPedidosPorCliente(idCliente);
     }
 
+    @GetMapping("/cliente/{idCliente}")
+    public List<BuscarPedidoDTO> getPedidosByCliente(@PathVariable Integer idCliente) {
+        return pedidoService.BuscarPedidosPorCliente(idCliente);
+    }
 }

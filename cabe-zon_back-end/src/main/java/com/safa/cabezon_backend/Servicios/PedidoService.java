@@ -84,4 +84,10 @@ public class PedidoService {
         pedido.setEstado(nuevoEstado);
         pedidoRepository.save(pedido);
     }
+
+    @Transactional
+    public List<BuscarPedidoDTO> BuscarPedidosPorCliente(Integer idCliente) {
+        List<Pedido> pedidos = pedidoRepository.findByCliente_Id(idCliente);
+        return mapper.listToPedidoDTO(pedidos);
+    }
 }

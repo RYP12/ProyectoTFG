@@ -1,5 +1,5 @@
 import {Component, OnInit, signal} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {Cliente, ClienteService} from '../../../../SERVICES/cliente-service';
 import {Producto} from '../../../../SERVICES/productoService';
 
@@ -19,7 +19,7 @@ export class OwnerControlClientes implements OnInit {
   itemsPorPagina = 5;
   listaClientesFiltrada: Cliente[] = [];
 
-  constructor(private clienteService: ClienteService,) {}
+  constructor(private clienteService: ClienteService, private router: Router) {}
 
   ngOnInit() {
     this.cargarClientes();
@@ -67,6 +67,13 @@ export class OwnerControlClientes implements OnInit {
     if (this.paginaActual() < this.totalPaginas()) {
       this.paginaActual.set(this.paginaActual() + 1);
       this.cargarClientes();
+    }
+  }
+
+  irADetalle(id: number | undefined) {
+    if (id) {
+      // Navegamos a la ruta de detalle: /admin/clientes/ID
+      this.router.navigate(['admin/clientes', id]);
     }
   }
 }

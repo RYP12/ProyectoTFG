@@ -36,7 +36,10 @@ public class ClienteService {
         clienteRepository.save(clienteMapper.toEntity(clienteDto));
     }
 
-    public void EliminarClientePorId(Integer id){ clienteRepository.deleteById(id);}
+    public void EliminarClientePorId(Integer id){
+        clienteRepository.deleteById(id);
+    }
+
 
     public void EditarClientePorId(Integer id, ClienteDTO clienteDto){
         Cliente cliente = clienteRepository.findById(id).orElse(null);

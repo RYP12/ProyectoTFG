@@ -14,4 +14,6 @@ public interface IPedidoRepository extends JpaRepository<Pedido, Integer> {
     List<Pedido> findAllWithCliente();
 
     int countByCliente_Id(Integer idCliente);
+
+    List<Pedido> findByCliente_Id(Integer clienteId);
 }
