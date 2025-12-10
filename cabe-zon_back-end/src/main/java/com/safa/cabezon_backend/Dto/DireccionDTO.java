@@ -9,12 +9,9 @@ import lombok.Data;
 public class DireccionDTO {
     @NotNull
     private String calle;
-    @NotNull
     private Integer numero;
-    @NotNull
     @PositiveOrZero
     private String piso;
-    @NotNull
     private String letra;
     @NotNull
     @Positive
