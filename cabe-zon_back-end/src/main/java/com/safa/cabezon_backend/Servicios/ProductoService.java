@@ -44,19 +44,16 @@ public class ProductoService {
     @Autowired
     private CacheEvictHelper cacheEvictHelper;
 
-    // Código Final y Limpio en ProductoService
     @Transactional
-    public void forzarVaciadoCacheProductos() { // Renombrado a la versión final
-        // 1. VACIADO: Delegación al helper (CacheEvictHelper)
+    public void forzarVaciadoCacheProductos() {
+        // VACIADO
         cacheEvictHelper.vaciarCacheProductos();
 
-        // 2. RECARGA/WARMING:
+        // RECARGA
         buscarTodoLosProductosDelCache();
     }
 
-    // IMPLEMENTACION DE CACHE
 
-    // FUNCION PRINCIPAL QUE GUARDA LOS PRODUCTOS AL ARRANCAR
 
 
     @Transactional(readOnly = true)
@@ -75,7 +72,6 @@ public class ProductoService {
 
     public Page<BuscarProductoDTO> paginarListaMemoria(List<BuscarProductoDTO> listaCompleta, Pageable pageable, Integer coleccionId) {
 
-        //
         List<BuscarProductoDTO> listaFiltrada = listaCompleta;
 
         if (coleccionId != null) {
@@ -85,7 +81,7 @@ public class ProductoService {
                     .toList();
         }
 
-        // 2. Paginación sobre la lista (ya filtrada o no)
+        // Paginación sobre la lista (ya filtrada o no)
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), listaFiltrada.size());
 
@@ -103,14 +99,14 @@ public class ProductoService {
     // EXTRACCION DE PRODUCTOS NO EXCLUSIVOS DE LA CACHE Y PAGINADOS
     public Page<BuscarProductoDTO> paginarListaMemoriaNoExclusivo(List<BuscarProductoDTO> listaCompleta, Pageable pageable, Integer coleccionId) {
 
-        // 1. FILTRADO INICIAL: Solo productos NO exclusivos
+        // Solo productos NO exclusivos
         List<BuscarProductoDTO> listaNoExclusiva = listaCompleta.stream()
-                .filter(p -> p.isExclusivo() == false || !p.isExclusivo()) // <--- NUEVO FILTRO DE NO EXCLUSIVOS
+                .filter(p -> p.isExclusivo() == false || !p.isExclusivo())
                 .toList();
 
         List<BuscarProductoDTO> listaFiltrada = listaNoExclusiva;
 
-        // 2. FILTRADO ADICIONAL: Por Colección (sobre la lista no exclusiva)
+        // Por Colección
         if (coleccionId != null) {
             listaFiltrada = listaNoExclusiva.stream()
                     .filter(p -> p.getColecciones().stream()
@@ -118,7 +114,7 @@ public class ProductoService {
                     .toList();
         }
 
-        // 3. Paginación sobre la lista (ya filtrada o no)
+        // Paginación sobre la lista
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), listaFiltrada.size());
 
@@ -136,14 +132,14 @@ public class ProductoService {
 
     public Page<BuscarProductoDTO> paginarListaMemoriaExclusivo(List<BuscarProductoDTO> listaCompleta, Pageable pageable, Integer coleccionId) {
 
-        // 1. FILTRADO INICIAL: Solo productos NO exclusivos
+        // Solo productos NO exclusivos
         List<BuscarProductoDTO> listaNoExclusiva = listaCompleta.stream()
                 .filter(p -> p.isExclusivo() == true || !p.isExclusivo() ==  false) // <--- NUEVO FILTRO DE NO EXCLUSIVOS
                 .toList();
 
         List<BuscarProductoDTO> listaFiltrada = listaNoExclusiva;
 
-        // 2. FILTRADO ADICIONAL: Por Colección (sobre la lista no exclusiva)
+        // Por Colección
         if (coleccionId != null) {
             listaFiltrada = listaNoExclusiva.stream()
                     .filter(p -> p.getColecciones().stream()
@@ -151,7 +147,7 @@ public class ProductoService {
                     .toList();
         }
 
-        // 3. Paginación sobre la lista (ya filtrada o no)
+        // Paginación sobre la lista
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), listaFiltrada.size());
 
@@ -165,25 +161,14 @@ public class ProductoService {
         return new PageImpl<>(paginaContenido, pageable, listaFiltrada.size());
     }
 
-
-
-
-
-
-
-    // IMPORTANTE: SI CREAMOS UN PRODUCTO NUEVO HAY QUE BORRA CACHE ANTIGUA
-
-    // ELIMINA O COMENTA LOS MÉTODOS VACÍOS "Cache" (CrearProductoCache, etc.)
-    // APLICA LA EVICCIÓN DIRECTAMENTE A LA LÓGICA REAL:
-
     @Transactional
-    @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
+    @CacheEvict(value = "productos", allEntries = true)
     public void CrearProductoCache(CrearProductoDTO dto) {
         productoRepository.save(mapper.toProducto(dto));
     }
 
     @Transactional
-    @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
+    @CacheEvict(value = "productos", allEntries = true)
     public void EditarProductoCache(Integer id, CrearProductoDTO dto) {
         Producto producto = productoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el producto con ID: " + id));
         // verificar si es null antes de mapear
@@ -194,7 +179,7 @@ public class ProductoService {
     }
 
     @Transactional
-    @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
+    @CacheEvict(value = "productos", allEntries = true) /
     public void EliminarProductoCache(Integer id) {
         Producto producto = productoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el producto con ID: " + id));
         if (producto != null) {

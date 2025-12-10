@@ -60,7 +60,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // Metodo que me dice si el token a expirado
+    // Metodo que me dice si el token ha expirado
     public boolean isExpired(String token) {
         return LocalDateTime.parse(extraerTokenDTO(token).getFecha_expiracion()).isBefore(LocalDateTime.now());
     }

@@ -40,7 +40,6 @@ public class ProductoController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false) Integer coleccionId // <--- Nuevo parámetro opcional
     ){
-        // Mantenemos tu ordenación por ID descendente
         Pageable pageable = PageRequest.of(page, 20, Sort.by("id").descending());
 
         // Pasamos el filtro al servicio

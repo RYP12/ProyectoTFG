@@ -61,7 +61,7 @@ public class UsuarioService implements UserDetailsService {
         usuarioRepository.save(usuario);
 
         // Enviar correo
-        String urlVerificacion = "http://localhost:4200/verificar-cuenta?token=" + token; // URL del Front
+        String urlVerificacion = "http://localhost:4200/verificar-cuenta?token=" + token;
 
         // Usamos HTML para el mensaje por correo. Los '%s' se sustituyen por la variable urlVerificacion
         String mensajeHtml = String.format(
@@ -78,10 +78,10 @@ public class UsuarioService implements UserDetailsService {
                     <p style='text-align: center; color: #999; font-size: 12px;'>Este enlace es válido por tiempo limitado.</p>
                 </div>
                 """,
-                registrodto.getNombre(),     // 1º %s: Nombre
-                registrodto.getApellidos(),  // 2º %s: Apellidos
-                urlVerificacion,             // 3º %s: URL para el botón
-                urlVerificacion              // 4º %s: URL para el texto
+                registrodto.getNombre(),
+                registrodto.getApellidos(),
+                urlVerificacion,
+                urlVerificacion
         );
 
         emailService.enviarCorreo(usuario.getUsername(), "¡Bienvenido a Cabe-zon! Activa tu cuenta", mensajeHtml);
@@ -93,7 +93,7 @@ public class UsuarioService implements UserDetailsService {
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
             usuario.setCuentaVerificada(true);
-            usuario.setTokenVerificacion(null); // Borramos el token usado
+            usuario.setTokenVerificacion(null);
             usuarioRepository.save(usuario);
             return true;
         }
@@ -106,10 +106,10 @@ public class UsuarioService implements UserDetailsService {
         if (usuario != null) {
             String token = UUID.randomUUID().toString();
             usuario.setTokenRecuperacion(token);
-            usuario.setTokenRecuperacionExpiracion(LocalDateTime.now().plusHours(1)); // Expira en 1 hora
+            usuario.setTokenRecuperacionExpiracion(LocalDateTime.now().plusHours(1));
             usuarioRepository.save(usuario);
 
-            String urlRecuperacion = "http://localhost:4200/reset-password?token=" + token; // URL del Front
+            String urlRecuperacion = "http://localhost:4200/reset-password?token=" + token;
 
             // Usamos HTML para el mensaje por correo. Los '%s' se sustituyen por la variable urlVerificacion
             String mensajeHtml = String.format(
@@ -127,15 +127,15 @@ public class UsuarioService implements UserDetailsService {
                         <p style='color: #999; font-size: 12px; text-align: center;'>Si no solicitaste restablecer tu contraseña, ignora este mensaje.<br>Por motivos de seguridad, este enlace expirará en poco tiempo.</p>
                     </div>
                     """,
-                    urlRecuperacion,             // 1º %s: URL para el botón
-                    urlRecuperacion              // 2º %s: URL para el texto
+                    urlRecuperacion,
+                    urlRecuperacion
             );
 
             emailService.enviarCorreo(usuario.getUsername(), "Recuperar Contraseña - CabeZon", mensajeHtml);
         }
     }
 
-    // RECUPERACIÓN DE CONTRASEÑA - CAMBIO REAL
+    // RECUPERACIÓN DE CONTRASEÑA
     public boolean cambiarPassword(String token, String nuevaPassword) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByTokenRecuperacion(token);
 
@@ -143,7 +143,7 @@ public class UsuarioService implements UserDetailsService {
             Usuario usuario = usuarioOpt.get();
             // Verificar si el token ha expirado
             if (usuario.getTokenRecuperacionExpiracion().isBefore(LocalDateTime.now())) {
-                return false; // Token expirado
+                return false;
             }
 
             usuario.setPassword(seguridad.passwordencoder().encode(nuevaPassword));

@@ -18,7 +18,7 @@ public class EmailService {
         MimeMessage mensaje = javaMailSender.createMimeMessage();
 
         try {
-            // true indica que es un mensaje MULTIPART (necesario para adjuntos o html complejo)
+            // true indica que es un mensaje MULTIPART
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
 
             helper.setTo(destinatario);
