@@ -23,17 +23,6 @@ public class ProductoController {
 
     private ProductoService productoService;
 
-    //Solicita todos los productos(ProductoDTO)
-    //@GetMapping("/all")
-    //public ResponseEntity<Page<BuscarProductoDTO>> getProductos(
-    //        @RequestParam(defaultValue = "0") int page,
-    //        @RequestParam(defaultValue = "20") int size
-    //){
-    //    Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-    //    Page<BuscarProductoDTO> paginaProductos = productoService.buscarPorPagina(pageable);
-    //    return  ResponseEntity.ok(paginaProductos);
-    //}
-
 
     @GetMapping("/all2")
     public ResponseEntity<Page<BuscarProductoDTO>> getProductos(
