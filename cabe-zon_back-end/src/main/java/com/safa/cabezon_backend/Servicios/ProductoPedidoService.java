@@ -3,6 +3,7 @@ package com.safa.cabezon_backend.Servicios;
 import com.safa.cabezon_backend.Dto.BuscarProductoDTO;
 import com.safa.cabezon_backend.Dto.CrearProductoPedidoDTO;
 import com.safa.cabezon_backend.Dto.ProductoPedidoDTO;
+import com.safa.cabezon_backend.Exception.RecursoNoEncontradoException;
 import com.safa.cabezon_backend.Mapper.ProductoPedidoMapper;
 import com.safa.cabezon_backend.Modelos.Pedido;
 import com.safa.cabezon_backend.Modelos.Producto;
@@ -35,7 +36,7 @@ public class ProductoPedidoService {
 
     @Transactional
     public ProductoPedidoDTO BuscarProductoPedidoPorId(Integer id) {
-        return mapper.toDto(productoPedidoRepository.findById(id).orElse(null));
+        return mapper.toDto(productoPedidoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el productoPedido con ID: " + id)));
     }
 
 
@@ -44,7 +45,7 @@ public class ProductoPedidoService {
     }
 
     public void EditarProductoPedido(Integer id, CrearProductoPedidoDTO dto) {
-        ProductoPedido productoPedido = productoPedidoRepository.findById(id).orElse(null);
+        ProductoPedido productoPedido = productoPedidoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el pedidoProducto con ID: " + id));
         mapper.actualizarEntityFromDto(dto,productoPedido);
         productoPedidoRepository.save(productoPedido);
 

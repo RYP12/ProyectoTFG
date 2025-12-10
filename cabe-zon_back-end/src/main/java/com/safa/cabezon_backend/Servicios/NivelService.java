@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.NivelDTO;
+import com.safa.cabezon_backend.Exception.RecursoNoEncontradoException;
 import com.safa.cabezon_backend.Modelos.Nivel;
 import com.safa.cabezon_backend.Repositorios.INivelRepository;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,10 @@ public class NivelService {
 
     public List<Nivel> BuscarNiveles(){return nivelRepository.findAll();}
 
-    public Nivel BuscarNivelPorId(Integer id){return nivelRepository.findById(id).orElse(null);}
+    public Nivel BuscarNivelPorId(Integer id){return nivelRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el nivel con ID: " + id));}
 
     public void EditarDescuentoNivel(Integer id, NivelDTO nivelDTO){
-        Nivel nivel = nivelRepository.findById(id).orElse(null);
+        Nivel nivel = nivelRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el nivel con ID: " + id));
         nivel.setDescuento(nivelDTO.getDescuento());
         nivelRepository.save(nivel);
     }

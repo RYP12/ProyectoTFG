@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Dto;
 
 import jakarta.persistence.SecondaryTable;
+import jakarta.validation.Valid;
 import lombok.Data;
 
 import java.util.Set;
@@ -11,7 +12,9 @@ public class BuscarProductoDTO {
     private String nombre;
     private boolean exclusivo;
     private Double precio;
+    @Valid
     private Set<BuscarColeccionDTO> colecciones;
+    @Valid
     private Set<BuscarImagenDTO> imagenes;
 
 

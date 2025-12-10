@@ -1,6 +1,7 @@
 package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.*;
+import com.safa.cabezon_backend.Exception.RecursoNoEncontradoException;
 import com.safa.cabezon_backend.Mapper.ProductoMapper;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IProductoPedidoRepository;
@@ -185,7 +186,7 @@ public class ProductoService {
     @Transactional
     @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
     public void EditarProductoCache(Integer id, CrearProductoDTO dto) {
-        Producto producto = productoRepository.findById(id).orElse(null);
+        Producto producto = productoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el producto con ID: " + id));
         // verificar si es null antes de mapear
         if (producto != null) {
             mapper.actualizarEntityFromDTO(dto, producto);
@@ -196,7 +197,7 @@ public class ProductoService {
     @Transactional
     @CacheEvict(value = "productos", allEntries = true) // <--- AÑADIR ESTO
     public void EliminarProductoCache(Integer id) {
-        Producto producto = productoRepository.findById(id).orElse(null);
+        Producto producto = productoRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el producto con ID: " + id));
         if (producto != null) {
             producto.getColecciones().clear();
             productoRepository.deleteById(id);

@@ -2,6 +2,7 @@ package com.safa.cabezon_backend.Servicios;
 
 import com.safa.cabezon_backend.Dto.BuscarImagenDTO;
 import com.safa.cabezon_backend.Dto.ImagenDTO;
+import com.safa.cabezon_backend.Exception.RecursoNoEncontradoException;
 import com.safa.cabezon_backend.Mapper.ImagenMapper;
 import com.safa.cabezon_backend.Mapper.PedidoMapper;
 import com.safa.cabezon_backend.Modelos.Imagen;
@@ -30,7 +31,7 @@ public class ImagenService {
 
     public List<BuscarImagenDTO> BuscarImagenes() {return imagenMapper.listToDTO(imagenRepository.findAll());}
 
-    public BuscarImagenDTO BuscarImagenPorId(Integer id) {return imagenMapper.toDTO(imagenRepository.findById(id).orElse(null));}
+    public BuscarImagenDTO BuscarImagenPorId(Integer id) {return imagenMapper.toDTO(imagenRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la imagen con ID: " + id)));}
 
     public void EliminarImagenPorId(Integer id) {imagenRepository.deleteById(id);}
 
@@ -39,7 +40,7 @@ public class ImagenService {
     }
 
     public void EditarImagenPorId(Integer id, ImagenDTO imagenDTO){
-        Imagen nuevaImagen = imagenRepository.findById(id).orElse(null);
+        Imagen nuevaImagen = imagenRepository.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("No se encontró la imagen con ID: " + id));
         imagenMapper.actualizarImagen(imagenDTO, nuevaImagen);
         imagenRepository.save(nuevaImagen);
     }

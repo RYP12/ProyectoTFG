@@ -1,5 +1,6 @@
 package com.safa.cabezon_backend.Dto;
 
+import jakarta.validation.Valid;
 import lombok.Data;
 
 import java.util.Set;
@@ -8,5 +9,6 @@ import java.util.Set;
 public class BuscarProductoColeccionDTO {
     private String nombre;
     private Double precio;
+    @Valid
     private Set<BuscarImagenDTO> imagenes;
 }
