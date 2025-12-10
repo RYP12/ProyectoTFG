@@ -11,29 +11,32 @@
         </div>
 
         <div class="list">
-          <!-- Aquí se mostrarán todos los funkos añadidos al pedido -->
-          <!-- Con Angular usaremos @for para recorrer el array "funkos" -->
+          @for (funko of (productosPedido$ | async); track funko.id) {
+            <div class="product">
+              <img class="img-product" [src]="obtenerImagenUrl(funko)" alt="{{ funko.nombre }}">
 
+              <div class="datos">
+                <div class="name">{{ funko.nombre }}</div>
+                <div class="price">
+                   {{ (funko.precio! * (funko.cantidad || 1)) | currency:'EUR':'symbol':'1.2-2' }}
+                </div>
 
-          <!--@for (funko of items; track funko.id) {
-          <div class="product">y
-            <img class="img-product" [src]="funko.imagenCaja" alt="{{ funko.nombre }}">
-            <div class="datos">
-              <div class="name">{{ funko.nombre }}</div>
-              <div class="price">€ {{ funko.precio }}</div>
-
-              <div class="cont">
-                <button class="menos" (click)="decrementarCantidad(funko)">-</button>
-                <span class="num">{{ funko.cantidad }}</span>
-                <button class="mas" (click)="incrementarCantidad(funko)">+</button>
+                <div class="cont">
+                  <button class="menos" (click)="decrementarCantidad(funko)">-</button>
+                  <span class="num">{{ funko.cantidad }}</span>
+                  <button class="mas" (click)="incrementarCantidad(funko)">+</button>
+                </div>
               </div>
+              <button class="delete" (click)="eliminarDelPedido(funko)">ELIMINAR</button>
             </div>
-            <button class="delete" (click)="eliminarDelPedido(funko)">ELIMINAR</button>
-          </div>
-          }-->
+          }
 
-        </div>
+          @if (!(productosPedido$ | async)?.length) {
+            <p style="text-align: center; margin: 20px;">No hay productos en el pedido.</p>
+          }
+
       </div>
+    </div>
 
       <div class="row">
         <div class="box mediana">
@@ -99,12 +102,11 @@
           <strong>Resumen</strong>
         </div>
 
-        <div class="line"><span>Subtotal</span><span>60€</span></div>
-        <div class="line"><span>Envio</span><span>3€</span></div>
-        <div class="line"><span>Descuento</span><span>-12€ (20%)</span></div>
-        <div class="line total"><span>Total</span><span>51€</span></div>
-
-        <button class="btn-pay">PAGAR Y REALIZAR PEDIDO</button>
+        <div class="line"><span>Subtotal</span><span>{{ subtotal | currency:'EUR':'symbol':'1.2-2' }}</span></div>
+        <div class="line"><span>Envio</span><span>{{ envio | currency:'EUR':'symbol':'1.2-2' }}</span></div>
+        <div class="line"><span>Descuento</span><span>- {{ descuento | currency:'EUR':'symbol':'1.2-2' }}</span></div>
+        <div class="line total"><span>Total</span><span>{{ total | currency:'EUR':'symbol':'1.2-2' }}</span></div>
+        <button class="btn-pay" (click)="confirmarPedido()">PAGAR Y REALIZAR PEDIDO</button>
       </div>
 
     </div>

@@ -19,9 +19,9 @@ import { UsuarioService } from '../../SERVICES/usuario-service';
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
+
 export class Header implements OnInit {
 
-  // Ya no necesitamos 'todosLosProductos' porque buscaremos en servidor
   resultadosBusqueda: Producto[] = [];
   textoBusqueda: string = '';
 
@@ -43,13 +43,13 @@ export class Header implements OnInit {
   buscarProducto() {
     const texto = this.textoBusqueda.trim();
 
-    // 1. Si el texto está vacío, limpiamos la lista y no llamamos al servidor
+    // Si el texto está vacío, limpiamos la lista y no llamamos al servidor
     if (!texto) {
       this.resultadosBusqueda = [];
       return;
     }
 
-    // 2. Llamada al backend usando tu nuevo método
+    // Llamada al backend usando tu nuevo método
     this.productoService.buscarPorTermino(texto).subscribe({
       next: (data: Producto[]) => {
         this.resultadosBusqueda = data;

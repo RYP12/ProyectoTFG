@@ -2,6 +2,7 @@ package com.safa.cabezon_backend.Controladores;
 
 import com.safa.cabezon_backend.Dto.BuscarPedidoAdminDTO;
 import com.safa.cabezon_backend.Dto.BuscarPedidoDTO;
+import com.safa.cabezon_backend.Dto.EstadoUpdateDTO;
 import com.safa.cabezon_backend.Dto.PedidoDTO;
 import com.safa.cabezon_backend.Modelos.Pedido;
 import com.safa.cabezon_backend.Servicios.PedidoService;
@@ -46,6 +47,11 @@ public class PedidoController {
     @PostMapping("/post")
     public void postPedido(@RequestBody PedidoDTO dto) {
         pedidoService.CrearPedido(dto);
+    }
+
+    @PutMapping("/put/estado/{id}")
+    public void putEstadoPedido(@PathVariable Integer id, @RequestBody EstadoUpdateDTO estadoDto) {
+        pedidoService.ActualizarEstado(id, estadoDto.getEstado());
     }
 
     //Editar pedido segun id que se pase por url(PedidoDTO)

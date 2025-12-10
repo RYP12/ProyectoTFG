@@ -1,0 +1,18 @@
+<div class="comentario-form">
+  <h3>Escribir comentario</h3>
+
+  <form [formGroup]="form" (ngSubmit)="enviar()">
+
+    <label>Valoración</label>
+    <select formControlName="valoracion">
+      <option *ngFor="let n of [1,2,3,4,5]" [value]="n">
+        {{n}} ⭐
+      </option>
+    </select>
+
+    <label>Comentario</label>
+    <textarea formControlName="texto"></textarea>
+
+    <button type="submit">Enviar</button>
+  </form>
+</div>

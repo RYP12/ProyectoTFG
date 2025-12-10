@@ -6,6 +6,7 @@ import com.safa.cabezon_backend.Dto.BuscarPedidoDTO;
 import com.safa.cabezon_backend.Dto.PedidoDTO;
 import com.safa.cabezon_backend.Mapper.PedidoMapper;
 import com.safa.cabezon_backend.Modelos.Cliente;
+import com.safa.cabezon_backend.Modelos.Estado;
 import com.safa.cabezon_backend.Modelos.Pedido;
 import com.safa.cabezon_backend.Repositorios.IClienteRepository;
 import com.safa.cabezon_backend.Repositorios.IPedidoRepository;
@@ -70,5 +71,17 @@ public class PedidoService {
 
     public int ContarPedidosPorCliente(Integer idCliente) {
         return pedidoRepository.countByCliente_Id(idCliente);
+    }
+
+    @Transactional
+    public void ActualizarEstado(Integer id, String nuevoEstadoString) {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID: " + id)); // Manejo de error básico
+
+        // Convertir el String recibido al enum Estado
+        Estado nuevoEstado = Estado.valueOf(nuevoEstadoString);
+
+        pedido.setEstado(nuevoEstado);
+        pedidoRepository.save(pedido);
     }
 }

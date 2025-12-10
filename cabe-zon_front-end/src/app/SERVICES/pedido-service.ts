@@ -2,12 +2,19 @@ import { Injectable } from '@angular/core';
 import {Cliente} from './cliente-service';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Producto} from './productoService';
 
 export enum Estado {
   EN_PREPARACION = 'EN_PREPARACION',
   ENVIADO = 'ENVIADO',
   ENTREGADO = 'ENTREGADO',
   CANCELADO = 'CANCELADO',
+}
+
+export interface ProductoPedido {
+  id: number;
+  cantidad: number;
+  producto?: Producto;
 }
 
 export interface Pedido {
@@ -18,6 +25,7 @@ export interface Pedido {
   fecha?: Date;
   precioTotal?: number;
   cliente?: Cliente;
+  productosPedidos?: ProductoPedido[];
 }
 
 export interface PageResponse<T> {
@@ -62,4 +70,10 @@ export class PedidoService {
   eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/pedido/delete/${id}`);
   }
+
+  actualizarEstadoPedido(id: number, nuevoEstado: string): Observable<void> {
+    const body = { estado: nuevoEstado };
+    return this.http.put<void>(`${this.apiUrl}/pedido/put/estado/${id}`, body);
+  }
+
 }
