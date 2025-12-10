@@ -187,10 +187,17 @@
                   }
 
                   <div class="botones">
-                    <button class="eliminar-direccion" (click)="eliminarDireccion(direccion.id)">
+                    <button
+                      class="eliminar-direccion"
+                      (click)="eliminarDireccion(direccion.id)"
+                      [disabled]="!direccion.id">
                       <img src="/ASSETS/IMAGES/mdi--trash.png" alt="eliminar">
                     </button>
-                    <button class="editar-direccion" (click)="abrirModalEditarDireccion(direccion)">EDITAR</button>
+                    <button
+                      class="editar-direccion"
+                      (click)="abrirModalEditarDireccion(direccion)">
+                      EDITAR
+                    </button>
                   </div>
                 </div>
               }

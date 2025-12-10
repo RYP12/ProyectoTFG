@@ -108,7 +108,7 @@ public class ClienteController {
 
             Cliente cliente = clienteRepository.findById(id).orElse(null);
             if (cliente != null) {
-                // Esta es la URL que guardas en base de datos
+                // Esta es la URL que se guarda en base de datos
                 String url = "/uploads/fotos/" + fileName;
                 cliente.setFoto(url);
                 clienteRepository.save(cliente);
