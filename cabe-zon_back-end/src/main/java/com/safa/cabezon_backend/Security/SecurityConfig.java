@@ -3,6 +3,7 @@ package com.safa.cabezon_backend.Security;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -38,6 +39,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/me").authenticated()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/cliente/post").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/producto/**").permitAll()
+                        .requestMatchers("/producto/admin/**", "/producto/post", "/producto/put/**", "/producto/delete/**").hasAuthority("ADMINISTRADOR")
+                        .requestMatchers("/cliente/admin/**", "/cliente/all", "/cliente/delete/**").hasAuthority("ADMINISTRADOR")
+                        .requestMatchers("/pedido/admin/**", "/pedido/all").hasAuthority("ADMINISTRADOR")
+                        .requestMatchers("/pedido/**").authenticated()
+                        .requestMatchers("/cliente/**").authenticated()
                         .anyRequest().permitAll())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

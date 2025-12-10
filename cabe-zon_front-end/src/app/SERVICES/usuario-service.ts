@@ -96,6 +96,37 @@ export class UsuarioService {
     })
   }
 
+  obtenerRol(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+      const payload = this.decodificarToken(token);
+
+      if (payload && payload.tokenDTO && payload.tokenDTO.rol) {
+        return payload.tokenDTO.rol;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error al leer el rol del token:', error);
+      return null;
+    }
+  }
+
+  private decodificarToken(token: string): any {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      return null;
+    }
+  }
+
   // Recuperar datos si se recarga la página
   private recuperarUsuarioDeToken() {
     const token = this.leerToken();
