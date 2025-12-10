@@ -124,14 +124,10 @@ export class Finalizar implements OnInit {
         return;
       }
 
-      // 1. Activas el modal
+
       this.mostrarModal = true;
 
-      // 2. ELIMINA ESTA LÍNEA:
-      // alert('Funcionalidad de pago en construcción');
 
-      // (Opcional) Aquí podrías limpiar el carrito
-      // this.carritoService.limpiarCarrito();
 
     } else {
       alert('No hay productos en el pedido.');
