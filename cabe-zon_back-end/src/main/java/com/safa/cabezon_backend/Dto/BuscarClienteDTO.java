@@ -14,5 +14,5 @@ public class BuscarClienteDTO {
     private Integer cabecoins;
     private String email;
     private Nivel nivel;
-    private List<PedidoSimpleDTO> pedidos;
+    private List<BuscarPedidoDTO> pedidos;
 }

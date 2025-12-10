@@ -18,8 +18,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // O ajusta esto si tus endpoints no empiezan por /api
-                .allowedOrigins("http://localhost:4200") // Puerto de tu Angular
+        registry.addMapping("/api/**")
+                .allowedOrigins("http://localhost:4200")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);

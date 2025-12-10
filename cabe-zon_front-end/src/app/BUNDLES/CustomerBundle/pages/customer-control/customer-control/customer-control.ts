@@ -157,7 +157,11 @@ export class CustomerControl implements OnInit {
 
     const clienteDTO = {
       nombre: this.formEditar.nombre,
-      apellidos: this.formEditar.apellidos
+      apellidos: this.formEditar.apellidos,
+      foto: this.cliente.foto,
+      cabecoins: this.cliente.cabecoins,
+      nivel: this.cliente.nivel
+
     };
 
     this.clienteService.actualizarCliente(this.cliente.id, clienteDTO).subscribe({
@@ -194,12 +198,11 @@ export class CustomerControl implements OnInit {
     }
 
     const cambioPasswordDTO = {
-      correo: this.cliente.email,
       passwordActual: this.formPassword.actual,
       passwordNuevo: this.formPassword.nueva
     };
 
-    this.clienteService.cambiarPassword(cambioPasswordDTO).subscribe({
+    this.clienteService.cambiarPasswordAutenticado(cambioPasswordDTO).subscribe({
       next: () => {
         alert('Contraseña actualizada correctamente');
         this.mostrarModalPassword = false;
@@ -217,14 +220,25 @@ export class CustomerControl implements OnInit {
     const file = event.target.files[0];
     if (file && this.cliente?.id) {
       const formData = new FormData();
-      formData.append('foto', file); // ✅ La clave debe coincidir con el backend
+      formData.append('foto', file);
 
       this.clienteService.subirFoto(this.cliente.id, formData).subscribe({
         next: (response) => {
-          if (this.cliente) {
-            this.cliente.foto = response.url || URL.createObjectURL(file);
+          if (this.cliente && response.url) {
+            // ✅ SOLUCIÓN: Construir la URL completa con el dominio del backend
+            const baseUrl = 'http://localhost:8080';
+
+            // Si la URL ya incluye http://, no la modificamos
+            if (response.url.startsWith('http://') || response.url.startsWith('https://')) {
+              this.cliente.foto = response.url;
+            } else {
+              // Si es una ruta relativa, añadimos el dominio
+              this.cliente.foto = baseUrl + response.url;
+            }
+
+            console.log('✅ Foto actualizada:', this.cliente.foto);
+            alert('Foto actualizada correctamente');
           }
-          alert('Foto actualizada correctamente');
         },
         error: (err) => {
           console.error('Error subiendo foto:', err);
@@ -242,45 +256,76 @@ export class CustomerControl implements OnInit {
   }
 
   abrirModalEditarDireccion(direccion: Direccion) {
-    this.direccionForm = { ...direccion };
+    this.direccionForm = {
+      ...direccion,
+      idCliente: this.cliente?.id
+    };
     this.direccionEditando = direccion;
     this.mostrarModalDireccion = true;
+
+    console.log('📝 Editando dirección ID:', direccion.id);
   }
 
   guardarDireccion() {
     if (this.direccionEditando?.id) {
-      // Editar
-      this.direccionService.actualizarDireccion(this.direccionEditando.id, this.direccionForm).subscribe({
+      // Editar dirección existente
+      const idDireccion = this.direccionEditando.id;
+
+      console.log('📝 Actualizando dirección ID:', idDireccion);
+      console.log('📦 Datos a enviar:', this.direccionForm);
+
+      this.direccionService.actualizarDireccion(idDireccion, this.direccionForm).subscribe({
         next: () => {
           this.cargarDirecciones();
           this.mostrarModalDireccion = false;
-          alert('Dirección actualizada');
+          alert('Dirección actualizada correctamente');
         },
-        error: (err) => alert('Error al actualizar dirección')
+        error: (err) => {
+          console.error('Error al actualizar dirección:', err);
+          alert('Error al actualizar dirección');
+        }
       });
     } else {
-      // Crear
+      // Crear nueva dirección
       this.direccionForm.idCliente = this.cliente?.id;
+
+      console.log('➕ Creando nueva dirección');
+      console.log('📦 Datos a enviar:', this.direccionForm);
+
       this.direccionService.crearDireccion(this.direccionForm).subscribe({
         next: () => {
           this.cargarDirecciones();
           this.mostrarModalDireccion = false;
-          alert('Dirección agregada');
+          alert('Dirección agregada correctamente');
         },
-        error: (err) => alert('Error al agregar dirección')
+        error: (err) => {
+          console.error('Error al agregar dirección:', err);
+          alert('Error al agregar dirección');
+        }
       });
     }
   }
 
   eliminarDireccion(id: number | undefined) {
-    if (!id || !confirm('¿Eliminar esta dirección?')) return;
+    if (!id) {
+      console.error('ID de dirección no válido');
+      alert('No se puede eliminar: ID no válido');
+      return;
+    }
+
+    if (!confirm('¿Eliminar esta dirección?')) return;
+
+    console.log('🗑Eliminando dirección ID:', id);
 
     this.direccionService.eliminarDireccion(id).subscribe({
       next: () => {
         this.cargarDirecciones();
-        alert('Dirección eliminada');
+        alert('Dirección eliminada correctamente');
       },
-      error: (err) => alert('Error al eliminar dirección')
+      error: (err) => {
+        console.error('Error al eliminar dirección:', err);
+        alert('Error al eliminar dirección');
+      }
     });
   }
 
