@@ -24,7 +24,6 @@ export class StarterPage implements OnInit {
   private carritoService = inject(CarritoService);
   topProductos: Producto[] = [];
 
-  // URL del placeholder si no hay imagen
   private readonly PLACEHOLDER_IMG_URL: string = '/ASSETS/IMAGES/placeholder.png';
 
 
@@ -42,7 +41,7 @@ export class StarterPage implements OnInit {
   obtenerImagenUrl(funko: Producto, index: number): string {
 
     if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
-      // Retorna la URL del backend (que ya debería ser completa si viene de tu servicio)
+      // Retorna la URL del backend
       return funko.imagenes[index].url;
     }
     return this.PLACEHOLDER_IMG_URL;

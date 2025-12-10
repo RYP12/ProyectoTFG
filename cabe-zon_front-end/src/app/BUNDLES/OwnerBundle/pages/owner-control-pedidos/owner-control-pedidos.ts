@@ -68,7 +68,7 @@ export class OwnerControlPedidos implements OnInit {
       return;
     }
 
-    // Filtramos sobre la lista paginada actual (pedidos())
+    // Filtramos sobre la lista paginada actual
     this.listaPedidosFiltrada = this.pedidos().filter(pedido => {
       // Buscamos por ID
       const id = pedido.id ? String(pedido.id) : '';

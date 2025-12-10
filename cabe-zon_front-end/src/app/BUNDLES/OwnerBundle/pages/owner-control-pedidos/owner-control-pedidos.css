@@ -1,20 +1,37 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: League Spartan, sans-serif;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+
 #background {
   background: linear-gradient(to bottom, #c5f8ed, #8ce3d2);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 20px;
   font-family: League Spartan, sans-serif;
   font-size: large;
 }
 
 #global {
-  width: 95%;
-  height: 90vh;
+  width: 100%;
+  height: auto;
   display: grid;
   grid-template-columns: 25% 70%;
   gap: 3%;
-  align-items: center;
+  max-width: 1200px;
+  align-items: stretch;
 }
 
 #primeraParte {
@@ -29,7 +46,7 @@
   align-items: center;
   gap: 25px;
 
-  height: 450px;
+  justify-content: flex-start;
 }
 
 .menu-button {
@@ -41,6 +58,13 @@
   font-size: 18px;
   font-weight: bold;
   box-shadow: 3px 3px 0 black;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.menu-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px black;
 }
 
 .menu-button.active {
@@ -55,9 +79,9 @@
 
 #segundaParte h1 {
   text-align: center;
+  color: white;
   font-size: 43px;
   font-weight: 900;
-  color: white;
   margin-bottom: 20px;
 }
 
@@ -93,6 +117,7 @@
   justify-content: center;
   align-items: center;
   transition: 0.1s;
+  cursor: pointer;
 }
 
 .nav-arrow:active {
@@ -136,6 +161,7 @@
   padding: 6px 0;
   font-weight: bold;
   box-shadow: 3px 3px 0 black;
+  font-size: 1rem;
 }
 
 #datosGlobal {
@@ -151,11 +177,119 @@
   border-radius: 15px;
   padding: 10px 0;
   text-align: center;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
 }
 
 .datos:hover{
   background-color: #ededed;
   transform: translate(2px, 2px);
   box-shadow: 0 0 0 black;
+}
+
+@media (max-width: 992px) {
+  #global {
+    grid-template-columns: 30% 65%;
+    gap: 5%;
+  }
+
+  #segundaParte h1 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  #global {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    height: auto;
+  }
+
+  #background {
+    align-items: flex-start;
+  }
+
+  #primeraParte {
+    order: 2;
+    height: auto;
+    padding: 20px;
+    gap: 15px;
+  }
+
+  #primeraParte > .menu-button {
+    width: 100%;
+  }
+
+  #primeraParte img {
+    display: none;
+  }
+
+  #segundaParte {
+    order: 1;
+    width: 100%;
+  }
+
+  #primeraParteForm {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  #botones {
+    justify-content: center;
+  }
+
+  #buscadorPedidos input {
+    width: 100%;
+  }
+
+  #titulos p {
+    font-size: 0.9rem;
+    padding: 4px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  #background {
+    padding: 10px;
+  }
+
+  #segundaParte h1 {
+    font-size: 28px;
+  }
+
+  #todoJunto {
+    padding: 20px 10px;
+  }
+
+  #titulos, .datos {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 5px;
+    text-align: left;
+  }
+
+  #titulos p:nth-child(2),
+  #titulos p:nth-child(4),
+  .datos span:nth-child(2),
+  .datos span:nth-child(4) {
+    display: none;
+  }
+
+  #titulos p:nth-child(1),
+  #titulos p:nth-child(3),
+  .datos span:nth-child(1),
+  .datos span:nth-child(3) {
+    display: block;
+    grid-column: span 1;
+    text-align: center;
+  }
+
+  #primeraParte {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .menu-button {
+    font-size: 16px;
+    padding: 12px 0;
+  }
 }

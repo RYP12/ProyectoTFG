@@ -1,212 +1,408 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "League Spartan", sans-serif;
+}
+
+body, html {
+  width: 100%;
+  overflow-x: hidden;
+}
 
 main {
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  justify-items: center;
-
-  font-family: "League Spartan", sans-serif;
-
-  margin-bottom: 5%;
-  padding: 5%;
-
-
+  min-height: 100vh;
+  padding: 5% 5% 10%;
   background: radial-gradient(#f9f9f9, #92E2C9);
-
+  font-family: "League Spartan", sans-serif;
 }
 
 main h1 {
-  margin: 0px 0px 45.5px 0px;
+  margin: 0 0 45.5px 0;
   font-size: 50px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
   color: #f9f9f9;
   text-align: center;
+  padding: 0 10px;
 }
 
 #seccionPrincipal {
   display: grid;
   grid-template-columns: 65% 30%;
   gap: 5%;
-
-
-
-
   width: 100%;
-
+  max-width: 1200px;
 }
 
-#datosDiv{
+#seccionUsuario {
   display: grid;
-  grid-template-columns: 20% 80%;
-
-  padding-top: 5%;
-
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
+  padding: 15px;
+  border-radius: 20px;
+  border: 1px solid black;
+  box-shadow: 4px 4px black;
+  background-color: #f9f9f9;
 }
-#datosDiv1 {
-  display:flex;
-  justify-items: right;
+
+#datosDiv {
+  display: flex;
   align-items: center;
-
-  justify-content: center;
+  padding-top: 5px;
 }
+
 #datosDiv2 {
   font-size: 20px;
   font-weight: bold;
 }
 
 #seccionFotoPerfil {
-  display: grid;
-  grid-template-rows: 20% 80%;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
 }
 #tituloFotoPerfil {
-
-  align-items: end;
-  align-content: end;
-
   font-size: large;
   font-weight: bold;
-
-  padding-left: 5%;
+  text-align: center;
 }
-#imgFotoPerfil  {
-
+#tituloFotoPerfil p {
+  margin: 0;
+}
+#imgFotoPerfil {
   display: flex;
-  justify-items: center;
-  align-items: center;
   justify-content: center;
-
 }
-
-
-#seccionUsuario {
-  display: grid;
-  grid-template-rows: 0.1fr 1fr 1fr;
-
-  border-radius: 20px;
-  border: 1px solid black;
-
-
-  box-shadow: 4px 4px black;
-
-  background-color: #f9f9f9;
-
-
+#imgFotoPerfil img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #92E2C9;
 }
-
-
-
 
 #datosUsuario {
   display: grid;
-  grid-template-rows: 1fr 1fr;
-
-
-
-}
-
-#nombreApellido {
-  display: grid;
   grid-template-columns: 1fr 1fr;
-
-
-
-
+  grid-template-rows: 1fr;
+  gap: 10px;
 }
 
-#correoContra {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-
-
-
-}
-
-.categorias{
-  font-weight: bold;
+#nombreApellido, #correoContra {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 #datosUsuario div {
   border: 1px solid black;
   border-radius: 20px;
-  margin: 5%;
-  padding: 5%;
-
+  padding: 15px;
   box-shadow: 4px 4px black;
+}
 
+.categorias {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+#datosUsuario p {
+  margin: 0;
+  word-wrap: break-word;
 }
 
 #seccionPedidos {
-  display: grid;
-  grid-template-rows: 10% 20% 20% 20%;
-
-
+  display: flex;
+  flex-direction: column;
   border: 1px solid black;
   border-radius: 20px;
-
   box-shadow: 4px 4px black;
-  gap: 3rem;
   background-color: #f9f9f9;
-
-  align-items: center;
-
-
+  padding: 15px;
+  gap: 10px;
 }
 
 #tituloPedidos {
   text-align: center;
-  padding-top: 2%;
   font-weight: bold;
   font-size: 18px;
+  margin-bottom: 10px;
 }
 
-#seccionPedidos div{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-
-  gap: 10%;
-
+.pedido-item {
+  display: block;
   background: #92E2C9;
-  border-radius: 20px;
+  border-radius: 15px;
+  padding: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 2px 2px black;
+}
 
-  margin: 5%;
-  padding: 5%;
+.pedido-item:hover {
+  background: #6ee1c1;
+  transform: translateY(-2px);
+}
 
+.pedido-item section {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-#seccionPedidos div img {
-  width: 100%;
+.pedido-item p {
+  margin: 0;
+  font-weight: 600;
+}
 
+.pedido-item p:first-child {
+  font-weight: bold;
 }
 
 #seccionBotones {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  margin-top: 30px;
+  gap: 20px;
 }
+
 .botones {
-  margin: 5%;
-  padding: 5%;
-
-
+  padding: 10px 20px;
   border: 1px solid black;
   border-radius: 20px;
   box-shadow: 4px 4px black;
+  font-size: 16px;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  cursor: pointer;
+  font-family: "League Spartan", sans-serif;
+}
 
+.botones:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px black;
 }
 
 #editarButton {
   background-color: #2EC4B6;
   color: #f9f9f9;
   font-weight: bold;
-  padding: 2% 10%;
-  cursor: pointer;
 }
 
 #eliminarButton {
   background-color: #FF0000;
   color: #f9f9f9;
   font-weight: bold;
-  padding: 2% 10%;
-  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  main h1 {
+    font-size: 40px;
+  }
+
+  #seccionPrincipal {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  #datosUsuario {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  #nombreApellido, #correoContra {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  #nombreApellido > div, #correoContra > div {
+    flex: 1 1 45%;
+    min-width: 150px;
+  }
+
+  #seccionUsuario {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  #imgFotoPerfil img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  main h1 {
+    font-size: 32px;
+    margin-bottom: 25px;
+  }
+
+  #seccionUsuario {
+    padding: 10px;
+    gap: 15px;
+  }
+
+  #datosUsuario {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  #nombreApellido, #correoContra {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #nombreApellido > div, #correoContra > div {
+    flex: 1 1 100%;
+  }
+
+  #datosDiv2 {
+    font-size: 18px;
+  }
+
+  #imgFotoPerfil img {
+    width: 100px;
+    height: 100px;
+  }
+
+  #seccionPedidos {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .pedido-item {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  #seccionBotones {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .botones {
+    width: 100%;
+    max-width: 300px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 20px 10px;
+  }
+
+  main h1 {
+    font-size: 28px;
+  }
+
+  #datosUsuario div {
+    padding: 10px;
+  }
+
+  .categorias {
+    font-size: 0.9rem;
+  }
+
+  .pedido-item section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 375px) {
+  main h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  #imgFotoPerfil img {
+    width: 80px;
+    height: 80px;
+  }
+
+  #datosDiv2 {
+    font-size: 16px;
+  }
+
+  #datosUsuario div {
+    padding: 8px;
+  }
+
+  .categorias {
+    font-size: 0.85rem;
+    margin-bottom: 2px;
+  }
+
+  #datosUsuario p:not(.categorias) {
+    font-size: 0.9rem;
+  }
+
+  .pedido-item p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 320px) {
+  main h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  #seccionUsuario {
+    gap: 10px;
+  }
+
+  #imgFotoPerfil img {
+    width: 70px;
+    height: 70px;
+    border-width: 3px;
+  }
+
+  #datosDiv2 {
+    font-size: 14px;
+  }
+
+  #datosUsuario div {
+    padding: 6px;
+  }
+
+  .categorias {
+    font-size: 0.8rem;
+    margin-bottom: 1px;
+  }
+
+  #datosUsuario p:not(.categorias) {
+    font-size: 0.85rem;
+  }
+
+  .pedido-item p {
+    font-size: 0.75rem;
+  }
+
+  .botones {
+    font-size: 16px;
+    padding: 8px 10px;
+    box-shadow: 3px 3px black;
+  }
+
+  .botones:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px black;
+  }
 }

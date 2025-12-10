@@ -72,7 +72,6 @@ export class OwnerControlClientes implements OnInit {
 
   irADetalle(id: number | undefined) {
     if (id) {
-      // Navegamos a la ruta de detalle: /admin/clientes/ID
       this.router.navigate(['admin/clientes', id]);
     }
   }

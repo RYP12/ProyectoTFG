@@ -20,17 +20,16 @@ export class OwnerControlPedidoForm implements OnInit {
   // Señal para almacenar el pedido cargado
   pedido = signal<Pedido | undefined>(undefined);
 
-  // URL del placeholder (ajusta la ruta)
   private readonly PLACEHOLDER_IMG_URL: string = '/ASSETS/IMAGES/placeholder.png';
 
   ngOnInit() {
-    // 1. Obtener el ID del parámetro de la URL
+    // Obtener el ID del parámetro de la URL
     this.route.paramMap.subscribe(params => {
       const pedidoIdString = params.get('id');
       if (pedidoIdString) {
         const pedidoId = +pedidoIdString; // El '+' convierte el string a number
 
-        // 2. Cargar el pedido
+        // Cargar el pedido
         this.cargarDetallePedido(pedidoId);
       }
     });
@@ -43,7 +42,6 @@ export class OwnerControlPedidoForm implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar el detalle del pedido:', err);
-        // Manejar error (e.g., mostrar mensaje)
       }
     });
   }
@@ -83,10 +81,8 @@ export class OwnerControlPedidoForm implements OnInit {
 
     this.pedidoService.actualizarEstadoPedido(pedidoActual.id, nuevoEstado.toString()).subscribe({
       next: () => {
-        // La actualización fue exitosa
         console.log(`[DEBUG] API RESPONSE SUCCESS. Redirigiendo...`);
 
-        // Redirigir al usuario a la lista de pedidos
         this.router.navigate(['/admin/pedidos']);
       },
       error: (err) => {

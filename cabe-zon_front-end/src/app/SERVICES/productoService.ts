@@ -71,7 +71,6 @@ export class ProductoService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    // Si nos pasan una colección, la añadimos a la URL
     if (coleccionId) {
       params = params.set('coleccionId', coleccionId.toString());
     }

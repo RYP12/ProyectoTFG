@@ -18,7 +18,7 @@ export class ColeccionService {
   obtenerColecciones(): Observable<Coleccion[]>{
     return this.http.get<Coleccion[]>(`${this.apiUrl}/coleccion/no-exclusivas`);
   }
-  //Obtene coleccion por id
+  //Obtener coleccion por id
   obtenerProductoPorID(id:number):Observable<Coleccion>{
     return this.http.get<Coleccion>(`${this.apiUrl}/producto/${id}`);
   }

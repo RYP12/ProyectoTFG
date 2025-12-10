@@ -5,13 +5,13 @@ import { Producto } from '../../../../SERVICES/productoService';
 import { CommonModule } from '@angular/common';
 import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {CarritoService} from '../../../../SERVICES/carrito-service';
-import {RouterLink} from '@angular/router'; // Necesario para usar pipes como 'async' o directivas como @for
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
   imports: [CommonModule,
-    MatDialogModule, RouterLink], // Importante importar CommonModule
+    MatDialogModule, RouterLink],
   templateUrl: './carrito.html',
   styleUrl: './carrito.css',
 })
@@ -20,7 +20,7 @@ export class Carrito implements OnInit, OnDestroy {
   carrito: Producto[] = [];
   private carritoSubscription: Subscription | undefined;
 
-  // URL del placeholder si no hay imagen (ajusta la ruta si es necesario)
+  // URL del placeholder si no hay imagen
   private readonly PLACEHOLDER_IMG_URL: string = '/ASSETS/IMAGES/placeholder.png';
 
   constructor(private carritoService: CarritoService) {}
@@ -35,7 +35,6 @@ export class Carrito implements OnInit, OnDestroy {
     );
   }
 
-  // Best Practice: Siempre desuscribirse para evitar memory leaks
   ngOnDestroy() {
     if (this.carritoSubscription) {
       this.carritoSubscription.unsubscribe();
