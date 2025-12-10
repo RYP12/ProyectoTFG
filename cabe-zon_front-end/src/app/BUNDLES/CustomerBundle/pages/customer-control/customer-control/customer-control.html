@@ -166,7 +166,7 @@
             @if (direcciones.length === 0) {
               <p>Todavía no has añadido ninguna dirección</p>
             } @else {
-              @for (direccion of direcciones; track direccion.id) {
+              @for (direccion of direcciones; track direccion.id ?? $index) {
                 <div class="direccion-item">
                   <p>{{ direccion.calle }}</p>
 

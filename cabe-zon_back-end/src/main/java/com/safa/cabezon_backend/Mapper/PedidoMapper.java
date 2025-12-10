@@ -25,6 +25,7 @@ public abstract class PedidoMapper {
     public abstract BuscarPedidoDTO toDTO(Pedido pedido);
     public abstract BuscarPedidoAdminDTO toPedidoAdminDTO(Pedido pedido);
 
+    @Mapping(source = "productosPedidos", target = "productosPedidos")
     public abstract PedidoSimpleDTO toPedidoDTO(Pedido pedido);
     public abstract List<PedidoSimpleDTO> listToSimpleDTO(List<Pedido> pedidos);
 

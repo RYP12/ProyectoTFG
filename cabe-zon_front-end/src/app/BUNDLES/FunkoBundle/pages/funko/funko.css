@@ -38,7 +38,7 @@
   justify-items: center;
 }
 
-.heart{
+.heart {
   position: absolute;
   top: 5px;
   left: 5px;
@@ -46,6 +46,15 @@
   color: #333;
   cursor: pointer;
   line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.heart:hover {
+  transform: scale(1.2);
+}
+
+.heart:active {
+  transform: scale(0.9);
 }
 
 .imagen-funko {

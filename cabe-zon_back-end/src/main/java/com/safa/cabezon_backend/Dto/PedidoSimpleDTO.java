@@ -4,6 +4,7 @@ import com.safa.cabezon_backend.Modelos.Estado;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class PedidoSimpleDTO {
@@ -13,4 +14,5 @@ public class PedidoSimpleDTO {
     private Estado estado;
     private Date fechaEstimada;
     private Date fechaEntrega;
+    private List<ProductoPedidoDTO> productosPedidos;  // ✅ AÑADIR ESTA LÍNEA
 }

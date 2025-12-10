@@ -63,8 +63,6 @@ export class CustomerControl implements OnInit {
   // Carrusel de productos en pedidos
   currentIndex: number = 0;
   itemsPerView: number = 4;
-  pedidoActualIndex: number = 0
-
 
   constructor(
     private clienteService: ClienteService,
@@ -233,7 +231,7 @@ export class CustomerControl implements OnInit {
               this.cliente.foto = baseUrl + response.url;
             }
 
-            console.log('✅ Foto actualizada:', this.cliente.foto);
+            console.log('Foto actualizada:', this.cliente.foto);
             alert('Foto actualizada correctamente');
           }
         },
@@ -260,7 +258,7 @@ export class CustomerControl implements OnInit {
     this.direccionEditando = direccion;
     this.mostrarModalDireccion = true;
 
-    console.log('📝 Editando dirección ID:', direccion.id);
+    console.log('Editando dirección ID:', direccion.id);
   }
 
   guardarDireccion() {

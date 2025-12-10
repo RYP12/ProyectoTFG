@@ -4,7 +4,13 @@
   @if (producto) {
   <div class="product-card">
     <div class="left">
-      <img src="/ASSETS/IMAGES/LogoCorazon.png" alt="foto" class="heart">
+      <img
+        [src]="esFavorito ? '/ASSETS/IMAGES/CorazonLleno.png' : '/ASSETS/IMAGES/mdi--heart.png'"
+        alt="favorito"
+        class="heart"
+        (click)="toggleFavorito()"
+        [style.cursor]="'pointer'"
+      >
       <img [src]="obtenerImagenUrl(producto)" alt="Foto {{producto.nombre}}" class="imagen-funko">
       <button (click)="agregarAlCarrito(producto)" class="add-card">AÑADIR AL CARRITO</button>
     </div>

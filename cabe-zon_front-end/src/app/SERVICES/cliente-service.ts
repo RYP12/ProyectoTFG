@@ -119,7 +119,10 @@ export class ClienteService {
   }
 
   subirFoto(id: number, formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/cliente/${id}/foto`, formData);
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    return this.http.post(`${this.apiUrl}/cliente/${id}/foto`, formData, { headers });
   }
 
   cambiarPasswordAutenticado(datos: CambiarPasswordDTO): Observable<string> {

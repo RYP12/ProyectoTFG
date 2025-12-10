@@ -1,4 +1,4 @@
-import {Component, Input, inject, Output, EventEmitter, Optional, Inject} from '@angular/core';
+import {Component, Input, inject, Output, EventEmitter, Optional, Inject, OnInit} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ProductoService} from '../../../../SERVICES/productoService';
 import { NgFor } from '@angular/common';
@@ -13,7 +13,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
   templateUrl: './form-comentario.html',
   styleUrl: './form-comentario.css',
 })
-export class FormComentario   {
+export class FormComentario implements OnInit {
   @Input() idProducto!: number;
   @Input() idCliente!: number;
   @Output() comentarioEnviado = new EventEmitter<any>();
@@ -25,9 +25,9 @@ export class FormComentario   {
 
   form = this.fb.nonNullable.group({
     texto: ['', [Validators.required, Validators.minLength(5)]],
-    valoracion: 5,
-    idProducto: 0,
-    idCliente: 0
+    valoracion: [5, [Validators.required]],
+    idProducto: [0],
+    idCliente: [0]
   });
 
   constructor(

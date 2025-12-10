@@ -96,8 +96,28 @@ export class UsuarioService {
     })
   }
 
+  obtenerIdCliente(): number | null {
+    const token = this.leerToken();
+    if (!token) return null;
+
+    try {
+      const payload = this.decodificarToken(token);
+
+      // Asumiendo que el token incluye el ID del cliente
+      // Ajusta según la estructura real de tu token
+      if (payload && payload.tokenDTO && payload.tokenDTO.idCliente) {
+        return payload.tokenDTO.idCliente;
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error al leer el ID del cliente del token:', error);
+      return null;
+    }
+  }
+
   obtenerRol(): string | null {
-    const token = localStorage.getItem('token');
+    const token = this.leerToken();
     if (!token) return null;
 
     try {

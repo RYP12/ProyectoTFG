@@ -20,6 +20,7 @@ public abstract class DireccionMapper {
 
 
     public abstract List<BuscarDireccionDTO> listToDTO(List<Direccion> direccion);
+    @Mapping(source = "id", target = "id")
     public abstract BuscarDireccionDTO toDTO(Direccion direccion);
 
     @Mapping(source = "idCliente", target = "cliente")
