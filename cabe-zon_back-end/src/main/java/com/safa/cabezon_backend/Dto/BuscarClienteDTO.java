@@ -18,5 +18,4 @@ public class BuscarClienteDTO {
     private Nivel nivel;
     @Valid
     private List<PedidoSimpleDTO> pedidos;
-    private List<BuscarPedidoDTO> pedidos;
 }
