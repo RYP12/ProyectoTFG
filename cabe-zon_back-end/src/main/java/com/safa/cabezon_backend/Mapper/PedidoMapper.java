@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",uses = { ProductoPedidoMapper.class})
+@Mapper(componentModel = "spring",uses = {ProductoPedidoMapper.class, ClienteMapper.class})
 public abstract class PedidoMapper {
 
     @Autowired
@@ -22,7 +22,11 @@ public abstract class PedidoMapper {
 
 
     public abstract List<BuscarPedidoDTO> listToPedidoDTO(List<Pedido> pedidos);
+
+    @Mapping(source = "cliente", target = "cliente")
     public abstract BuscarPedidoDTO toDTO(Pedido pedido);
+
+    @Mapping(source = "cliente", target = "cliente")
     public abstract BuscarPedidoAdminDTO toPedidoAdminDTO(Pedido pedido);
 
     @Mapping(source = "productosPedidos", target = "productosPedidos")
@@ -30,13 +34,19 @@ public abstract class PedidoMapper {
     public abstract List<PedidoSimpleDTO> listToSimpleDTO(List<Pedido> pedidos);
 
     @Mapping(source = "idCliente",target="cliente")
+    @Mapping(source = "precio_total", target = "precioTotal")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "productosPedidos", ignore = true)
     public abstract Pedido toEntity(PedidoDTO pedido);
 
     Cliente transformarCliente(Integer idCliente){
         return clienteRepository.findById(idCliente).orElse(null);
     }
 
-    @Mapping(source = "idCliente",target="cliente")
+    @Mapping(source = "idCliente", target = "cliente")
+    @Mapping(source = "precio_total", target = "precioTotal")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "productosPedidos", ignore = true)
     public abstract Pedido actualizarPedido(PedidoDTO dto,@MappingTarget Pedido pedido);
 
 }

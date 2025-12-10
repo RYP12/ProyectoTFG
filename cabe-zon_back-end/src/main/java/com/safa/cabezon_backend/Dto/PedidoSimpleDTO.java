@@ -14,5 +14,5 @@ public class PedidoSimpleDTO {
     private Estado estado;
     private Date fechaEstimada;
     private Date fechaEntrega;
-    private List<ProductoPedidoDTO> productosPedidos;  // ✅ AÑADIR ESTA LÍNEA
+    private List<ProductoPedidoDTO> productosPedidos;
 }
