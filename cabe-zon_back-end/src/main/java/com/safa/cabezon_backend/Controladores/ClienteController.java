@@ -13,11 +13,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.*;
+import java.io.IOException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/cliente")
@@ -74,5 +80,49 @@ public class ClienteController {
         BuscarClienteDTO clienteDTO = clienteService.obtenerClientePorUsername(username);
 
         return ResponseEntity.ok(clienteDTO);
+    }
+
+    // Subir foto
+    @PostMapping("/{id}/foto")
+    public ResponseEntity<Map<String, String>> subirFoto(
+            @PathVariable Integer id,
+            @RequestParam("foto") MultipartFile file
+    ) {
+        try {
+            // Validar que sea una imagen
+            String contentType = file.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            String fileName = id + "_" + System.currentTimeMillis() + ".jpg";
+
+            String projectRoot = System.getProperty("user.dir");
+            Path uploadPath = Paths.get(projectRoot, "uploads", "fotos");
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            Cliente cliente = clienteRepository.findById(id).orElse(null);
+            if (cliente != null) {
+                // Esta es la URL que guardas en base de datos
+                String url = "/uploads/fotos/" + fileName;
+                cliente.setFoto(url);
+                clienteRepository.save(cliente);
+
+                Map<String, String> response = new HashMap<>();
+                response.put("url", url);
+                return ResponseEntity.ok(response);
+            }
+
+            return ResponseEntity.notFound().build();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

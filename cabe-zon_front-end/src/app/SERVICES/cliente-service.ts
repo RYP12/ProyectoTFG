@@ -62,6 +62,12 @@ export interface Cliente {
   email?: string;
 }
 
+export interface CambiarPasswordDTO {
+  correo: string;
+  passwordActual: string;
+  passwordNuevo: string;
+}
+
 export interface PageResponse<T> {
   content: T[];
   last: boolean;
@@ -115,5 +121,12 @@ export class ClienteService {
 
   subirFoto(id: number, formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}/cliente/${id}/foto`, formData);
+  }
+
+  cambiarPassword(datos: CambiarPasswordDTO): Observable<void> {
+    const token = localStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    return this.http.post<void>(`${this.apiUrl}/auth/cambiar-password-autenticado`, datos, { headers });
   }
 }

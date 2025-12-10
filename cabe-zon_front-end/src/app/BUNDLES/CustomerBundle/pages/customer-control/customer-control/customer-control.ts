@@ -155,9 +155,17 @@ export class CustomerControl implements OnInit {
   guardarCambiosPerfil() {
     if (!this.cliente?.id) return;
 
-    this.clienteService.actualizarCliente(this.cliente.id, this.formEditar).subscribe({
-      next: (data) => {
-        this.cliente = { ...this.cliente, ...data };
+    const clienteDTO = {
+      nombre: this.formEditar.nombre,
+      apellidos: this.formEditar.apellidos
+    };
+
+    this.clienteService.actualizarCliente(this.cliente.id, clienteDTO).subscribe({
+      next: () => {
+        if (this.cliente) {
+          this.cliente.nombre = this.formEditar.nombre;
+          this.cliente.apellidos = this.formEditar.apellidos;
+        }
         this.mostrarModalEditar = false;
         alert('Perfil actualizado correctamente');
       },
@@ -179,9 +187,29 @@ export class CustomerControl implements OnInit {
       alert('Las contraseñas no coinciden');
       return;
     }
-    // Implementar cambio de contraseña con el backend
-    console.log('Cambiar contraseña:', this.formPassword);
-    this.mostrarModalPassword = false;
+
+    if (!this.cliente?.email) {
+      alert('No se pudo obtener el email del usuario');
+      return;
+    }
+
+    const cambioPasswordDTO = {
+      correo: this.cliente.email,
+      passwordActual: this.formPassword.actual,
+      passwordNuevo: this.formPassword.nueva
+    };
+
+    this.clienteService.cambiarPassword(cambioPasswordDTO).subscribe({
+      next: () => {
+        alert('Contraseña actualizada correctamente');
+        this.mostrarModalPassword = false;
+        this.formPassword = { actual: '', nueva: '', confirmar: '' };
+      },
+      error: (err) => {
+        console.error('Error al cambiar contraseña:', err);
+        alert('Error al cambiar la contraseña. Verifica que la contraseña actual sea correcta.');
+      }
+    });
   }
 
   //Foto de perfil
@@ -189,12 +217,12 @@ export class CustomerControl implements OnInit {
     const file = event.target.files[0];
     if (file && this.cliente?.id) {
       const formData = new FormData();
-      formData.append('foto', file);
+      formData.append('foto', file); // ✅ La clave debe coincidir con el backend
 
       this.clienteService.subirFoto(this.cliente.id, formData).subscribe({
         next: (response) => {
           if (this.cliente) {
-            this.cliente.foto = response.url;
+            this.cliente.foto = response.url || URL.createObjectURL(file);
           }
           alert('Foto actualizada correctamente');
         },

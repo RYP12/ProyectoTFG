@@ -164,4 +164,21 @@ public class UsuarioService implements UserDetailsService {
 
         return usuarioMapper.toDTO(usuario);
     }
+
+    public boolean cambiarPasswordAutenticado(String username, String passwordActual, String passwordNueva) {
+        Usuario usuario = usuarioRepository.findTopByUsername(username);
+
+        if (usuario == null) {
+            return false;
+        }
+
+        if (!seguridad.passwordencoder().matches(passwordActual, usuario.getPassword())) {
+            return false;
+        }
+
+        usuario.setPassword(seguridad.passwordencoder().encode(passwordNueva));
+        usuarioRepository.save(usuario);
+
+        return true;
+    }
 }

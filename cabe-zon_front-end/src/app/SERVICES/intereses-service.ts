@@ -7,7 +7,7 @@ import {Coleccion} from './coleccion-service';
   providedIn: 'root',
 })
 export class InteresesService {
-  private apiUrl = 'http://localhost:8080/';
+  private apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {}
 
