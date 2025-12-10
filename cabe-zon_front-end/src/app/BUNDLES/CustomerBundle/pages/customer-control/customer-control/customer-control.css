@@ -732,3 +732,99 @@ h2 {
   margin-left: auto;
   letter-spacing: 0.5px;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 5px 5px 0 black;
+  border: 2px solid black;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-family: 'League Spartan', sans-serif;
+  box-sizing: border-box;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-guardar, .btn-cancelar, .btn-cambiar-password {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 black;
+  transition: transform 0.1s;
+}
+
+.btn-cambiar-password {
+  background-color: black;
+  color: white;
+  box-shadow: 3px 3px 0 #2EC4B6;
+  align-self: center;
+}
+
+.btn-guardar {
+  background: #2EC4B6;
+  color: white;
+}
+
+.btn-cancelar {
+  background: #E71D36;
+  color: white;
+}
+
+.btn-guardar:active, .btn-cancelar:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}

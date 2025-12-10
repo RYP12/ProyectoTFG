@@ -1,5 +1,5 @@
 <div class="comentario-form">
-  <h3>Escribir comentario</h3>
+  <h3>{{ nombreProducto ? 'Valorar: ' + nombreProducto : 'Escribir comentario' }}</h3>
 
   <form [formGroup]="form" (ngSubmit)="enviar()">
 
@@ -11,8 +11,11 @@
     </select>
 
     <label>Comentario</label>
-    <textarea formControlName="texto"></textarea>
+    <textarea formControlName="texto" placeholder="Cuéntanos tu experiencia con este producto..."></textarea>
 
-    <button type="submit">Enviar</button>
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button type="submit" style="flex: 1;">Enviar</button>
+      <button type="button" (click)="cerrar()" style="flex: 1; background-color: #ccc;">Cancelar</button>
+    </div>
   </form>
 </div>

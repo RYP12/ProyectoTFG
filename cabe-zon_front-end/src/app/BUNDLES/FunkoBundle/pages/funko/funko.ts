@@ -33,31 +33,47 @@ export class Funko implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
-      if (id) this.cargarProducto(id);
+
+      if (id) {
+        this.cargarProducto(id);
+      }
     });
   }
 
   cargarProducto(id: number) {
     this.productoService.obtenerProductoPorID(id).subscribe({
-      next: (data) => this.producto = data,
-      error: (err) => console.error(err)
+      next: (data) => {
+        this.producto = data;
+        console.log('Producto cargado:', this.producto);
+      },
+      error: (error) => {
+        console.log('Error cargando producto', error);
+      }
     });
 
     this.productoService.obtenerResenyasPorProducto(id).subscribe({
-      next: (data) => this.resenyas = data,
-      error: (err) => console.error(err)
-    });
+      next: (data) => {
+        this.resenyas = data;
+        console.log('Reseñas cargadas:', this.resenyas);
+      },
+      error: (error) => {
+        console.log('Error cargando reseñas', error)
+      }
+    })
   }
 
-  obtenerImagenUrl(funko: Producto, index: number): string {
-    if (funko.imagenes && funko.imagenes.length > index && funko.imagenes[index].url) {
-      return funko.imagenes[index].url;
+  obtenerImagenUrl(funko: Producto | undefined): string | null {
+    if (!funko?.imagenes || funko.imagenes.length === 0) {
+      return null;
     }
-    return 'assets/img/placeholder.png';
-  }
 
-  trackById(index: number, item: any) {
-    return item.id;
+    // Buscar imagen cuyo nombre empiece por "Foto Funko"
+    const imagenFunko = funko.imagenes.find(
+      img => img.nombre?.startsWith('Foto Funko')
+    );
+
+    // Si la encuentra, devolver su URL
+    return imagenFunko?.url || null;
   }
 
   handleComentarioEnviado(resenya: any) {

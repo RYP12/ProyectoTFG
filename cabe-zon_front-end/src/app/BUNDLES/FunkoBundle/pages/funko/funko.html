@@ -1,47 +1,11 @@
 <app-header></app-header>
 <div class="main">
-<!--  Recorremos la lista de Funkos y mostramos su ficha completa.-->
-<!--  "track funko.id" hace que Angular identifique cada elemento por su id-->
-<!--  para mejorar el rendimiento y evitar renders innecesarios.-->
-
-
-    <!--
-  @for (funko of funkos; track funko.id) {
-    <div class="product-card">
-      <div class="left">
-        <img [srca]="funko.iconoFavorito" alt="favorito" class="heart">
-        <img [src]="funko.imagen" [alt]="funko.nombre" class="luffy">
-        <button class="add-card" (click)="agregarAlCarrito(funko)">AÑADIR AL CARRITO</button>
-      </div>
-
-      <div class="right">
-        <h1>{{ funko.nombre }}</h1>
-        <p class="number">Nº {{ funko.numero }}</p>
-
-        <div class="stars">
-          @for (i of [].constructor(funko.valoracion); track i) {
-            <img src="/ASSETS/IMAGES/Estrella.png" alt="estrella" class="star">
-          }
-          <img src="/ASSETS/IMAGES/LogoChat.png" alt="comentarios" class="chat">
-        </div>
-
-        <p class="price">€{{ funko.precio }}</p>
-        <p class="stock">EN STOCK: {{ funko.stock }} unidades</p>
-        <p class="description">{{ funko.descripcion }}</p>
-
-        @if (funko.exclusivo) {
-          <button class="exclusive-btn">EXCLUSIVO!</button>
-        }
-      </div>
-    </div>
-  }
-  -->
 
   @if (producto) {
   <div class="product-card">
     <div class="left">
       <img src="/ASSETS/IMAGES/LogoCorazon.png" alt="foto" class="heart">
-      <img [src]="obtenerImagenUrl(producto, 0)" alt="Foto {{producto.nombre}}" class="imagen-funko">
+      <img [src]="obtenerImagenUrl(producto)" alt="Foto {{producto.nombre}}" class="imagen-funko">
       <button (click)="agregarAlCarrito(producto)" class="add-card">AÑADIR AL CARRITO</button>
     </div>
     <div class="right">

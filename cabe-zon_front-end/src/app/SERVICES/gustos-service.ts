@@ -16,6 +16,10 @@ export class GustosService {
   }
 
   agregarGusto(idCliente: number, idProducto: number): Observable<void> {
-    return this.http.get<void>(`${this.apiUrl}/gustos/add`);
+    return this.http.post<void>(`${this.apiUrl}/gustos/add`, { idCliente, idProducto });
+  }
+
+  eliminarGusto(idCliente:number, idProducto: number):Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/gustos/${idCliente}/${idProducto}`);
   }
 }
