@@ -6,6 +6,7 @@ import com.safa.cabezon_backend.Mapper.ProductoMapper;
 import com.safa.cabezon_backend.Modelos.Producto;
 import com.safa.cabezon_backend.Repositorios.IProductoPedidoRepository;
 import com.safa.cabezon_backend.Repositorios.IProductoRepository;
+import com.safa.cabezon_backend.Repositorios.IResenyaClienteRepository;
 import com.safa.cabezon_backend.config.CacheEvictHelper;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,8 @@ public class ProductoService {
     @Autowired
     private CacheEvictHelper cacheEvictHelper;
 
+    @Autowired
+    private IResenyaClienteRepository resenyaRepository;
 
     @Transactional
     public void forzarVaciadoCacheProductos() { // Renombrado a la versión final
@@ -54,11 +57,10 @@ public class ProductoService {
         buscarTodoLosProductosDelCache();
     }
 
+
     // IMPLEMENTACION DE CACHE
 
     // FUNCION PRINCIPAL QUE GUARDA LOS PRODUCTOS AL ARRANCAR
-
-
     @Transactional(readOnly = true)
     @Cacheable("productos")
     public List<BuscarProductoDTO> buscarTodoLosProductosDelCache() {
@@ -225,10 +227,21 @@ public class ProductoService {
     }
 
 
+    // PRODUCTOS PARA EL PANEL DE ADMINISTRADOR
     @Transactional
     public Page<BuscarProductoAdminDTO> buscarProductosAdminPaginados(Pageable pageable) {
+
         Page<Producto> productos = productoRepository.findAll(pageable);
-        return  productos.map(productoMapper::toProductoAdminDTO);
+        return productos.map(producto -> {
+
+            BuscarProductoAdminDTO dto = productoMapper.toProductoAdminDTO(producto);
+
+            Double media = resenyaRepository.obtenerPromedioValoracionPorProducto(producto.getId());
+
+            dto.setValoracion(media != null ? media : 0.0);
+
+            return dto;
+        });
     }
 
     @Transactional
