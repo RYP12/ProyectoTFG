@@ -83,4 +83,28 @@ public class AuthController {
         return ResponseEntity.ok(usuarioDTO);
     }
 
+    //Cambiar contraseña
+    @PostMapping("/cambiar-password-autenticado")
+    public ResponseEntity<String> cambiarPasswordAutenticado(
+            @RequestBody CambiarPasswordDTO cambiarPasswordDTO,
+            Principal principal
+    ) {
+        if (principal == null) {
+            return ResponseEntity.status(401).body("No autenticado");
+        }
+
+        String username = principal.getName();
+        boolean exito = usuarioService.cambiarPasswordAutenticado(
+                username,
+                cambiarPasswordDTO.getPasswordActual(),
+                cambiarPasswordDTO.getPasswordNuevo()
+        );
+
+        if (exito) {
+            return ResponseEntity.ok("Contraseña actualizada correctamente");
+        } else {
+            return ResponseEntity.badRequest().body("Contraseña actual incorrecta");
+        }
+    }
+
 }
