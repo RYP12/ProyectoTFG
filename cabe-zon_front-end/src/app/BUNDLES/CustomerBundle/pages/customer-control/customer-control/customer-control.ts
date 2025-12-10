@@ -225,14 +225,11 @@ export class CustomerControl implements OnInit {
       this.clienteService.subirFoto(this.cliente.id, formData).subscribe({
         next: (response) => {
           if (this.cliente && response.url) {
-            // ✅ SOLUCIÓN: Construir la URL completa con el dominio del backend
             const baseUrl = 'http://localhost:8080';
 
-            // Si la URL ya incluye http://, no la modificamos
             if (response.url.startsWith('http://') || response.url.startsWith('https://')) {
               this.cliente.foto = response.url;
             } else {
-              // Si es una ruta relativa, añadimos el dominio
               this.cliente.foto = baseUrl + response.url;
             }
 
@@ -271,8 +268,8 @@ export class CustomerControl implements OnInit {
       // Editar dirección existente
       const idDireccion = this.direccionEditando.id;
 
-      console.log('📝 Actualizando dirección ID:', idDireccion);
-      console.log('📦 Datos a enviar:', this.direccionForm);
+      console.log('Actualizando dirección ID:', idDireccion);
+      console.log('Datos a enviar:', this.direccionForm);
 
       this.direccionService.actualizarDireccion(idDireccion, this.direccionForm).subscribe({
         next: () => {
@@ -289,8 +286,8 @@ export class CustomerControl implements OnInit {
       // Crear nueva dirección
       this.direccionForm.idCliente = this.cliente?.id;
 
-      console.log('➕ Creando nueva dirección');
-      console.log('📦 Datos a enviar:', this.direccionForm);
+      console.log('Creando nueva dirección');
+      console.log('Datos a enviar:', this.direccionForm);
 
       this.direccionService.crearDireccion(this.direccionForm).subscribe({
         next: () => {
